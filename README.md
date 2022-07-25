@@ -1,2 +1,2 @@
 # Avent-app
-Capstone Project
+### Welcome to Avent. We just upgraded your internship (you're welcome).
