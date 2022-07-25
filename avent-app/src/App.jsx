@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Login from "./components/Login";
+import Register from "./components/Register";
 
 function App() {
   return (
     <>
       <div className="app">
+        <Login />
+        <Register />
         <BrowserRouter>
           <main>
             <Routes>
@@ -13,7 +17,7 @@ function App() {
 
               {/*Landing page routes*/}
 
-              {/*Event feed routes*/}
+              {/*Event feed routes */}
             </Routes>
           </main>
         </BrowserRouter>
