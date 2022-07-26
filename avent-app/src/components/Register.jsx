@@ -15,7 +15,6 @@ import axios from "axios";
 const theme = createTheme();
 
 export default function SignInSide() {
-
   const [account, setAccount] = React.useState("");
   const [location, setLocation] = React.useState("");
 
@@ -205,7 +204,12 @@ export default function SignInSide() {
                 autoComplete="current-password"
                 style={{ marginTop: "8px" }}
               />
-              <ControlledOpenSelect account={account} location={location} setLocation={setLocation} setAccount={setAccount}/>
+              <ControlledOpenSelect
+                account={account}
+                location={location}
+                setLocation={setLocation}
+                setAccount={setAccount}
+              />
               <Button
                 type="submit"
                 fullWidth
@@ -260,10 +264,9 @@ export default function SignInSide() {
     </ThemeProvider>
   );
 }
-function ControlledOpenSelect({location, account, setLocation,setAccount}) {
+function ControlledOpenSelect({ location, account, setLocation, setAccount }) {
   const [accountOpen, setAccountOpen] = React.useState(false);
   const [locationOpen, setLocationOpen] = React.useState(false);
-
 
   const handleAccountChange = (event) => {
     setAccount(event.target.value);
@@ -313,7 +316,6 @@ function ControlledOpenSelect({location, account, setLocation,setAccount}) {
           onOpen={handleAccountOpen}
           value={account}
           onChange={handleAccountChange}
-      
         >
           <MenuItem value="">
             <em>None</em>

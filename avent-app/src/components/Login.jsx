@@ -1,5 +1,4 @@
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -10,20 +9,39 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import InputAdornment from "@mui/material/InputAdornment";
-import { Container } from "@mui/system";
+import axios from "axios";
 
 const theme = createTheme();
 
 export default function SignInSide() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log(event.currentTarget);
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+    const email = data.get("email");
+    const password = data.get("password");
+
+    const signupInfo = {
+      email: email,
+      password: password,
+    };
+    console.log("--->", signupInfo);
+    try {
+      const res = await axios.post(
+        "http://localhost:3001/auth/login",
+        signupInfo
+      );
+      // if (res?.data?.user) {
+      //   setUser(res.data.user);
+      //   setIsLoggedIn(true);
+      //   apiClient.setToken(res.data.token);
+      //   localStorage.setItem("token", res.data.token);
+      //   navigate("/activity");
+      // }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -37,7 +55,8 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: "url(https://tardigital.com.br/wp-content/uploads/2022/05/persons.png)",
+            backgroundImage:
+              "url(https://tardigital.com.br/wp-content/uploads/2022/05/persons.png)",
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
             backgroundPosition: "center",
@@ -57,11 +76,33 @@ export default function SignInSide() {
               height: "338px",
             }}
           >
-            <Typography component="h1" variant="h5" sx={{ fontFamily: "Inter", fontWeight: "700", fontSize: "32px", marginBottom: "2rem" }}>
+            <Typography
+              component="h1"
+              variant="h5"
+              sx={{
+                fontFamily: "Inter",
+                fontWeight: "700",
+                fontSize: "32px",
+                marginBottom: "2rem",
+              }}
+            >
               Login to your account
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-              <label style={{ fontFamily: "Inter", color: "#828282", fontWeight: 600 }}>Email</label>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 1 }}
+            >
+              <label
+                style={{
+                  fontFamily: "Inter",
+                  color: "#828282",
+                  fontWeight: 600,
+                }}
+              >
+                Email
+              </label>
               <TextField
                 margin="normal"
                 fullWidth
@@ -77,7 +118,15 @@ export default function SignInSide() {
                 //   </InputAdornment>
                 // }
               />
-              <label style={{ fontFamily: "Inter", color: "#828282", fontWeight: 600 }}>Password</label>
+              <label
+                style={{
+                  fontFamily: "Inter",
+                  color: "#828282",
+                  fontWeight: 600,
+                }}
+              >
+                Password
+              </label>
               <TextField
                 margin="normal"
                 fullWidth
@@ -88,8 +137,22 @@ export default function SignInSide() {
                 autoComplete="current-password"
                 style={{ marginTop: "8px" }}
               />
-              <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" sx={{ fontFamily: "Inter", color: "#828282" }} />
-              <Link href="#" variant="body2" sx={{ color: "#D90429", textDecoration: "none", marginLeft: "10rem", fontWeight: 600, fontFamily: "Inter" }}>
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+                sx={{ fontFamily: "Inter", color: "#828282" }}
+              />
+              <Link
+                href="#"
+                variant="body2"
+                sx={{
+                  color: "#D90429",
+                  textDecoration: "none",
+                  marginLeft: "10rem",
+                  fontWeight: 600,
+                  fontFamily: "Inter",
+                }}
+              >
                 Forgot password?
               </Link>
               <Button
@@ -112,9 +175,30 @@ export default function SignInSide() {
               </Button>
               <Grid container>
                 <Grid item sx={{ marginTop: "50px", marginLeft: "5.7rem" }}>
-                  <Link href="/register" variant="body2" sx={{ textDecoration: "none" }}>
-                    <span style={{ color: "#828282", fontFamily: "Inter", fontSize: "16px" }}>Not registered yet?</span>{" "}
-                    <span style={{ color: "#D90429", fontFamily: "Inter", fontWeight: 600, fontSize: "16px" }}>Create an account</span>
+                  <Link
+                    href="/register"
+                    variant="body2"
+                    sx={{ textDecoration: "none" }}
+                  >
+                    <span
+                      style={{
+                        color: "#828282",
+                        fontFamily: "Inter",
+                        fontSize: "16px",
+                      }}
+                    >
+                      Not registered yet?
+                    </span>{" "}
+                    <span
+                      style={{
+                        color: "#D90429",
+                        fontFamily: "Inter",
+                        fontWeight: 600,
+                        fontSize: "16px",
+                      }}
+                    >
+                      Create an account
+                    </span>
                   </Link>
                 </Grid>
               </Grid>
