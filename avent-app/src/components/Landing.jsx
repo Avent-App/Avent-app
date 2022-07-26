@@ -131,9 +131,42 @@ function SubHero() {
           Find events in a city near you
         </Typography>
         <Stack justifyContent="center" direction="row" spacing={2}>
-          <EventCard />
-          <EventCard />
-          <EventCard />
+          <EventCard
+            eventImageUrl={
+              "https://thumbs.dreamstime.com/b/tropical-beach-party-24320856.jpg"
+            }
+            eventCategory={"COMMUNITY"}
+            datePosted={"7/22/21"}
+            eventName={"Beach Party"}
+            eventDescription={
+              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text..."
+            }
+            eventHost={"Person McPerson"}
+          />
+          <EventCard
+            eventImageUrl={
+              "https://www.anarapublishing.com/wp-content/uploads/elementor/thumbs/photo-1506157786151-b8491531f063-o67khcr8g8y3egfjh6eh010ougiroekqaq5cd8ly88.jpeg"
+            }
+            eventCategory={"FESTIVAL"}
+            datePosted={"7/22/21"}
+            eventName={"Summerfest 2022"}
+            eventDescription={
+              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text..."
+            }
+            eventHost={"Person McPerson"}
+          />
+          <EventCard
+            eventImageUrl={
+              "https://www.signupgenius.com/cms/images/groups/beach-clean-up-tips-ideas-article-600x400.jpg"
+            }
+            eventCategory={"INTERN EVENT"}
+            datePosted={"7/22/21"}
+            eventName={"Beach Cleanup Day"}
+            eventDescription={
+              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text..."
+            }
+            eventHost={"Person McPerson"}
+          />
         </Stack>
       </Stack>
     </Box>

@@ -11,7 +11,14 @@ import {
   Avatar,
 } from "@mui/material";
 
-export default function EventCard() {
+export default function EventCard({
+  eventImageUrl,
+  eventCategory,
+  datePosted,
+  eventName,
+  eventDescription,
+  eventHost,
+}) {
   return (
     <Card
       sx={{
@@ -25,16 +32,16 @@ export default function EventCard() {
         <CardMedia
           component="img"
           height="182"
-          image="https://www.htmlcsscolor.com/preview/gallery/D90429.png"
-          alt="green iguana"
+          image={eventImageUrl}
+          alt="event picture"
         />
         <CardContent>
           <Stack direction="row" justifyContent="space-between" sx={{ mb: 1 }}>
             <Typography color="#6E798C" sx={{ fontWeight: 600, fontSize: 12 }}>
-              BUSINESS
+              {eventCategory}
             </Typography>
             <Typography color="#6E798C" sx={{ fontWeight: 400, fontSize: 12 }}>
-              3 days ago
+              {datePosted}
             </Typography>
           </Stack>
           <Typography
@@ -43,11 +50,10 @@ export default function EventCard() {
             component="div"
             sx={{ fontWeight: 600 }}
           >
-            Event Name
+            {eventName}
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+            {eventDescription}
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -65,7 +71,7 @@ export default function EventCard() {
               color="secondary"
               sx={{ fontWeight: 600, fontSize: 12 }}
             >
-              Person McPerson
+              {eventHost}
             </Typography>
           </Stack>
           <Typography color="secondary" sx={{ fontWeight: 600, fontSize: 12 }}>
