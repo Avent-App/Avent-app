@@ -28,7 +28,7 @@ export default function Login() {
     };
     console.log("--->", signinInfo);
     try {
-      const res = await axios.post("http://localhost:3001/auth/login", signupInfo);
+      const res = await axios.post("http://localhost:3001/auth/login", signinInfo);
       // if (res?.data?.user) {
       //   setUser(res.data.user);
       //   setIsLoggedIn(true);
