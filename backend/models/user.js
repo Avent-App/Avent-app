@@ -8,10 +8,10 @@ class User {
   static async makePublicUser(user) {
     return {
       id: user.id,
-      username: user.username,
       password: user.password,
       first_name: user.first_name,
       last_name: user.last_name,
+      account_type: user.account_type,
       email: user.email,
       created_at: user.created_at,
       updated_at: user.updated_at,
@@ -43,12 +43,12 @@ class User {
 
   static async register(credentials) {
     const requiredFields = [
-      "username",
       "first_name",
       "last_name",
       "email",
       "password",
-      "location"
+      "location",
+      "account_type"
     ];
 
     requiredFields.forEach((field) => {
@@ -72,23 +72,23 @@ class User {
     const result = await db.query(
       `
     INSERT INTO users(
-        username,
         first_name,
         last_name,
         email,
         password,
-        location
+        location,
+        account_type
     )
     VALUES ($1,$2,$3,$4,$5,$6)
-    RETURNING username,first_name,last_name,email,password,location;
+    RETURNING first_name,last_name,email,password,location,account_type;
     `,
       [
-        credentials.username,
         credentials.first_name,
         credentials.last_name,
         lowercasedEmail,
         hashedPassword,
-        credentials.location
+        credentials.location,
+        credentials.account_type
       ]
     );
     //return the user

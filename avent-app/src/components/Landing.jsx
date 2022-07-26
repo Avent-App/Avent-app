@@ -14,7 +14,7 @@ import {
 import heroBanner from "../assets/Different_people_01.jpg";
 import EventCard from "./EventCard";
 import phoneImage from "../assets/2992779.jpg";
-import { theme } from "../theme";
+import { Link as RouterLink } from "react-router-dom";
 
 export default function Landing() {
   return (
@@ -47,6 +47,8 @@ function Navbar() {
             <Button
               color="secondary"
               variant="contained"
+              to="/login"
+              component={RouterLink}
               sx={{ height: 42, width: 83 }}
               disableElevation
             >
@@ -55,6 +57,8 @@ function Navbar() {
             <Button
               color="secondary"
               variant="contained"
+              to="/register"
+              component={RouterLink}
               sx={{ height: 42, width: 83 }}
               disableElevation
             >
@@ -86,6 +90,8 @@ function Hero() {
         color="secondary"
         variant="contained"
         size="large"
+        to="/login"
+        component={RouterLink}
         sx={{ fontSize: 20, height: 77, width: 241, borderRadius: "6px" }}
         disableElevation
       >
