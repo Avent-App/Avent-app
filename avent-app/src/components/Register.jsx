@@ -6,13 +6,13 @@ import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { Container } from "@mui/material";
 import axios from "axios";
-
-const theme = createTheme();
+import Navbar from "./Navbar";
+import login from "../assets/login.jpg";
 
 export default function Register() {
   const [account, setAccount] = React.useState("");
@@ -50,33 +50,35 @@ export default function Register() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <Container maxWidth="xl">
+      <Navbar />
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
           item
           xs={false}
-          sm={4}
+          sm={7}
           md={7}
           sx={{
             backgroundImage: "url(https://tardigital.com.br/wp-content/uploads/2022/05/persons.png)",
             backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
+            backgroundSize: "120%",
             backgroundPosition: "center",
           }}
         />
-        <Grid item xs={12} sm={8} md={5} elevation={6} square>
+        <Grid item xs={12} sm={8} md={5} elevation={6} square sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
           <Box
             sx={{
               my: 8,
               mx: 4,
+              // marginTop: "17rem",
+              marginLeft: "8rem",
+              width: "450px",
+              height: "800px",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              marginTop: "130px",
-              marginLeft: "100px",
-              width: "450px",
-              height: "338px",
+              justifyContent: "center",
             }}
           >
             <Typography
@@ -197,6 +199,7 @@ export default function Register() {
                 type="submit"
                 fullWidth
                 variant="contained"
+                color="secondary"
                 sx={{
                   padding: "13px 10px 12px",
                   fontFamily: "Inter",
@@ -227,7 +230,7 @@ export default function Register() {
                       style={{
                         color: "#D90429",
                         fontFamily: "Inter",
-                        fontWeight: 600,
+                        fontWeight: 700,
                         fontSize: "16px",
                       }}
                     >
@@ -240,7 +243,7 @@ export default function Register() {
           </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
+    </Container>
   );
 }
 function ControlledOpenSelect({ location, account, setLocation, setAccount }) {

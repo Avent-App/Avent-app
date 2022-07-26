@@ -8,10 +8,9 @@ import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Container } from "@mui/material";
 import axios from "axios";
-
-const theme = createTheme();
+import Navbar from "./Navbar";
 
 export default function Login() {
   const handleSubmit = async (event) => {
@@ -42,8 +41,8 @@ export default function Login() {
   };
 
   return (
-    // <Container maxWidth="xl">
-    <ThemeProvider theme={theme}>
+    <Container maxWidth="xl">
+      <Navbar />
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
@@ -54,11 +53,12 @@ export default function Login() {
           sx={{
             backgroundImage: "url(https://tardigital.com.br/wp-content/uploads/2022/05/persons.png)",
             backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
+            backgroundSize: "120%",
             backgroundPosition: "center",
           }}
         />
-        <Grid item xs={12} sm={8} md={5} elevation={6} square>
+
+        <Grid item xs={12} sm={8} md={5} elevation={6} square sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
           <Box
             sx={{
               my: 8,
@@ -66,10 +66,10 @@ export default function Login() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              marginTop: "250px",
-              marginLeft: "100px",
+              // marginTop: "250px",
+              marginLeft: "8rem",
               width: "450px",
-              height: "338px",
+              height: "430px",
             }}
           >
             <Typography
@@ -146,13 +146,14 @@ export default function Login() {
                 type="submit"
                 fullWidth
                 variant="contained"
+                color="secondary"
                 sx={{
                   padding: "13px 10px 12px",
                   fontFamily: "Inter",
                   fontWeight: "800",
                   fontStyle: "normal",
                   fontSize: "16px",
-                  background: "#D90429",
+                  background: "#EF233C",
                   borderRadius: "6px",
                   marginTop: "32px",
                   textTransform: "none",
@@ -189,7 +190,6 @@ export default function Login() {
           </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
-    // </Container>
+    </Container>
   );
 }
