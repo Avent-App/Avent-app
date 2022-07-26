@@ -14,7 +14,7 @@ import axios from "axios";
 
 const theme = createTheme();
 
-export default function SignInSide() {
+export default function Register() {
   const [account, setAccount] = React.useState("");
   const [location, setLocation] = React.useState("");
 
@@ -36,10 +36,7 @@ export default function SignInSide() {
     };
     console.log(signupInfo);
     try {
-      const res = await axios.post(
-        "http://localhost:3001/auth/register",
-        signupInfo
-      );
+      const res = await axios.post("http://localhost:3001/auth/register", signupInfo);
       // if (res?.data?.user) {
       //   setUser(res.data.user);
       //   setIsLoggedIn(true);
@@ -62,8 +59,7 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage:
-              "url(https://tardigital.com.br/wp-content/uploads/2022/05/persons.png)",
+            backgroundImage: "url(https://tardigital.com.br/wp-content/uploads/2022/05/persons.png)",
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
             backgroundPosition: "center",
@@ -95,12 +91,7 @@ export default function SignInSide() {
             >
               Create a new account
             </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
-            >
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <label
                   style={{
@@ -122,10 +113,7 @@ export default function SignInSide() {
                   Last Name
                 </label>
               </Box>
-              <Box
-                className="namesInput"
-                sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}
-              >
+              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
                 <TextField
                   margin="normal"
                   fullWidth
@@ -204,12 +192,7 @@ export default function SignInSide() {
                 autoComplete="current-password"
                 style={{ marginTop: "8px" }}
               />
-              <ControlledOpenSelect
-                account={account}
-                location={location}
-                setLocation={setLocation}
-                setAccount={setAccount}
-              />
+              <ControlledOpenSelect account={account} location={location} setLocation={setLocation} setAccount={setAccount} />
               <Button
                 type="submit"
                 fullWidth
@@ -230,11 +213,7 @@ export default function SignInSide() {
               </Button>
               <Grid container>
                 <Grid item sx={{ marginTop: "50px", marginLeft: "7.5rem" }}>
-                  <Link
-                    href="/login"
-                    variant="body2"
-                    sx={{ textDecoration: "none" }}
-                  >
+                  <Link href="/login" variant="body2" sx={{ textDecoration: "none" }}>
                     <span
                       style={{
                         color: "#828282",

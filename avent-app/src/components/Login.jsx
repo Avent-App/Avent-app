@@ -13,7 +13,7 @@ import axios from "axios";
 
 const theme = createTheme();
 
-export default function SignInSide() {
+export default function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(event.currentTarget);
@@ -22,16 +22,13 @@ export default function SignInSide() {
     const email = data.get("email");
     const password = data.get("password");
 
-    const signupInfo = {
+    const signinInfo = {
       email: email,
       password: password,
     };
-    console.log("--->", signupInfo);
+    console.log("--->", signinInfo);
     try {
-      const res = await axios.post(
-        "http://localhost:3001/auth/login",
-        signupInfo
-      );
+      const res = await axios.post("http://localhost:3001/auth/login", signupInfo);
       // if (res?.data?.user) {
       //   setUser(res.data.user);
       //   setIsLoggedIn(true);
@@ -55,8 +52,7 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage:
-              "url(https://tardigital.com.br/wp-content/uploads/2022/05/persons.png)",
+            backgroundImage: "url(https://tardigital.com.br/wp-content/uploads/2022/05/persons.png)",
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
             backgroundPosition: "center",
@@ -88,12 +84,7 @@ export default function SignInSide() {
             >
               Login to your account
             </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
-            >
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <label
                 style={{
                   fontFamily: "Inter",
@@ -137,11 +128,7 @@ export default function SignInSide() {
                 autoComplete="current-password"
                 style={{ marginTop: "8px" }}
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-                sx={{ fontFamily: "Inter", color: "#828282" }}
-              />
+              <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" sx={{ fontFamily: "Inter", color: "#828282" }} />
               <Link
                 href="#"
                 variant="body2"
@@ -175,11 +162,7 @@ export default function SignInSide() {
               </Button>
               <Grid container>
                 <Grid item sx={{ marginTop: "50px", marginLeft: "5.7rem" }}>
-                  <Link
-                    href="/register"
-                    variant="body2"
-                    sx={{ textDecoration: "none" }}
-                  >
+                  <Link href="/register" variant="body2" sx={{ textDecoration: "none" }}>
                     <span
                       style={{
                         color: "#828282",
