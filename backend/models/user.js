@@ -15,7 +15,7 @@ class User {
       email: user.email,
       created_at: user.created_at,
       updated_at: user.updated_at,
-      location: user.location
+      location: user.location,
     };
   }
   static async login(credentials) {
@@ -42,14 +42,7 @@ class User {
   }
 
   static async register(credentials) {
-    const requiredFields = [
-      "first_name",
-      "last_name",
-      "email",
-      "password",
-      "location",
-      "account_type"
-    ];
+    const requiredFields = ["first_name", "last_name", "email", "password", "location", "account_type"];
 
     requiredFields.forEach((field) => {
       if (!credentials.hasOwnProperty(field)) {
@@ -59,15 +52,12 @@ class User {
 
     const existingUser = await User.fetchUserByEmail(credentials.email);
     if (existingUser) {
-      throw new BadRequestError("Duplicate email: ", credentials.email);
+      throw new BadRequestError("Duplicate email ", credentials.email);
     }
 
     const lowercasedEmail = credentials.email.toLowerCase();
 
-    const hashedPassword = await bcrypt.hash(
-      credentials.password,
-      BCRYPT_WORK_FACTOR
-    );
+    const hashedPassword = await bcrypt.hash(credentials.password, BCRYPT_WORK_FACTOR);
 
     const result = await db.query(
       `
@@ -82,14 +72,7 @@ class User {
     VALUES ($1,$2,$3,$4,$5,$6)
     RETURNING first_name,last_name,email,password,location,account_type;
     `,
-      [
-        credentials.first_name,
-        credentials.last_name,
-        lowercasedEmail,
-        hashedPassword,
-        credentials.location,
-        credentials.account_type
-      ]
+      [credentials.first_name, credentials.last_name, lowercasedEmail, hashedPassword, credentials.location, credentials.account_type]
     );
     //return the user
     const user = result.rows[0];

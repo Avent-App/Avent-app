@@ -12,8 +12,10 @@ import { Container } from "@mui/material";
 import axios from "axios";
 import Navbar from "./Navbar";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [errors, setErrors] = React.useState("");
   const [form, setForm] = useState({
     email: "",
@@ -48,15 +50,16 @@ export default function Login() {
 
     try {
       const res = await axios.post("http://localhost:3001/auth/login", signinInfo);
-      // if (res?.data?.user) {
-      //   setUser(res.data.user);
-      //   setIsLoggedIn(true);
-      //   apiClient.setToken(res.data.token);
-      //   localStorage.setItem("token", res.data.token);
-      //   navigate("/activity");
-      // // } else {
-      //     setErrors((e) => ({ ...e, signinInfo: "Invalid username/password combination" }));
-      // }
+      if (res?.data) {
+        //   setUser(res.data.user);
+        //   setIsLoggedIn(true);
+        //   apiClient.setToken(res.data.token);
+        //   localStorage.setItem("token", res.data.token);
+        navigate("/feed");
+      } else {
+        console.log("--->", res.data);
+        setErrors((e) => ({ ...e, signinInfo: "Invalid username/password combination" }));
+      }
     } catch (err) {
       console.log(err);
       const message = err?.response?.data?.error?.message;
@@ -90,7 +93,6 @@ export default function Login() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              // marginTop: "250px",
               marginLeft: "8rem",
               width: "450px",
               height: "430px",
@@ -135,11 +137,6 @@ export default function Login() {
                 helperText={errors.email}
                 error={errors.email != null}
                 onChange={handleOnInputChange}
-                // startAdornment={
-                //   <InputAdornment position="start">
-                //     <MailOutlineIcon />
-                //   </InputAdornment>
-                // }
               />
               <label
                 style={{
@@ -160,20 +157,6 @@ export default function Login() {
                 autoComplete="current-password"
                 style={{ marginTop: "8px" }}
               />
-              <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" sx={{ fontFamily: "Inter", color: "#828282" }} />
-              <Link
-                href="#"
-                variant="body2"
-                sx={{
-                  color: "#D90429",
-                  textDecoration: "none",
-                  marginLeft: "10rem",
-                  fontWeight: 600,
-                  fontFamily: "Inter",
-                }}
-              >
-                Forgot password?
-              </Link>
               <Button
                 type="submit"
                 fullWidth
