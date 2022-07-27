@@ -2,8 +2,6 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -157,23 +155,6 @@ export default function Login() {
                 autoComplete="current-password"
                 style={{ marginTop: "8px" }}
               />
-<<<<<<< HEAD
-=======
-              {/* <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" sx={{ fontFamily: "Inter", color: "#828282" }} /> */}
-              {/* <Link
-                href="#"
-                variant="body2"
-                sx={{
-                  color: "#D90429",
-                  textDecoration: "none",
-                  marginLeft: "10rem",
-                  fontWeight: 600,
-                  fontFamily: "Inter",
-                }}
-              >
-                Forgot password?
-              </Link> */}
->>>>>>> refs/remotes/origin/Login-Registration-Frontend
               <Button
                 type="submit"
                 fullWidth

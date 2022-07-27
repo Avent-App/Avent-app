@@ -4,6 +4,7 @@ import Landing from "./components/Landing";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import EventFeed from "./components/EventFeed";
+import CreateEvent from "./components/CreateEvent";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
               <Route path="/" element={<Landing />} />
               {/*Event feed routes*/}
               <Route path="/feed" element={<EventFeed />} />
+              <Route path="/createEvent" element={<CreateEvent />} />
             </Routes>
           </main>
         </BrowserRouter>
