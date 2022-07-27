@@ -11,30 +11,10 @@ import Typography from "@mui/material/Typography";
 import { Container } from "@mui/material";
 import axios from "axios";
 import Navbar from "./Navbar";
-import { useState } from "react";
 
 export default function Login() {
-  const [errors, setErrors] = React.useState("");
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
-
-  const handleOnInputChange = (event) => {
-    if (event.target.name === "email") {
-      if (event.target.value.indexOf("@") === -1) {
-        setErrors((e) => ({ ...e, email: "Please enter a valid email." }));
-      } else {
-        setErrors((e) => ({ ...e, email: null }));
-      }
-    }
-
-    setForm((f) => ({ ...f, [event.target.name]: event.target.value }));
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setErrors((e) => ({ ...e, form: null }));
     console.log(event.currentTarget);
     const data = new FormData(event.currentTarget);
 
@@ -45,7 +25,7 @@ export default function Login() {
       email: email,
       password: password,
     };
-
+    console.log("--->", signinInfo);
     try {
       const res = await axios.post("http://localhost:3001/auth/login", signinInfo);
       // if (res?.data?.user) {
@@ -54,13 +34,9 @@ export default function Login() {
       //   apiClient.setToken(res.data.token);
       //   localStorage.setItem("token", res.data.token);
       //   navigate("/activity");
-      // // } else {
-      //     setErrors((e) => ({ ...e, signinInfo: "Invalid username/password combination" }));
       // }
     } catch (err) {
       console.log(err);
-      const message = err?.response?.data?.error?.message;
-      setErrors((e) => ({ ...e, form: message ? String(message) : String(err) }));
     }
   };
 
@@ -82,7 +58,7 @@ export default function Login() {
           }}
         />
 
-        <Grid item xs={12} sm={8} md={5} elevation={6} sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+        <Grid item xs={12} sm={8} md={5} elevation={6} square sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
           <Box
             sx={{
               my: 8,
@@ -107,11 +83,6 @@ export default function Login() {
               }}
             >
               Login to your account
-              {errors.form && (
-                <span style={{ color: "red", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>
-                  {errors.form}
-                </span>
-              )}
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <label
@@ -132,9 +103,6 @@ export default function Login() {
                 autoComplete="email"
                 autoFocus
                 style={{ marginTop: "8px" }}
-                helperText={errors.email}
-                error={errors.email != null}
-                onChange={handleOnInputChange}
                 // startAdornment={
                 //   <InputAdornment position="start">
                 //     <MailOutlineIcon />

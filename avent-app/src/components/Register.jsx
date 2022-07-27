@@ -17,9 +17,57 @@ import login from "../assets/login.jpg";
 export default function Register() {
   const [account, setAccount] = React.useState("");
   const [location, setLocation] = React.useState("");
+  const [errors, setErrors] = React.useState({});
+  const [form, setForm] = React.useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    account_type: "",
+    location: "",
+  });
+
+  const handleOnInputChange = (event) => {
+    if (event.target.name === "password") {
+      if (form.confirmPassword && form.confirmPassword !== event.target.value) {
+        setErrors((e) => ({ ...e, confirmPassword: "Passwords do not match" }));
+      } else {
+        setErrors((e) => ({ ...e, confirmPassword: null }));
+      }
+    }
+    if (event.target.name === "confirmPassword") {
+      if (form.password && form.password !== event.target.value) {
+        setErrors((e) => ({ ...e, confirmPassword: "Passwords do not match" }));
+      } else {
+        setErrors((e) => ({ ...e, confirmPassword: null }));
+      }
+    }
+    if (event.target.name === "email") {
+      if (event.target.value.indexOf("@") === -1) {
+        setErrors((e) => ({ ...e, email: "Please enter a valid email." }));
+      } else {
+        setErrors((e) => ({ ...e, email: null }));
+      }
+    }
+
+    setForm((f) => ({ ...f, [event.target.name]: event.target.value }));
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setErrors((e) => ({ ...e, form: null }));
+    if (
+      form.first_name === "" ||
+      form.last_name === "" ||
+      form.email === "" ||
+      form.password === "" ||
+      form.passwordConfirm ||
+      form.account_type === "" ||
+      form.location === ""
+    ) {
+      return alert("Please fill out the entire form.");
+    }
     const data = new FormData(event.currentTarget);
     //Printing out the data retreived from the signup sheet
     const email = data.get("email");
@@ -46,6 +94,8 @@ export default function Register() {
       // }
     } catch (err) {
       console.log(err);
+      const message = err?.response?.data?.error?.message;
+      setErrors((e) => ({ ...e, form: message ? String(message) : String(err) }));
     }
   };
 
@@ -66,7 +116,7 @@ export default function Register() {
             backgroundPosition: "center",
           }}
         />
-        <Grid item xs={12} sm={8} md={5} elevation={6} square sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+        <Grid item xs={12} sm={8} md={5} elevation={6} sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
           <Box
             sx={{
               my: 8,
@@ -92,6 +142,11 @@ export default function Register() {
               }}
             >
               Create a new account
+              {errors.form && (
+                <span style={{ color: "red", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>
+                  {errors.form}
+                </span>
+              )}
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -155,6 +210,9 @@ export default function Register() {
                 autoComplete="email"
                 autoFocus
                 style={{ marginTop: "8px" }}
+                helperText={errors.email}
+                error={errors.email != null}
+                onChange={handleOnInputChange}
               />
               <label
                 style={{
@@ -174,6 +232,9 @@ export default function Register() {
                 id="password"
                 autoComplete="current-password"
                 style={{ marginTop: "8px" }}
+                helperText={errors.password}
+                error={errors.password != null}
+                onChange={handleOnInputChange}
               />
               <label
                 style={{
@@ -193,6 +254,10 @@ export default function Register() {
                 id="confirmPassword"
                 autoComplete="current-password"
                 style={{ marginTop: "8px" }}
+                value={form.confirmPassword}
+                helperText={errors.confirmPassword}
+                error={errors.confirmPassword != null}
+                onChange={handleOnInputChange}
               />
               <ControlledOpenSelect account={account} location={location} setLocation={setLocation} setAccount={setAccount} />
               <Button
