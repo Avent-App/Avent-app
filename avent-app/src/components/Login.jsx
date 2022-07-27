@@ -12,8 +12,10 @@ import { Container } from "@mui/material";
 import axios from "axios";
 import Navbar from "./Navbar";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [errors, setErrors] = React.useState("");
   const [form, setForm] = useState({
     email: "",
@@ -48,15 +50,16 @@ export default function Login() {
 
     try {
       const res = await axios.post("http://localhost:3001/auth/login", signinInfo);
-      // if (res?.data?.user) {
-      //   setUser(res.data.user);
-      //   setIsLoggedIn(true);
-      //   apiClient.setToken(res.data.token);
-      //   localStorage.setItem("token", res.data.token);
-      //   navigate("/activity");
-      // // } else {
-      //     setErrors((e) => ({ ...e, signinInfo: "Invalid username/password combination" }));
-      // }
+      if (res?.data) {
+        //   setUser(res.data.user);
+        //   setIsLoggedIn(true);
+        //   apiClient.setToken(res.data.token);
+        //   localStorage.setItem("token", res.data.token);
+        navigate("/feed");
+      } else {
+        console.log("--->", res.data);
+        setErrors((e) => ({ ...e, signinInfo: "Invalid username/password combination" }));
+      }
     } catch (err) {
       console.log(err);
       const message = err?.response?.data?.error?.message;
@@ -154,6 +157,8 @@ export default function Login() {
                 autoComplete="current-password"
                 style={{ marginTop: "8px" }}
               />
+<<<<<<< HEAD
+=======
               {/* <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" sx={{ fontFamily: "Inter", color: "#828282" }} /> */}
               {/* <Link
                 href="#"
@@ -168,6 +173,7 @@ export default function Login() {
               >
                 Forgot password?
               </Link> */}
+>>>>>>> refs/remotes/origin/Login-Registration-Frontend
               <Button
                 type="submit"
                 fullWidth

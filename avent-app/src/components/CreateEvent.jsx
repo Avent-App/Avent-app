@@ -2,47 +2,72 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { Container } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import Navbar from "./Navbar";
+import GlobalNavbar from "./GlobalNavbar";
 
-export default function Login() {
+export default function CreateEvent() {
+  const [eventsData, setEventsData] = React.useState([]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(event.currentTarget);
     const data = new FormData(event.currentTarget);
 
-    const email = data.get("email");
-    const password = data.get("password");
+    const eventName = data.get("eventName");
+    const eventAddress = data.get("eventAddress");
+    const eventStartDate = data.get("eventEndDate");
+    const eventStartTime = data.get("eventStartTime");
+    const eventEndTime = data.get("eventEndTime");
+    const eventType = data.get("eventType");
+    const eventDescription = data.get("eventDescription");
 
-    const signinInfo = {
-      email: email,
-      password: password,
+    const eventsInfo = {
+      eventName: eventName,
+      eventAddress: eventAddress,
+      eventStartDate: eventStartDate,
+      eventEndDate: eventEndDate,
+      eventStartTime: eventStartTime,
+      eventEndTime: eventEndTime,
+      eventType: eventType,
+      eventDescription: eventDescription,
     };
-    console.log("--->", signinInfo);
-    try {
-      const res = await axios.post("http://localhost:3001/auth/login", signinInfo);
-      // if (res?.data?.user) {
-      //   setUser(res.data.user);
-      //   setIsLoggedIn(true);
-      //   apiClient.setToken(res.data.token);
-      //   localStorage.setItem("token", res.data.token);
-      //   navigate("/activity");
-      // }
-    } catch (err) {
-      console.log(err);
-    }
+
+    console.log(nutritionInfo);
+    //Post the exercise info to the correct user id... Each user should have their own exercise info.
+    let params = {
+      nutritionInfo: nutritionInfo,
+      userId: user.id,
+    };
+
+    axios.post("http://localhost:3001/topics/nutrition", params).then((response) => {
+      console.log("Successfully posted into the database!");
+      navigate("/nutrition");
+    });
   };
+
+  //   try {
+  //     const res = await axios.post("http://localhost:3001/event", eventsInfo);
+  //     // if (res?.data?.user) {
+  //     //   setUser(res.data.user);
+  //     //   setIsLoggedIn(true);
+  //     //   apiClient.setToken(res.data.token);
+  //     //   localStorage.setItem("token", res.data.token);
+  //     //   navigate("/activity");
+  //     // }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   return (
     <Container maxWidth="xl">
-      <Navbar />
+      <GlobalNavbar />
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
@@ -51,14 +76,15 @@ export default function Login() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: "url(https://tardigital.com.br/wp-content/uploads/2022/05/persons.png)",
+            backgroundImage:
+              "url(https://img.freepik.com/free-vector/businessman-planning-events-deadlines-agenda_74855-6274.jpg?w=996&t=st=1658940995~exp=1658941595~hmac=1ada56f3592e8e30c21814c6dc9608f291cf78836fcd1dad9d59561faf2efc21)",
             backgroundRepeat: "no-repeat",
-            backgroundSize: "120%",
+            backgroundSize: "150%",
             backgroundPosition: "center",
           }}
         />
 
-        <Grid item xs={12} sm={8} md={5} elevation={6} square sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+        <Grid item xs={12} sm={8} md={5} elevation={6} sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "stretch" }}>
           <Box
             sx={{
               my: 8,
@@ -66,10 +92,9 @@ export default function Login() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              // marginTop: "250px",
               marginLeft: "8rem",
               width: "450px",
-              height: "430px",
+              height: "900px",
             }}
           >
             <Typography
@@ -82,7 +107,7 @@ export default function Login() {
                 marginBottom: "2rem",
               }}
             >
-              Login to your account
+              Create an Event
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <label
@@ -92,22 +117,17 @@ export default function Login() {
                   fontWeight: 600,
                 }}
               >
-                Email
+                Event Name
               </label>
               <TextField
                 margin="normal"
                 fullWidth
-                id="email"
-                placeholder="mail@abc.com"
-                name="email"
-                autoComplete="email"
+                id="eventName"
+                placeholder="Event Name"
+                name="eventName"
+                autoComplete="eventName"
                 autoFocus
                 style={{ marginTop: "8px" }}
-                // startAdornment={
-                //   <InputAdornment position="start">
-                //     <MailOutlineIcon />
-                //   </InputAdornment>
-                // }
               />
               <label
                 style={{
@@ -116,32 +136,148 @@ export default function Login() {
                   fontWeight: 600,
                 }}
               >
-                Password
+                Event Address
               </label>
               <TextField
                 margin="normal"
                 fullWidth
-                name="password"
-                placeholder="**************"
-                type="password"
-                id="password"
-                autoComplete="current-password"
+                name="eventAddress"
+                placeholder="Event Address"
+                id="eventAddress"
+                autoComplete="eventAddress"
+                autoFocus
                 style={{ marginTop: "8px" }}
               />
-              <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" sx={{ fontFamily: "Inter", color: "#828282" }} />
-              <Link
-                href="#"
-                variant="body2"
-                sx={{
-                  color: "#D90429",
-                  textDecoration: "none",
-                  marginLeft: "10rem",
-                  fontWeight: 600,
+
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <label
+                  style={{
+                    fontFamily: "Inter",
+                    color: "#828282",
+                    fontWeight: 600,
+                  }}
+                >
+                  Event Start Date
+                </label>
+                <label
+                  style={{
+                    fontFamily: "Inter",
+                    color: "#828282",
+                    fontWeight: 600,
+                    marginRight: "6rem",
+                  }}
+                >
+                  Event End Date
+                </label>
+              </Box>
+              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  id="eventStartDate"
+                  placeholder="Event Start Date"
+                  name="eventStartDate"
+                  autoComplete="eventStartDate"
+                  autoFocus
+                  style={{ marginTop: "8px" }}
+                />
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  id="eventEndDate"
+                  placeholder="Event End Date"
+                  name="eventEndDate"
+                  autoComplete="eventEndDate"
+                  autoFocus
+                  style={{ marginTop: "8px" }}
+                />
+              </Box>
+
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <label
+                  style={{
+                    fontFamily: "Inter",
+                    color: "#828282",
+                    fontWeight: 600,
+                  }}
+                >
+                  Event Start Time
+                </label>
+                <label
+                  style={{
+                    fontFamily: "Inter",
+                    color: "#828282",
+                    fontWeight: 600,
+                    marginRight: "6rem",
+                  }}
+                >
+                  Event End Time
+                </label>
+              </Box>
+              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  id="eventStartTime"
+                  placeholder="Event Start Time"
+                  name="eventStartTime"
+                  autoComplete="eventStartTime"
+                  autoFocus
+                  style={{ marginTop: "8px" }}
+                />
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  id="eventEndTime"
+                  placeholder="Event End Time"
+                  name="eventEndTime"
+                  autoComplete="eventEndTime"
+                  autoFocus
+                  style={{ marginTop: "8px" }}
+                />
+              </Box>
+
+              <label
+                style={{
                   fontFamily: "Inter",
+                  color: "#828282",
+                  fontWeight: 600,
                 }}
               >
-                Forgot password?
-              </Link>
+                Event Type
+              </label>
+              <TextField
+                margin="normal"
+                fullWidth
+                id="eventType"
+                placeholder="Event Type"
+                name="eventType"
+                autoComplete="eventType"
+                autoFocus
+                style={{ marginTop: "8px" }}
+              />
+
+              <label
+                style={{
+                  fontFamily: "Inter",
+                  color: "#828282",
+                  fontWeight: 600,
+                }}
+              >
+                Event Description
+              </label>
+              <TextField
+                margin="normal"
+                fullWidth
+                id="eventDescription"
+                placeholder="Write a short event description"
+                name="eventDescription"
+                autoComplete="eventDescription"
+                autoFocus
+                style={{ marginTop: "8px" }}
+                multiline
+                rows={4}
+              />
               <Button
                 type="submit"
                 fullWidth
@@ -159,33 +295,8 @@ export default function Login() {
                   textTransform: "none",
                 }}
               >
-                Login
+                Create Event
               </Button>
-              <Grid container>
-                <Grid item sx={{ marginTop: "50px", marginLeft: "5.7rem" }}>
-                  <Link href="/register" variant="body2" sx={{ textDecoration: "none" }}>
-                    <span
-                      style={{
-                        color: "#828282",
-                        fontFamily: "Inter",
-                        fontSize: "16px",
-                      }}
-                    >
-                      Not registered yet?
-                    </span>{" "}
-                    <span
-                      style={{
-                        color: "#D90429",
-                        fontFamily: "Inter",
-                        fontWeight: 600,
-                        fontSize: "16px",
-                      }}
-                    >
-                      Create an account
-                    </span>
-                  </Link>
-                </Grid>
-              </Grid>
             </Box>
           </Box>
         </Grid>
