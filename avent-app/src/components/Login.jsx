@@ -90,7 +90,6 @@ export default function Login() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              // marginTop: "250px",
               marginLeft: "8rem",
               width: "450px",
               height: "430px",
@@ -135,11 +134,6 @@ export default function Login() {
                 helperText={errors.email}
                 error={errors.email != null}
                 onChange={handleOnInputChange}
-                // startAdornment={
-                //   <InputAdornment position="start">
-                //     <MailOutlineIcon />
-                //   </InputAdornment>
-                // }
               />
               <label
                 style={{
@@ -160,8 +154,8 @@ export default function Login() {
                 autoComplete="current-password"
                 style={{ marginTop: "8px" }}
               />
-              <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" sx={{ fontFamily: "Inter", color: "#828282" }} />
-              <Link
+              {/* <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" sx={{ fontFamily: "Inter", color: "#828282" }} /> */}
+              {/* <Link
                 href="#"
                 variant="body2"
                 sx={{
@@ -173,7 +167,7 @@ export default function Login() {
                 }}
               >
                 Forgot password?
-              </Link>
+              </Link> */}
               <Button
                 type="submit"
                 fullWidth
