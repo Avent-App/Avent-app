@@ -6,20 +6,68 @@ import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { Container } from "@mui/material";
 import axios from "axios";
-
-const theme = createTheme();
+import Navbar from "./Navbar";
+import login from "../assets/login.jpg";
 
 export default function Register() {
   const [account, setAccount] = React.useState("");
   const [location, setLocation] = React.useState("");
+  const [errors, setErrors] = React.useState({});
+  const [form, setForm] = React.useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    account_type: "",
+    location: "",
+  });
+
+  const handleOnInputChange = (event) => {
+    if (event.target.name === "password") {
+      if (form.confirmPassword && form.confirmPassword !== event.target.value) {
+        setErrors((e) => ({ ...e, confirmPassword: "Passwords do not match" }));
+      } else {
+        setErrors((e) => ({ ...e, confirmPassword: null }));
+      }
+    }
+    if (event.target.name === "confirmPassword") {
+      if (form.password && form.password !== event.target.value) {
+        setErrors((e) => ({ ...e, confirmPassword: "Passwords do not match" }));
+      } else {
+        setErrors((e) => ({ ...e, confirmPassword: null }));
+      }
+    }
+    if (event.target.name === "email") {
+      if (event.target.value.indexOf("@") === -1) {
+        setErrors((e) => ({ ...e, email: "Please enter a valid email." }));
+      } else {
+        setErrors((e) => ({ ...e, email: null }));
+      }
+    }
+
+    setForm((f) => ({ ...f, [event.target.name]: event.target.value }));
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setErrors((e) => ({ ...e, form: null }));
+    if (
+      form.first_name === "" ||
+      form.last_name === "" ||
+      form.email === "" ||
+      form.password === "" ||
+      form.passwordConfirm ||
+      form.account_type === "" ||
+      form.location === ""
+    ) {
+      return alert("Please fill out the entire form.");
+    }
     const data = new FormData(event.currentTarget);
     //Printing out the data retreived from the signup sheet
     const email = data.get("email");
@@ -46,37 +94,41 @@ export default function Register() {
       // }
     } catch (err) {
       console.log(err);
+      const message = err?.response?.data?.error?.message;
+      setErrors((e) => ({ ...e, form: message ? String(message) : String(err) }));
     }
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <Container maxWidth="xl">
+      <Navbar />
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
           item
           xs={false}
-          sm={4}
+          sm={7}
           md={7}
           sx={{
             backgroundImage: "url(https://tardigital.com.br/wp-content/uploads/2022/05/persons.png)",
             backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
+            backgroundSize: "120%",
             backgroundPosition: "center",
           }}
         />
-        <Grid item xs={12} sm={8} md={5} elevation={6} square>
+        <Grid item xs={12} sm={8} md={5} elevation={6} sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
           <Box
             sx={{
               my: 8,
               mx: 4,
+              // marginTop: "17rem",
+              marginLeft: "8rem",
+              width: "450px",
+              height: "800px",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              marginTop: "130px",
-              marginLeft: "100px",
-              width: "450px",
-              height: "338px",
+              justifyContent: "center",
             }}
           >
             <Typography
@@ -90,6 +142,11 @@ export default function Register() {
               }}
             >
               Create a new account
+              {errors.form && (
+                <span style={{ color: "red", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>
+                  {errors.form}
+                </span>
+              )}
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -153,6 +210,9 @@ export default function Register() {
                 autoComplete="email"
                 autoFocus
                 style={{ marginTop: "8px" }}
+                helperText={errors.email}
+                error={errors.email != null}
+                onChange={handleOnInputChange}
               />
               <label
                 style={{
@@ -172,6 +232,9 @@ export default function Register() {
                 id="password"
                 autoComplete="current-password"
                 style={{ marginTop: "8px" }}
+                helperText={errors.password}
+                error={errors.password != null}
+                onChange={handleOnInputChange}
               />
               <label
                 style={{
@@ -191,12 +254,17 @@ export default function Register() {
                 id="confirmPassword"
                 autoComplete="current-password"
                 style={{ marginTop: "8px" }}
+                value={form.confirmPassword}
+                helperText={errors.confirmPassword}
+                error={errors.confirmPassword != null}
+                onChange={handleOnInputChange}
               />
               <ControlledOpenSelect account={account} location={location} setLocation={setLocation} setAccount={setAccount} />
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
+                color="secondary"
                 sx={{
                   padding: "13px 10px 12px",
                   fontFamily: "Inter",
@@ -227,7 +295,7 @@ export default function Register() {
                       style={{
                         color: "#D90429",
                         fontFamily: "Inter",
-                        fontWeight: 600,
+                        fontWeight: 700,
                         fontSize: "16px",
                       }}
                     >
@@ -240,7 +308,7 @@ export default function Register() {
           </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
+    </Container>
   );
 }
 function ControlledOpenSelect({ location, account, setLocation, setAccount }) {
