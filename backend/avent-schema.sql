@@ -16,7 +16,7 @@ CREATE TABLE events(
     host_id         INTEGER NOT NULL,
     title           TEXT NOT NULL,
     description     TEXT NOT NULL,
-    image_url       TEXT NOT NULL,
+    image_url       TEXT,
     address         TEXT NOT NULL,
     start_date      TIMESTAMP NOT NULL DEFAULT NOW(),
     end_date        TIMESTAMP NOT NULL,    
