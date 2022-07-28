@@ -10,6 +10,8 @@ function App() {
   return (
     <>
       <div className="app">
+        <Login />
+        <Register />
         <BrowserRouter>
           <main>
             <Routes>
@@ -17,8 +19,11 @@ function App() {
               <Route path="/login" element={<Login />}></Route>
 
               {/*Landing page routes*/}
+
               <Route path="/" element={<Landing />} />
+              
               {/*Event feed routes*/}
+              
               <Route path="/feed" element={<EventFeed />} />
               <Route path="/createEvent" element={<CreateEvent />} />
             </Routes>
