@@ -47,7 +47,10 @@ export default function Login() {
     };
 
     try {
-      const res = await axios.post("http://localhost:3001/auth/login", signinInfo);
+      const res = await axios.post(
+        "http://localhost:3001/auth/login",
+        signinInfo
+      );
       // if (res?.data?.user) {
       //   setUser(res.data.user);
       //   setIsLoggedIn(true);
@@ -60,12 +63,15 @@ export default function Login() {
     } catch (err) {
       console.log(err);
       const message = err?.response?.data?.error?.message;
-      setErrors((e) => ({ ...e, form: message ? String(message) : String(err) }));
+      setErrors((e) => ({
+        ...e,
+        form: message ? String(message) : String(err),
+      }));
     }
   };
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="xl" disableGutters>
       <Navbar />
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
@@ -75,14 +81,27 @@ export default function Login() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: "url(https://tardigital.com.br/wp-content/uploads/2022/05/persons.png)",
+            backgroundImage:
+              "url(https://tardigital.com.br/wp-content/uploads/2022/05/persons.png)",
             backgroundRepeat: "no-repeat",
             backgroundSize: "120%",
             backgroundPosition: "center",
           }}
         />
 
-        <Grid item xs={12} sm={8} md={5} elevation={6} sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={5}
+          elevation={6}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <Box
             sx={{
               my: 8,
@@ -108,12 +127,26 @@ export default function Login() {
             >
               Login to your account
               {errors.form && (
-                <span style={{ color: "red", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>
+                <span
+                  style={{
+                    color: "red",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "16px",
+                  }}
+                >
                   {errors.form}
                 </span>
               )}
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 1 }}
+            >
               <label
                 style={{
                   fontFamily: "Inter",
@@ -160,7 +193,11 @@ export default function Login() {
                 autoComplete="current-password"
                 style={{ marginTop: "8px" }}
               />
-              <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" sx={{ fontFamily: "Inter", color: "#828282" }} />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+                sx={{ fontFamily: "Inter", color: "#828282" }}
+              />
               <Link
                 href="#"
                 variant="body2"
@@ -195,7 +232,11 @@ export default function Login() {
               </Button>
               <Grid container>
                 <Grid item sx={{ marginTop: "50px", marginLeft: "5.7rem" }}>
-                  <Link href="/register" variant="body2" sx={{ textDecoration: "none" }}>
+                  <Link
+                    href="/register"
+                    variant="body2"
+                    sx={{ textDecoration: "none" }}
+                  >
                     <span
                       style={{
                         color: "#828282",
