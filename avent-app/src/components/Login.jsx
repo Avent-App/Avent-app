@@ -2,8 +2,6 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -12,8 +10,10 @@ import { Container } from "@mui/material";
 import axios from "axios";
 import Navbar from "./Navbar";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [errors, setErrors] = React.useState("");
   const [form, setForm] = useState({
     email: "",
@@ -47,19 +47,18 @@ export default function Login() {
     };
 
     try {
-      const res = await axios.post(
-        "http://localhost:3001/auth/login",
-        signinInfo
-      );
-      // if (res?.data?.user) {
-      //   setUser(res.data.user);
-      //   setIsLoggedIn(true);
-      //   apiClient.setToken(res.data.token);
-      //   localStorage.setItem("token", res.data.token);
-      //   navigate("/activity");
-      // // } else {
-      //     setErrors((e) => ({ ...e, signinInfo: "Invalid username/password combination" }));
-      // }
+
+      const res = await axios.post("http://localhost:3001/auth/login", signinInfo);
+      if (res?.data) {
+        //   setUser(res.data.user);
+        //   setIsLoggedIn(true);
+        //   apiClient.setToken(res.data.token);
+        //   localStorage.setItem("token", res.data.token);
+        navigate("/feed");
+      } else {
+        console.log("--->", res.data);
+        setErrors((e) => ({ ...e, signinInfo: "Invalid username/password combination" }));
+      }
     } catch (err) {
       console.log(err);
       const message = err?.response?.data?.error?.message;
@@ -109,7 +108,6 @@ export default function Login() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              // marginTop: "250px",
               marginLeft: "8rem",
               width: "450px",
               height: "430px",
@@ -168,11 +166,6 @@ export default function Login() {
                 helperText={errors.email}
                 error={errors.email != null}
                 onChange={handleOnInputChange}
-                // startAdornment={
-                //   <InputAdornment position="start">
-                //     <MailOutlineIcon />
-                //   </InputAdornment>
-                // }
               />
               <label
                 style={{
@@ -193,6 +186,7 @@ export default function Login() {
                 autoComplete="current-password"
                 style={{ marginTop: "8px" }}
               />
+
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"

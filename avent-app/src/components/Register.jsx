@@ -12,9 +12,11 @@ import Select from "@mui/material/Select";
 import { Container } from "@mui/material";
 import axios from "axios";
 import Navbar from "./Navbar";
+import { useNavigate } from "react-router-dom";
 import login from "../assets/login.jpg";
 
 export default function Register() {
+  const navigate = useNavigate();
   const [account, setAccount] = React.useState("");
   const [location, setLocation] = React.useState("");
   const [errors, setErrors] = React.useState({});
@@ -24,8 +26,8 @@ export default function Register() {
     email: "",
     password: "",
     confirmPassword: "",
-    account_type: "",
-    location: "",
+    // account_type: "",
+    // location: "",
   });
 
   const handleOnInputChange = (event) => {
@@ -57,17 +59,6 @@ export default function Register() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrors((e) => ({ ...e, form: null }));
-    if (
-      form.first_name === "" ||
-      form.last_name === "" ||
-      form.email === "" ||
-      form.password === "" ||
-      form.passwordConfirm ||
-      form.account_type === "" ||
-      form.location === ""
-    ) {
-      return alert("Please fill out the entire form.");
-    }
     const data = new FormData(event.currentTarget);
     //Printing out the data retreived from the signup sheet
     const email = data.get("email");
@@ -83,18 +74,27 @@ export default function Register() {
       location: location,
     };
     console.log(signupInfo);
+    if (
+      signupInfo.first_name === "" ||
+      signupInfo.last_name === "" ||
+      signupInfo.password === "" ||
+      signupInfo.email === "" ||
+      signupInfo.confirmPassword === "" ||
+      signupInfo.location === "" ||
+      signupInfo.account_type === ""
+    ) {
+      return alert("Please fill out the entire form.");
+    }
     try {
-      const res = await axios.post(
-        "http://localhost:3001/auth/register",
-        signupInfo
-      );
-      // if (res?.data?.user) {
-      //   setUser(res.data.user);
-      //   setIsLoggedIn(true);
-      //   apiClient.setToken(res.data.token);
-      //   localStorage.setItem("token", res.data.token);
-      //   navigate("/activity");
-      // }
+
+      const res = await axios.post("http://localhost:3001/auth/register", signupInfo);
+      if (res?.data?.user) {
+        //   setUser(res.data.user);
+        //   setIsLoggedIn(true);
+        //   apiClient.setToken(res.data.token);
+        //   localStorage.setItem("token", res.data.token);
+        navigate("/feed");
+      }
     } catch (err) {
       console.log(err);
       const message = err?.response?.data?.error?.message;
