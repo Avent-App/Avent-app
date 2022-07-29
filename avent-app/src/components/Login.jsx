@@ -6,7 +6,7 @@ import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { Container } from "@mui/material";
+import { Container, FormControlLabel, Checkbox } from "@mui/material";
 import axios from "axios";
 import Navbar from "./Navbar";
 import { useState } from "react";
@@ -47,8 +47,10 @@ export default function Login() {
     };
 
     try {
-
-      const res = await axios.post("http://localhost:3001/auth/login", signinInfo);
+      const res = await axios.post(
+        "http://localhost:3001/auth/login",
+        signinInfo
+      );
       if (res?.data) {
         //   setUser(res.data.user);
         //   setIsLoggedIn(true);
@@ -57,7 +59,10 @@ export default function Login() {
         navigate("/feed");
       } else {
         console.log("--->", res.data);
-        setErrors((e) => ({ ...e, signinInfo: "Invalid username/password combination" }));
+        setErrors((e) => ({
+          ...e,
+          signinInfo: "Invalid username/password combination",
+        }));
       }
     } catch (err) {
       console.log(err);
