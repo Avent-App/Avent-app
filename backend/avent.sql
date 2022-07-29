@@ -6,3 +6,4 @@ CREATE DATABASE avent;
 \connect avent;
 
 \i avent-schema.sql
+\i avent-seed.sql
