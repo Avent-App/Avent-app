@@ -86,6 +86,7 @@ export default function Register() {
       return alert("Please fill out the entire form.");
     }
     try {
+
       const res = await axios.post("http://localhost:3001/auth/register", signupInfo);
       if (res?.data?.user) {
         //   setUser(res.data.user);
@@ -97,12 +98,15 @@ export default function Register() {
     } catch (err) {
       console.log(err);
       const message = err?.response?.data?.error?.message;
-      setErrors((e) => ({ ...e, form: message ? String(message) : String(err) }));
+      setErrors((e) => ({
+        ...e,
+        form: message ? String(message) : String(err),
+      }));
     }
   };
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="xl" disableGutters>
       <Navbar />
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
@@ -112,13 +116,26 @@ export default function Register() {
           sm={7}
           md={7}
           sx={{
-            backgroundImage: "url(https://tardigital.com.br/wp-content/uploads/2022/05/persons.png)",
+            backgroundImage:
+              "url(https://tardigital.com.br/wp-content/uploads/2022/05/persons.png)",
             backgroundRepeat: "no-repeat",
             backgroundSize: "120%",
             backgroundPosition: "center",
           }}
         />
-        <Grid item xs={12} sm={8} md={5} elevation={6} sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={5}
+          elevation={6}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <Box
             sx={{
               my: 8,
@@ -145,12 +162,26 @@ export default function Register() {
             >
               Create a new account
               {errors.form && (
-                <span style={{ color: "red", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>
+                <span
+                  style={{
+                    color: "red",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "16px",
+                  }}
+                >
                   {errors.form}
                 </span>
               )}
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 1 }}
+            >
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <label
                   style={{
@@ -172,7 +203,10 @@ export default function Register() {
                   Last Name
                 </label>
               </Box>
-              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
+              <Box
+                className="namesInput"
+                sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}
+              >
                 <TextField
                   margin="normal"
                   fullWidth
@@ -261,7 +295,12 @@ export default function Register() {
                 error={errors.confirmPassword != null}
                 onChange={handleOnInputChange}
               />
-              <ControlledOpenSelect account={account} location={location} setLocation={setLocation} setAccount={setAccount} />
+              <ControlledOpenSelect
+                account={account}
+                location={location}
+                setLocation={setLocation}
+                setAccount={setAccount}
+              />
               <Button
                 type="submit"
                 fullWidth
@@ -283,7 +322,11 @@ export default function Register() {
               </Button>
               <Grid container>
                 <Grid item sx={{ marginTop: "50px", marginLeft: "7.5rem" }}>
-                  <Link href="/login" variant="body2" sx={{ textDecoration: "none" }}>
+                  <Link
+                    href="/login"
+                    variant="body2"
+                    sx={{ textDecoration: "none" }}
+                  >
                     <span
                       style={{
                         color: "#828282",
