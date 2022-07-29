@@ -38,33 +38,20 @@ export default function CreateEvent() {
       eventDescription: eventDescription,
     };
 
-    console.log(nutritionInfo);
+    console.log(eventsInfo);
     //Post the exercise info to the correct user id... Each user should have their own exercise info.
     let params = {
-      nutritionInfo: nutritionInfo,
+      eventsInfo: eventsInfo,
       userId: user.id,
     };
 
-    axios.post("http://localhost:3001/topics/nutrition", params).then((response) => {
+    axios.post("http://localhost:3001/topics/event", params).then((response) => {
       console.log("Successfully posted into the database!");
-      navigate("/nutrition");
+      alert("Congratulations, your event has been successfully created!");
     });
   };
 
-  //   try {
-  //     const res = await axios.post("http://localhost:3001/event", eventsInfo);
-  //     // if (res?.data?.user) {
-  //     //   setUser(res.data.user);
-  //     //   setIsLoggedIn(true);
-  //     //   apiClient.setToken(res.data.token);
-  //     //   localStorage.setItem("token", res.data.token);
-  //     //   navigate("/activity");
-  //     // }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
+  const newLocal = "eventEndDate";
   return (
     <Container maxWidth="xl">
       <GlobalNavbar />
@@ -92,6 +79,7 @@ export default function CreateEvent() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              justifyContent: "center",
               marginLeft: "8rem",
               width: "450px",
               height: "900px",
@@ -184,7 +172,7 @@ export default function CreateEvent() {
                 <TextField
                   margin="normal"
                   fullWidth
-                  id="eventEndDate"
+                  id={newLocal}
                   placeholder="Event End Date"
                   name="eventEndDate"
                   autoComplete="eventEndDate"

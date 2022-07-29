@@ -1,17 +1,15 @@
-import { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Landing from "./components/Landing";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import EventFeed from "./components/EventFeed";
+import EventDetails from "./components/EventDetails";
 import CreateEvent from "./components/CreateEvent";
 
 function App() {
   return (
     <>
       <div className="app">
-        <Login />
-        <Register />
         <BrowserRouter>
           <main>
             <Routes>
@@ -21,10 +19,11 @@ function App() {
               {/*Landing page routes*/}
 
               <Route path="/" element={<Landing />} />
-              
+
               {/*Event feed routes*/}
-              
+
               <Route path="/feed" element={<EventFeed />} />
+              <Route path="/details" element={<EventDetails />} />
               <Route path="/createEvent" element={<CreateEvent />} />
             </Routes>
           </main>
