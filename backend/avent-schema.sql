@@ -11,3 +11,15 @@ CREATE TABLE users(
     updated_at      TIMESTAMP DEFAULT NOW()
 );
 
+CREATE TABLE events(
+    event_id        SERIAL PRIMARY KEY,
+    host_id         INTEGER NOT NULL,
+    title           TEXT NOT NULL,
+    description     TEXT NOT NULL,
+    image_url       TEXT,
+    address         TEXT NOT NULL,
+    start_date      TIMESTAMP NOT NULL,
+    end_date        TIMESTAMP NOT NULL,    
+    created_at      TIMESTAMP NOT NULL DEFAULT NOW(),
+    FOREIGN KEY (host_id) REFERENCES users(id) ON DELETE CASCADE
+);
