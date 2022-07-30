@@ -18,8 +18,8 @@ CREATE TABLE events(
     description     TEXT NOT NULL,
     image_url       TEXT,
     address         TEXT NOT NULL,
-    start_date      TIMESTAMP NOT NULL DEFAULT NOW(),
+    start_date      TIMESTAMP NOT NULL,
     end_date        TIMESTAMP NOT NULL,    
-    created_at      TIMESTAMP NOT NULL,
-    FOREIGN KEY (host_id) REFERENCES users (id) ON DELETE CASCADE
+    created_at      TIMESTAMP NOT NULL DEFAULT NOW(),
+    FOREIGN KEY (host_id) REFERENCES users(id) ON DELETE CASCADE
 );
