@@ -11,10 +11,19 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
   try {
     const events = await Event.getEvent(req.body);
     return res.status(200).json({ events });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/:eventId", async (req, res, next) => {
+  try {
+    const event = await Event.getEventById(req.params.eventId);
+    return res.status(200).json({ event });
   } catch (err) {
     next(err);
   }

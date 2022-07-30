@@ -64,6 +64,18 @@ class Event {
     );
     return result.rows;
   }
+
+  static async getEventById(eventId) {
+    const result = await db.query(
+      `
+      SELECT * 
+      FROM events
+      WHERE event_id = $1;
+      `,
+      [eventId]
+    );
+    return result.rows;
+  }
 }
 
 module.exports = Event;
