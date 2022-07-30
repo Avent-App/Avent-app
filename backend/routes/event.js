@@ -3,6 +3,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const { createUserJwt } = require("../utils/tokens.js");
 const security = require("../middleware/security");
+const Event = require("../models/event");
 
 // middleware that is specific to this router
 router.use((req, res, next) => {
@@ -10,18 +11,23 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get("/", (req, res) => {
-  res.send("event posting");
+router.get("/", async (req, res) => {
+  try {
+    const events = await Event.getEvent(req.body);
+    return res.status(200).json({ events });
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.post("/create", async (req, res, next) => {
   try {
     //takes the logged in user, and posts an event to the database
-    const event = await event.createEvent(req.body);
+    const event = await Event.createEvent(req.body);
     // const token = createUserJwt(user);
 
     console.log(req.body);
-    return res.status(201).json({ event, token });
+    return res.status(201).json({ event });
   } catch (e) {
     next(e);
   }
