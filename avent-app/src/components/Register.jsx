@@ -13,7 +13,7 @@ import { Container } from "@mui/material";
 import axios from "axios";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
-import login from "../assets/login.jpg";
+import loginbanner from "../assets/login.jpg";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -86,8 +86,10 @@ export default function Register() {
       return alert("Please fill out the entire form.");
     }
     try {
-
-      const res = await axios.post("http://localhost:3001/auth/register", signupInfo);
+      const res = await axios.post(
+        "http://localhost:3001/auth/register",
+        signupInfo
+      );
       if (res?.data?.user) {
         //   setUser(res.data.user);
         //   setIsLoggedIn(true);
@@ -116,8 +118,7 @@ export default function Register() {
           sm={7}
           md={7}
           sx={{
-            backgroundImage:
-              "url(https://tardigital.com.br/wp-content/uploads/2022/05/persons.png)",
+            backgroundImage: `url(${loginbanner})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "120%",
             backgroundPosition: "center",
