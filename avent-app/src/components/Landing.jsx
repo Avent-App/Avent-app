@@ -1,5 +1,5 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, Stack, Button, Container, Box, Grid, Card, CardContent, CssBaseline } from "@mui/material";
+import { AppBar, Toolbar, Typography, Stack, Button, Container, Card, CardContent, CssBaseline } from "@mui/material";
 import heroBanner from "../assets/Different_people_01.jpg";
 import EventCard from "./EventCard";
 import phoneImage from "../assets/2992779.jpg";
@@ -9,6 +9,8 @@ import logo from "../assets/logo.png";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CallIcon from "@mui/icons-material/Call";
 import PrintIcon from "@mui/icons-material/Print";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 
 export default function Landing() {
   return (
