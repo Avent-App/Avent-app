@@ -14,12 +14,14 @@ import axios from "axios";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import login from "../assets/login.jpg";
+import { validEmail } from "../Regex";
 
 export default function Register() {
   const navigate = useNavigate();
   const [account, setAccount] = React.useState("");
   const [location, setLocation] = React.useState("");
   const [errors, setErrors] = React.useState({});
+  const [emailErr, setEmailErr] = React.useState(false);
   const [form, setForm] = React.useState({
     first_name: "",
     last_name: "",
@@ -30,6 +32,10 @@ export default function Register() {
     // location: "",
   });
 
+  /**
+   *
+   * @param {*} event to target the user input value for each textField
+   */
   const handleOnInputChange = (event) => {
     if (event.target.name === "password") {
       if (form.confirmPassword && form.confirmPassword !== event.target.value) {
@@ -45,17 +51,33 @@ export default function Register() {
         setErrors((e) => ({ ...e, confirmPassword: null }));
       }
     }
+
+    //** Regex for validating emails */
     if (event.target.name === "email") {
-      if (event.target.value.indexOf("@") === -1) {
-        setErrors((e) => ({ ...e, email: "Please enter a valid email." }));
+      if (!validEmail.test(event.target.value)) {
+        setErrors((e) => ({ ...e, email: "Your email is invalid" }));
+        // setEmailErr(true);
       } else {
         setErrors((e) => ({ ...e, email: null }));
       }
     }
 
+    // if (event.target.name === "email") {
+    //   if (event.target.value.indexOf("@") === -1) {
+    //     setErrors((e) => ({ ...e, email: "Please enter a valid email." }));
+    //   } else {
+    //     setErrors((e) => ({ ...e, email: null }));
+    //   }
+    // }
+
     setForm((f) => ({ ...f, [event.target.name]: event.target.value }));
   };
 
+  /**
+   *
+   * @param {*} event to target the event value by user
+   * @returns an alert if user has not inputted the whole form
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrors((e) => ({ ...e, form: null }));
@@ -112,7 +134,7 @@ export default function Register() {
           sm={7}
           md={7}
           sx={{
-            backgroundImage: "url(https://tardigital.com.br/wp-content/uploads/2022/05/persons.png)",
+            backgroundImage: `url(${login})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "120%",
             backgroundPosition: "center",
@@ -123,7 +145,6 @@ export default function Register() {
             sx={{
               my: 8,
               mx: 4,
-              // marginTop: "17rem",
               marginLeft: "8rem",
               width: "450px",
               height: "800px",
@@ -214,6 +235,8 @@ export default function Register() {
                 style={{ marginTop: "8px" }}
                 helperText={errors.email}
                 error={errors.email != null}
+                // helperText={emailErr && "Your email is INVALID"}
+                // error={emailErr}
                 onChange={handleOnInputChange}
               />
               <label
