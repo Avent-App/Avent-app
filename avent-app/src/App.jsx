@@ -5,6 +5,7 @@ import Register from "./components/Register";
 import EventFeed from "./components/EventFeed";
 import EventDetails from "./components/EventDetails";
 import CreateEvent from "./components/CreateEvent";
+import NotFound from "./components/NotFound";
 
 function App() {
   return (
@@ -23,8 +24,9 @@ function App() {
               {/*Event feed routes*/}
 
               <Route path="/feed" element={<EventFeed />} />
-              <Route path="/details" element={<EventDetails />} />
+              <Route path="/details/:eventId" element={<EventDetails />} />
               <Route path="/createEvent" element={<CreateEvent />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
         </BrowserRouter>
