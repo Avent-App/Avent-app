@@ -11,6 +11,7 @@ import axios from "axios";
 import Navbar from "./Navbar";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import login from "../assets/login.jpg";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -76,7 +77,7 @@ export default function Login() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: "url(https://tardigital.com.br/wp-content/uploads/2022/05/persons.png)",
+            backgroundImage: `url(${login})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "120%",
             backgroundPosition: "center",
