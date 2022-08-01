@@ -15,22 +15,6 @@ router.get("/", (req, res) => {
   res.send("authentication");
 });
 
-router.get("/:email", async (req, res) => {
-  email = req.params.email;
-
-  getUser = await User.fetchUserByEmail(email);
-
-  res.send(getUser);
-});
-
-router.get("/:id", async (req, res) => {
-  id = req.params.id;
-
-  getUser = await User.fetchUserByID(id);
-
-  res.send(getUser);
-});
-
 router.post("/register", async (req, res, next) => {
   try {
     //take the user, email, and password and create a new user in the database.
