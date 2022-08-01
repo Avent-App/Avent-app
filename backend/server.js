@@ -4,6 +4,7 @@ const { PORT } = require("./config");
 const cors = require("cors");
 const morgan = require("morgan");
 const authRoute = require("./routes/auth.js");
+const eventRoute = require("./routes/event.js");
 const { NotFoundError } = require("./utils/errors");
 const security = require("./middleware/security.js");
 
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(security.extractUserFromJwt);
 
 app.use("/auth", authRoute);
+app.use("/event", eventRoute);
 
 app.get("/", (req, res) => {
   res.send({ isitworking: "yesitis" });
