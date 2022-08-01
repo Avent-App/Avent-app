@@ -6,53 +6,88 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { Container } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import GlobalNavbar from "./GlobalNavbar";
 import createEvent from "../assets/createEvent.png";
+import EventCard from "./EventCard";
 
 export default function CreateEvent() {
-  const [eventsData, setEventsData] = React.useState([]);
+  const [errors, setErrors] = useState({});
 
-  const handleSubmit = async (event) => {
+  /**
+   *
+   * @param {*} event
+   * input entered by user in create event form
+   */
+  const handleOnSubmit = async (event) => {
     event.preventDefault();
-    console.log(event.currentTarget);
+    setErrors((e) => ({ ...e, form: null }));
     const data = new FormData(event.currentTarget);
+    // const navigate = useNavigate();
 
+    //Printing out the data retreived from the createEvent page
     const eventName = data.get("eventName");
     const eventAddress = data.get("eventAddress");
-    const eventStartDate = data.get("eventEndDate");
+    const eventStartDate = data.get("eventStartDate");
+    const eventEndDate = data.get("eventEndDate");
     const eventStartTime = data.get("eventStartTime");
     const eventEndTime = data.get("eventEndTime");
     const eventType = data.get("eventType");
     const eventDescription = data.get("eventDescription");
 
     const eventsInfo = {
-      eventName: eventName,
-      eventAddress: eventAddress,
-      eventStartDate: eventStartDate,
-      eventEndDate: eventEndDate,
-      eventStartTime: eventStartTime,
-      eventEndTime: eventEndTime,
-      eventType: eventType,
-      eventDescription: eventDescription,
+      event_Name: eventName,
+      event_Address: eventAddress,
+      event_StartDate: eventStartDate,
+      event_EndDate: eventEndDate,
+      event_StartTime: eventStartTime,
+      event_EndTime: eventEndTime,
+      event_Type: eventType,
+      event_Description: eventDescription,
     };
-
     console.log(eventsInfo);
-    //Post the exercise info to the correct user id... Each user should have their own exercise info.
-    let params = {
-      eventsInfo: eventsInfo,
-      userId: user.id,
-    };
 
-    axios.post("http://localhost:3001/topics/event", params).then((response) => {
-      console.log("Successfully posted into the database!");
-      alert("Congratulations, your event has been successfully created!");
-    });
+    if (
+      eventsInfo.event_Name === "" ||
+      eventsInfo.event_Address === "" ||
+      eventsInfo.event_StartDate === "" ||
+      eventsInfo.event_EndDate === "" ||
+      eventsInfo.event_StartTime === "" ||
+      eventsInfo.event_EndTime === "" ||
+      eventsInfo.event_Type === "" ||
+      eventsInfo.event_Description === ""
+    ) {
+      return alert("Please fill out the entire form.");
+    }
+
+    /**
+     * Post the event info to the correct user id... Each user should have their own exercise info.
+     */
+
+    // let params = {
+    //   eventsInfo: eventsInfo,
+    //   // userId: user.id,
+    // };
+
+    try {
+      const res = await axios.post("http://localhost:3001/event/create", eventsInfo);
+      if (res?.data) {
+        console.log("Successfully posted into the database!");
+        alert("Congratulations, your event has been successfully created!");
+        // navigate("/feed");
+      }
+    } catch (err) {
+      console.log(err);
+      const message = err?.response?.data?.error?.message;
+      setErrors((e) => ({
+        ...e,
+        form: message ? String(message) : String(err),
+      }));
+    }
   };
 
-  const newLocal = "eventEndDate";
   return (
     <Container maxWidth="xl">
       <GlobalNavbar />
@@ -71,7 +106,7 @@ export default function CreateEvent() {
           }}
         />
 
-        <Grid item xs={12} sm={8} md={5} elevation={6} sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "stretch" }}>
+        <Grid item xs={12} sm={8} md={5} elevation={6} sx={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "4rem" }}>
           <Box
             sx={{
               my: 8,
@@ -97,7 +132,7 @@ export default function CreateEvent() {
             >
               Create an Event
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form" noValidate onSubmit={handleOnSubmit} sx={{ mt: 1 }}>
               <label
                 style={{
                   fontFamily: "Inter",
@@ -172,7 +207,7 @@ export default function CreateEvent() {
                 <TextField
                   margin="normal"
                   fullWidth
-                  id={newLocal}
+                  id="eventEndDate"
                   placeholder="Event End Date"
                   name="eventEndDate"
                   autoComplete="eventEndDate"
@@ -271,6 +306,7 @@ export default function CreateEvent() {
                 fullWidth
                 variant="contained"
                 color="secondary"
+                // onClick={handleOnSubmit}
                 sx={{
                   padding: "13px 10px 12px",
                   fontFamily: "Inter",

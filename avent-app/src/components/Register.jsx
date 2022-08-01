@@ -16,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 import login from "../assets/login.jpg";
 import { validEmail } from "../Regex";
 
-
 export default function Register() {
   const navigate = useNavigate();
   const [account, setAccount] = React.useState("");
@@ -35,7 +34,7 @@ export default function Register() {
 
   /**
    *
-   * @param {*} event to target the user input value for each textField
+   * @param {*} event to target the user input value and set errors for password, confirm password, and email textFields
    */
   const handleOnInputChange = (event) => {
     if (event.target.name === "password") {
@@ -109,10 +108,7 @@ export default function Register() {
       return alert("Please fill out the entire form.");
     }
     try {
-      const res = await axios.post(
-        "http://localhost:3001/auth/register",
-        signupInfo
-      );
+      const res = await axios.post("http://localhost:3001/auth/register", signupInfo);
       if (res?.data?.user) {
         //   setUser(res.data.user);
         //   setIsLoggedIn(true);
@@ -199,12 +195,7 @@ export default function Register() {
                 </span>
               )}
             </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
-            >
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <label
                   style={{
@@ -226,10 +217,7 @@ export default function Register() {
                   Last Name
                 </label>
               </Box>
-              <Box
-                className="namesInput"
-                sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}
-              >
+              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
                 <TextField
                   margin="normal"
                   fullWidth
@@ -271,8 +259,6 @@ export default function Register() {
                 style={{ marginTop: "8px" }}
                 helperText={errors.email}
                 error={errors.email != null}
-                // helperText={emailErr && "Your email is INVALID"}
-                // error={emailErr}
                 onChange={handleOnInputChange}
               />
               <label
@@ -320,12 +306,7 @@ export default function Register() {
                 error={errors.confirmPassword != null}
                 onChange={handleOnInputChange}
               />
-              <ControlledOpenSelect
-                account={account}
-                location={location}
-                setLocation={setLocation}
-                setAccount={setAccount}
-              />
+              <ControlledOpenSelect account={account} location={location} setLocation={setLocation} setAccount={setAccount} />
               <Button
                 type="submit"
                 fullWidth
@@ -347,11 +328,7 @@ export default function Register() {
               </Button>
               <Grid container>
                 <Grid item sx={{ marginTop: "50px", marginLeft: "7.5rem" }}>
-                  <Link
-                    href="/login"
-                    variant="body2"
-                    sx={{ textDecoration: "none" }}
-                  >
+                  <Link href="/login" variant="body2" sx={{ textDecoration: "none" }}>
                     <span
                       style={{
                         color: "#828282",
