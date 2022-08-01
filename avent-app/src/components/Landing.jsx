@@ -1,20 +1,16 @@
 import React from "react";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Stack,
-  Button,
-  Container,
-  Box,
-  Grid,
-  Card,
-  CardContent,
-} from "@mui/material";
+import { AppBar, Toolbar, Typography, Stack, Button, Container, Card, CardContent, CssBaseline } from "@mui/material";
 import heroBanner from "../assets/Different_people_01.jpg";
 import EventCard from "./EventCard";
 import phoneImage from "../assets/2992779.jpg";
 import { Link as RouterLink } from "react-router-dom";
+import Divider from "@mui/material/Divider";
+import logo from "../assets/logo.png";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import CallIcon from "@mui/icons-material/Call";
+import PrintIcon from "@mui/icons-material/Print";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 
 export default function Landing() {
   return (
@@ -23,6 +19,7 @@ export default function Landing() {
       <Hero />
       <SubHero />
       <Body />
+      <Footer />
     </Container>
   );
 }
@@ -132,9 +129,7 @@ function SubHero() {
         </Typography>
         <Stack justifyContent="center" direction="row" spacing={2}>
           <EventCard
-            eventImageUrl={
-              "https://thumbs.dreamstime.com/b/tropical-beach-party-24320856.jpg"
-            }
+            eventImageUrl={"https://thumbs.dreamstime.com/b/tropical-beach-party-24320856.jpg"}
             eventCategory={"COMMUNITY"}
             datePosted={"7/22/21"}
             eventName={"Beach Party"}
@@ -156,9 +151,7 @@ function SubHero() {
             eventHost={"Person McPerson"}
           />
           <EventCard
-            eventImageUrl={
-              "https://www.signupgenius.com/cms/images/groups/beach-clean-up-tips-ideas-article-600x400.jpg"
-            }
+            eventImageUrl={"https://www.signupgenius.com/cms/images/groups/beach-clean-up-tips-ideas-article-600x400.jpg"}
             eventCategory={"INTERN EVENT"}
             datePosted={"7/22/21"}
             eventName={"Beach Cleanup Day"}
@@ -263,5 +256,46 @@ function Body() {
         </Stack>
       </Stack>
     </div>
+  );
+}
+
+function Footer() {
+  return (
+    <>
+      <Divider sx={{ backgroundColor: "#D90429", borderWidth: "1px" }} />
+      <CssBaseline />
+      <Grid sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", marginTop: "4rem", marginBottom: "4rem" }}>
+        <Box>
+          <img src={logo} alt="avent logo" />
+        </Box>
+        <Box>
+          <Typography component="p">
+            <span sx={{ marginTop: "30px" }}>
+              <LocationOnIcon sx={{ color: "#D90429" }} />
+            </span>
+            345 Faulconer Drive, Suite 4 • Charlottesville, CA, 12345
+          </Typography>
+          <Grid sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: "1rem" }}>
+            <Box>
+              <Typography component="p">
+                <CallIcon sx={{ color: "#D90429" }} />
+                (123) 456-7890{" "}
+              </Typography>
+            </Box>
+            <Box>
+              <Typography component="p">
+                <PrintIcon sx={{ color: "#D90429" }} />
+                (123) 456-7890
+              </Typography>
+            </Box>
+          </Grid>
+          <Typography component="p" sx={{ color: "GrayText", fontWeight: "500", marginTop: "1rem" }}>
+            Social Media
+          </Typography>
+        </Box>
+      </Grid>
+      <Divider sx={{ backgroundColor: "FFD0D0", borderWidth: ".3px" }} />
+      <Typography sx={{ textAlign: "end", fontSize: "14px" }}>@2022 All right reserved</Typography>
+    </>
   );
 }

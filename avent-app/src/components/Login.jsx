@@ -11,7 +11,8 @@ import axios from "axios";
 import Navbar from "./Navbar";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import loginbanner from "../assets/login.jpg";
+import login from "../assets/login.jpg";
+
 
 export default function Login() {
   const navigate = useNavigate();
@@ -86,7 +87,7 @@ export default function Login() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: `url(${loginbanner})`,
+            backgroundImage: `url(${login})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "120%",
             backgroundPosition: "center",

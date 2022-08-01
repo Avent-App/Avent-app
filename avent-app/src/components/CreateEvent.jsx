@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import GlobalNavbar from "./GlobalNavbar";
+import createEvent from "../assets/createEvent.png";
 
 export default function CreateEvent() {
   const [eventsData, setEventsData] = React.useState([]);
@@ -63,8 +64,7 @@ export default function CreateEvent() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage:
-              "url(https://img.freepik.com/free-vector/businessman-planning-events-deadlines-agenda_74855-6274.jpg?w=996&t=st=1658940995~exp=1658941595~hmac=1ada56f3592e8e30c21814c6dc9608f291cf78836fcd1dad9d59561faf2efc21)",
+            backgroundImage: `url(${createEvent})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "150%",
             backgroundPosition: "center",
