@@ -42,7 +42,14 @@ class User {
   }
 
   static async register(credentials) {
-    const requiredFields = ["first_name", "last_name", "email", "password", "location", "account_type"];
+    const requiredFields = [
+      "first_name",
+      "last_name",
+      "email",
+      "password",
+      "location",
+      "account_type",
+    ];
 
     requiredFields.forEach((field) => {
       if (!credentials.hasOwnProperty(field)) {
@@ -57,7 +64,10 @@ class User {
 
     const lowercasedEmail = credentials.email.toLowerCase();
 
-    const hashedPassword = await bcrypt.hash(credentials.password, BCRYPT_WORK_FACTOR);
+    const hashedPassword = await bcrypt.hash(
+      credentials.password,
+      BCRYPT_WORK_FACTOR
+    );
 
     const result = await db.query(
       `
@@ -72,7 +82,14 @@ class User {
     VALUES ($1,$2,$3,$4,$5,$6)
     RETURNING first_name,last_name,email,password,location,account_type;
     `,
-      [credentials.first_name, credentials.last_name, lowercasedEmail, hashedPassword, credentials.location, credentials.account_type]
+      [
+        credentials.first_name,
+        credentials.last_name,
+        lowercasedEmail,
+        hashedPassword,
+        credentials.location,
+        credentials.account_type,
+      ]
     );
     //return the user
     const user = result.rows[0];
@@ -87,6 +104,17 @@ class User {
 
     const query = "SELECT * FROM users WHERE email = $1";
     const result = await db.query(query, [email.toLowerCase()]);
+    const user = result.rows[0];
+    return user;
+  }
+
+  static async fetchUserByID(id) {
+    if (!id) {
+      throw new BadRequestError("No user id provided");
+    }
+
+    const query = "SELECT * FROM users WHERE id = $1";
+    const result = await db.query(query, [id.toString()]);
     const user = result.rows[0];
     return user;
   }

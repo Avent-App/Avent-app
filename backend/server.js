@@ -5,6 +5,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const authRoute = require("./routes/auth.js");
 const eventRoute = require("./routes/event.js");
+const userRoute = require("./routes/user.js");
 const { NotFoundError } = require("./utils/errors");
 const security = require("./middleware/security.js");
 
@@ -16,6 +17,7 @@ app.use(security.extractUserFromJwt);
 
 app.use("/auth", authRoute);
 app.use("/event", eventRoute);
+app.use("/user", userRoute);
 
 app.get("/", (req, res) => {
   res.send({ isitworking: "yesitis" });
