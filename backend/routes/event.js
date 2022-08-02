@@ -13,7 +13,7 @@ router.use((req, res, next) => {
 
 router.get("/", async (req, res, next) => {
   try {
-    const events = await Event.getEvent(req.body);
+    const events = await Event.getEvents(req.body);
     return res.status(200).json({ events });
   } catch (err) {
     next(err);
