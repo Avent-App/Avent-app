@@ -11,10 +11,18 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import GlobalNavbar from "./GlobalNavbar";
 import createEvent from "../assets/createEvent.png";
-import EventCard from "./EventCard";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 
 export default function CreateEvent() {
   const [errors, setErrors] = useState({});
+  const [value, setValue] = React.useState(new Date("2022-08-10T21:00:00"));
+
+  const handleChangeDateTime = (newValue) => {
+    setValue(newValue);
+  };
 
   /**
    *
@@ -30,32 +38,29 @@ export default function CreateEvent() {
     //Printing out the data retreived from the createEvent page
     const eventName = data.get("eventName");
     const eventAddress = data.get("eventAddress");
-    const eventStartDate = data.get("eventStartDate");
-    const eventEndDate = data.get("eventEndDate");
-    const eventStartTime = data.get("eventStartTime");
-    const eventEndTime = data.get("eventEndTime");
+    const eventDate = value;
+    const eventTime = value;
+    const eventImageUrl = data.get("image_url");
     const eventType = data.get("eventType");
     const eventDescription = data.get("eventDescription");
-
     const eventsInfo = {
       event_Name: eventName,
       event_Address: eventAddress,
-      event_StartDate: eventStartDate,
-      event_EndDate: eventEndDate,
-      event_StartTime: eventStartTime,
-      event_EndTime: eventEndTime,
+      event_Date: eventDate,
+      event_Time: eventTime,
+      event_imageUrl: eventImageUrl,
       event_Type: eventType,
       event_Description: eventDescription,
     };
     console.log(eventsInfo);
+    console.log(value);
 
     if (
       eventsInfo.event_Name === "" ||
       eventsInfo.event_Address === "" ||
-      eventsInfo.event_StartDate === "" ||
-      eventsInfo.event_EndDate === "" ||
-      eventsInfo.event_StartTime === "" ||
-      eventsInfo.event_EndTime === "" ||
+      eventsInfo.event_Date === "" ||
+      eventsInfo.event_Time === "" ||
+      eventsInfo.event_imageUrl === "" ||
       eventsInfo.event_Type === "" ||
       eventsInfo.event_Description === ""
     ) {
@@ -106,7 +111,7 @@ export default function CreateEvent() {
           }}
         />
 
-        <Grid item xs={12} sm={8} md={5} elevation={6} sx={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "4rem" }}>
+        <Grid item xs={12} sm={8} md={5} elevation={6} sx={{ display: "flex", flexDirection: "column", alignContent: "center", marginBottom: 0, marginTop: 0 }}>
           <Box
             sx={{
               my: 8,
@@ -180,85 +185,54 @@ export default function CreateEvent() {
                     fontWeight: 600,
                   }}
                 >
-                  Event Start Date
+                  Date
                 </label>
                 <label
                   style={{
                     fontFamily: "Inter",
                     color: "#828282",
                     fontWeight: 600,
-                    marginRight: "6rem",
+                    marginRight: "11rem",
                   }}
                 >
-                  Event End Date
+                  Time
                 </label>
-              </Box>
-              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
-                <TextField
-                  margin="normal"
-                  fullWidth
-                  id="eventStartDate"
-                  placeholder="Event Start Date"
-                  name="eventStartDate"
-                  autoComplete="eventStartDate"
-                  autoFocus
-                  style={{ marginTop: "8px" }}
-                />
-                <TextField
-                  margin="normal"
-                  fullWidth
-                  id="eventEndDate"
-                  placeholder="Event End Date"
-                  name="eventEndDate"
-                  autoComplete="eventEndDate"
-                  autoFocus
-                  style={{ marginTop: "8px" }}
-                />
               </Box>
 
-              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <label
-                  style={{
-                    fontFamily: "Inter",
-                    color: "#828282",
-                    fontWeight: 600,
-                  }}
-                >
-                  Event Start Time
-                </label>
-                <label
-                  style={{
-                    fontFamily: "Inter",
-                    color: "#828282",
-                    fontWeight: 600,
-                    marginRight: "6rem",
-                  }}
-                >
-                  Event End Time
-                </label>
-              </Box>
               <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
-                <TextField
-                  margin="normal"
-                  fullWidth
-                  id="eventStartTime"
-                  placeholder="Event Start Time"
-                  name="eventStartTime"
-                  autoComplete="eventStartTime"
-                  autoFocus
-                  style={{ marginTop: "8px" }}
-                />
-                <TextField
-                  margin="normal"
-                  fullWidth
-                  id="eventEndTime"
-                  placeholder="Event End Time"
-                  name="eventEndTime"
-                  autoComplete="eventEndTime"
-                  autoFocus
-                  style={{ marginTop: "8px" }}
-                />
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DesktopDatePicker
+                    inputFormat="MM/dd/yyyy"
+                    value={value}
+                    id="date"
+                    name="date"
+                    onChange={handleChangeDateTime}
+                    renderInput={(params) => <TextField {...params} sx={{ marginBottom: ".5rem" }} />}
+                  />
+                </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <TimePicker id="time" name="time" value={value} onChange={handleChangeDateTime} renderInput={(params) => <TextField {...params} />} />
+                </LocalizationProvider>
               </Box>
+              <label
+                style={{
+                  fontFamily: "Inter",
+                  color: "#828282",
+                  fontWeight: 600,
+                }}
+              >
+                Image Url
+              </label>
+              <TextField
+                margin="normal"
+                fullWidth
+                id="image_url"
+                placeholder="Image Url"
+                name="image_url"
+                autoComplete="image_url"
+                autoFocus
+                style={{ marginTop: "8px" }}
+              />
 
               <label
                 style={{
