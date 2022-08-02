@@ -1,11 +1,11 @@
 -- First I need users in a seed
 -- 2nd, I need to make these conform to the new data form I need
 
-INSERT INTO users (password, account_type, first_name, last_name, email, location)
+INSERT INTO users (password, account_type, first_name, last_name, email, location, company)
 VALUES
-('123','intern','Irem','Komurcu','i@sf.com','San Francisco'),
-('123','business','Sales','Force','marc@sf.com','San Francisco'),
-('123','intern','Enrique','Rico','e@sf.com','New York');
+('123','intern','Irem','Komurcu','i@sf.com','San Francisco', 'Salesforce'),
+('123','business','Sales','Force','marc@sf.com','San Francisco', 'Apple'),
+('123','intern','Enrique','Rico','e@sf.com','New York', 'Google');
 
 INSERT INTO events (host_id, title, description, start_date, end_date, address)
 VALUES
