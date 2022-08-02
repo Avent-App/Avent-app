@@ -86,23 +86,24 @@ function Feed() {
    */
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/event`)
+      .get(`http://localhost:3001/event/`)
       .then((response) => {
         setEventData(response.data.eventData);
       })
       .catch((e) => {
-        // console.log("id is empty");
+        console.log("id is empty");
+        console.log("-->", response.data.eventData);
       });
   });
   const renderEventCards = () => {
-    if (eventData.length > 0) {
+    if (eventData > 0) {
       return (
         <Grid container spacing={4}>
           {eventData.map((event, idx) => (
             <EventCard
               key={idx}
               eventName={event.title}
-              eventCategory={event.category}
+              eventCategory={event.event_category}
               startDate={event.start_date}
               eventDescription={event.description}
               eventImageUrl={event.image_url}
