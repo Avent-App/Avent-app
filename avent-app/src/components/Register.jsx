@@ -87,6 +87,7 @@ export default function Register({ setUser }) {
     const password = data.get("password");
     const firstName = data.get("firstName");
     const lastName = data.get("lastName");
+    const company = data.get("company");
     const signupInfo = {
       email: email,
       account_type: account,
@@ -94,6 +95,7 @@ export default function Register({ setUser }) {
       first_name: firstName,
       last_name: lastName,
       location: location,
+      company: company,
     };
     console.log(signupInfo);
     if (
@@ -103,7 +105,8 @@ export default function Register({ setUser }) {
       signupInfo.email === "" ||
       signupInfo.confirmPassword === "" ||
       signupInfo.location === "" ||
-      signupInfo.account_type === ""
+      signupInfo.account_type === "" ||
+      signupInfo.company === ""
     ) {
       return alert("Please fill out the entire form.");
     }
@@ -308,7 +311,32 @@ export default function Register({ setUser }) {
                 error={errors.confirmPassword != null}
                 onChange={handleOnInputChange}
               />
-              <ControlledOpenSelect account={account} location={location} setLocation={setLocation} setAccount={setAccount} />
+              <label
+                style={{
+                  fontFamily: "Inter",
+                  color: "#828282",
+                  fontWeight: 600,
+                }}
+              >
+                Company
+              </label>
+              <TextField
+                margin="normal"
+                fullWidth
+                id="company"
+                placeholder="Company Name"
+                name="company"
+                autoComplete="company"
+                autoFocus
+                style={{ marginTop: "8px" }}
+                onChange={handleOnInputChange}
+              />
+              <ControlledOpenSelect
+                account={account}
+                location={location}
+                setLocation={setLocation}
+                setAccount={setAccount}
+              />
               <Button
                 type="submit"
                 fullWidth

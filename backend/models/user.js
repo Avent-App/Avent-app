@@ -16,6 +16,7 @@ class User {
       created_at: user.created_at,
       updated_at: user.updated_at,
       location: user.location,
+      company: user.company,
     };
   }
   static async login(credentials) {
@@ -49,6 +50,7 @@ class User {
       "password",
       "location",
       "account_type",
+      "company",
     ];
 
     requiredFields.forEach((field) => {
@@ -77,10 +79,11 @@ class User {
         email,
         password,
         location,
-        account_type
+        account_type,
+        company
     )
-    VALUES ($1,$2,$3,$4,$5,$6)
-    RETURNING first_name,last_name,email,password,location,account_type;
+    VALUES ($1,$2,$3,$4,$5,$6,$7)
+    RETURNING first_name,last_name,email,password,location,account_type, company;
     `,
       [
         credentials.first_name,
@@ -89,6 +92,7 @@ class User {
         hashedPassword,
         credentials.location,
         credentials.account_type,
+        credentials.company,
       ]
     );
     //return the user
