@@ -116,7 +116,7 @@ export default function Register({ setUser }) {
         //   localStorage.setItem("token", res.data.token);
         navigate("/feed");
       } else {
-        setErrors((e) => ({ ...e, form: "Something went wrong with registration" }));
+        setErrors((e) => ({ ...e, form: "Something went wrong with registration" }))
       }
     } catch (err) {
       console.log(err);

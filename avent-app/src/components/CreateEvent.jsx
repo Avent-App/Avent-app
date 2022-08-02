@@ -44,13 +44,14 @@ export default function CreateEvent() {
     const eventType = data.get("eventType");
     const eventDescription = data.get("eventDescription");
     const eventsInfo = {
-      event_Name: eventName,
-      event_Address: eventAddress,
-      event_Date: eventDate,
-      event_Time: eventTime,
-      event_imageUrl: eventImageUrl,
-      event_Type: eventType,
-      event_Description: eventDescription,
+      title: eventName,
+      address: eventAddress,
+      start_date: eventDate,
+      end_date: eventDate,
+      image_url: eventImageUrl,
+      description: eventDescription,
+      host_id: 1,
+      event_category: eventType,
     };
     console.log(eventsInfo);
     console.log(value);
