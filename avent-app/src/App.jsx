@@ -5,8 +5,21 @@ import Register from "./components/Register";
 import EventFeed from "./components/EventFeed";
 import EventDetails from "./components/EventDetails";
 import CreateEvent from "./components/CreateEvent";
+import { useState, useEffect } from "react";
+import apiClient from "./services/apiClient";
 
 function App() {
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    const fetchAuthedUser = async () => {
+      const data = await apiClient.getUser();
+      if (data.data) {
+        setIsLoggedIn(true);
+        setUser(data.data.user);
+      }
+      // if (error) setError(error);
+    };
+
   return (
     <>
       <div className="app">
