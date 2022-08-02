@@ -111,6 +111,17 @@ class User {
     const user = result.rows[0];
     return user;
   }
+
+  static async fetchUserByID(id) {
+    if (!id) {
+      throw new BadRequestError("No user id provided");
+    }
+
+    const query = "SELECT * FROM users WHERE id = $1";
+    const result = await db.query(query, [id.toString()]);
+    const user = result.rows[0];
+    return user;
+  }
 }
 
 module.exports = User;

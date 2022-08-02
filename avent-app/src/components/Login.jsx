@@ -11,9 +11,9 @@ import axios from "axios";
 import Navbar from "./Navbar";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import loginbanner from "../assets/login.jpg";
+import login from "../assets/login.jpg";
 
-export default function Login() {
+export default function Login({ user, setUser }) {
   const navigate = useNavigate();
   const [errors, setErrors] = React.useState("");
   const [form, setForm] = useState({
@@ -36,7 +36,6 @@ export default function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrors((e) => ({ ...e, form: null }));
-    console.log(event.currentTarget);
     const data = new FormData(event.currentTarget);
 
     const email = data.get("email");
@@ -48,12 +47,9 @@ export default function Login() {
     };
 
     try {
-      const res = await axios.post(
-        "http://localhost:3001/auth/login",
-        signinInfo
-      );
-      if (res?.data) {
-        //   setUser(res.data.user);
+      const res = await axios.post("http://localhost:3001/auth/login", signinInfo);
+      if (res?.data?.user) {
+        setUser(res.data.user);
         //   setIsLoggedIn(true);
         //   apiClient.setToken(res.data.token);
         //   localStorage.setItem("token", res.data.token);
@@ -86,7 +82,7 @@ export default function Login() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: `url(${loginbanner})`,
+            backgroundImage: `url(${login})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "120%",
             backgroundPosition: "center",
@@ -143,12 +139,7 @@ export default function Login() {
                 </span>
               )}
             </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
-            >
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <label
                 style={{
                   fontFamily: "Inter",
@@ -191,24 +182,6 @@ export default function Login() {
                 style={{ marginTop: "8px" }}
               />
 
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-                sx={{ fontFamily: "Inter", color: "#828282" }}
-              />
-              <Link
-                href="#"
-                variant="body2"
-                sx={{
-                  color: "#D90429",
-                  textDecoration: "none",
-                  marginLeft: "10rem",
-                  fontWeight: 600,
-                  fontFamily: "Inter",
-                }}
-              >
-                Forgot password?
-              </Link>
               <Button
                 type="submit"
                 fullWidth
@@ -230,11 +203,7 @@ export default function Login() {
               </Button>
               <Grid container>
                 <Grid item sx={{ marginTop: "50px", marginLeft: "5.7rem" }}>
-                  <Link
-                    href="/register"
-                    variant="body2"
-                    sx={{ textDecoration: "none" }}
-                  >
+                  <Link href="/register" variant="body2" sx={{ textDecoration: "none" }}>
                     <span
                       style={{
                         color: "#828282",
