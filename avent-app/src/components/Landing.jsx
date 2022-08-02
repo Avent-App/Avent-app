@@ -9,6 +9,11 @@ import logo from "../assets/logo.png";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CallIcon from "@mui/icons-material/Call";
 import PrintIcon from "@mui/icons-material/Print";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import InstagramIcon from "@mui/icons-material/Instagram";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 
@@ -28,10 +33,7 @@ function Navbar() {
   return (
     <AppBar position="sticky" elevation={0}>
       <Toolbar>
-        <Typography
-          variant="h6"
-          sx={{ display: { xs: "none", sm: "block" }, flexGrow: 1 }}
-        >
+        <Typography variant="h6" sx={{ display: { xs: "none", sm: "block" }, flexGrow: 1 }}>
           Avent
         </Typography>
         <Stack direction="row" spacing={12}>
@@ -41,24 +43,10 @@ function Navbar() {
             <Button color="inherit">Help</Button>
           </Stack>
           <Stack direction="row" spacing={3}>
-            <Button
-              color="secondary"
-              variant="contained"
-              to="/login"
-              component={RouterLink}
-              sx={{ height: 42, width: 83 }}
-              disableElevation
-            >
+            <Button color="secondary" variant="contained" to="/login" component={RouterLink} sx={{ height: 42, width: 83 }} disableElevation>
               Login
             </Button>
-            <Button
-              color="secondary"
-              variant="contained"
-              to="/register"
-              component={RouterLink}
-              sx={{ height: 42, width: 83 }}
-              disableElevation
-            >
+            <Button color="secondary" variant="contained" to="/register" component={RouterLink} sx={{ height: 42, width: 83 }} disableElevation>
               Register
             </Button>
           </Stack>
@@ -71,16 +59,10 @@ function Navbar() {
 function Hero() {
   return (
     <Stack spacing={3} alignItems="center" sx={{ mt: 10 }}>
-      <Typography
-        align="center"
-        sx={{ fontSize: 70, fontWeight: "bold", lineHeight: 1 }}
-      >
+      <Typography align="center" sx={{ fontSize: 70, fontWeight: "bold", lineHeight: 1 }}>
         We just upgraded <br /> your internship
       </Typography>
-      <Typography
-        align="center"
-        sx={{ fontWeight: "regular", fontSize: 17, fontStyle: "normal" }}
-      >
+      <Typography align="center" sx={{ fontWeight: "regular", fontSize: 17, fontStyle: "normal" }}>
         Avent helps interns find events and network in <br /> their new city.
       </Typography>
       <Button
@@ -94,12 +76,7 @@ function Hero() {
       >
         Find an event now
       </Button>
-      <img
-        className="heroBanner"
-        style={{ maxWidth: "100%" }}
-        src={heroBanner}
-        alt="people standing around"
-      />
+      <img className="heroBanner" style={{ maxWidth: "100%" }} src={heroBanner} alt="people standing around" />
     </Stack>
   );
 }
@@ -108,8 +85,7 @@ function SubHero() {
   return (
     <Box
       sx={{
-        background:
-          "linear-gradient(180deg, #fcebeb 43.23%, rgba(252, 235, 235, 0) 100%)",
+        background: "linear-gradient(180deg, #fcebeb 43.23%, rgba(252, 235, 235, 0) 100%)",
         height: 519,
         position: "relative",
         bottom: 100,
@@ -172,17 +148,8 @@ function Body() {
       <Typography align="center" sx={{ fontWeight: 700, fontSize: 45 }}>
         Network with other interns
       </Typography>
-      <Stack
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-        spacing={1.69}
-      >
-        <img
-          src={phoneImage}
-          style={{ height: 488, width: 488 }}
-          alt="picture of people texting each other"
-        ></img>
+      <Stack direction="row" justifyContent="center" alignItems="center" spacing={1.69}>
+        <img src={phoneImage} style={{ height: 488, width: 488 }} alt="picture of people texting each other"></img>
         <Stack spacing={3.75}>
           <Card
             sx={{
@@ -193,16 +160,10 @@ function Body() {
             }}
           >
             <CardContent>
-              <Typography
-                sx={{ fontWeight: 400, fontSize: 16, mt: 2 }}
-                color="#D90429"
-              >
+              <Typography sx={{ fontWeight: 400, fontSize: 16, mt: 2 }} color="#D90429">
                 Total users registered
               </Typography>
-              <Typography
-                sx={{ fontWeight: 600, fontSize: 21 }}
-                color="#D90429"
-              >
+              <Typography sx={{ fontWeight: 600, fontSize: 21 }} color="#D90429">
                 10,000+
               </Typography>
             </CardContent>
@@ -216,16 +177,10 @@ function Body() {
             }}
           >
             <CardContent>
-              <Typography
-                sx={{ fontWeight: 400, fontSize: 16, mt: 2 }}
-                color="#D90429"
-              >
+              <Typography sx={{ fontWeight: 400, fontSize: 16, mt: 2 }} color="#D90429">
                 Events posted per month
               </Typography>
-              <Typography
-                sx={{ fontWeight: 600, fontSize: 21 }}
-                color="#D90429"
-              >
+              <Typography sx={{ fontWeight: 600, fontSize: 21 }} color="#D90429">
                 5,000+
               </Typography>
             </CardContent>
@@ -239,16 +194,10 @@ function Body() {
             }}
           >
             <CardContent>
-              <Typography
-                sx={{ fontWeight: 400, fontSize: 16, mt: 2 }}
-                color="#D90429"
-              >
+              <Typography sx={{ fontWeight: 400, fontSize: 16, mt: 2 }} color="#D90429">
                 Total messages sent
               </Typography>
-              <Typography
-                sx={{ fontWeight: 600, fontSize: 21 }}
-                color="#D90429"
-              >
+              <Typography sx={{ fontWeight: 600, fontSize: 21 }} color="#D90429">
                 1,000,000+
               </Typography>
             </CardContent>
@@ -269,17 +218,17 @@ function Footer() {
           <img src={logo} alt="avent logo" />
         </Box>
         <Box>
-          <Typography component="p">
-            <span sx={{ marginTop: "30px" }}>
+          <Typography component="p" sx={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
+            <div sx={{ marginLeft: "10rem" }}>
               <LocationOnIcon sx={{ color: "#D90429" }} />
-            </span>
+            </div>
             345 Faulconer Drive, Suite 4 • Charlottesville, CA, 12345
           </Typography>
           <Grid sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: "1rem" }}>
             <Box>
               <Typography component="p">
                 <CallIcon sx={{ color: "#D90429" }} />
-                (123) 456-7890{" "}
+                (123) 456-7890
               </Typography>
             </Box>
             <Box>
@@ -289,9 +238,24 @@ function Footer() {
               </Typography>
             </Box>
           </Grid>
-          <Typography component="p" sx={{ color: "GrayText", fontWeight: "500", marginTop: "1rem" }}>
-            Social Media
-          </Typography>
+          <Grid
+            sx={{
+              flexDirection: "row",
+            }}
+          >
+            <Box>
+              <Typography component="p" sx={{ color: "GrayText", fontWeight: "500", marginTop: "1rem", marginLeft: ".5rem" }}>
+                Social Media
+              </Typography>
+              <Box sx={{ display: "flex", flexDirection: "row", gap: "1.5rem" }}>
+                <FacebookIcon sx={{ color: "#D90429" }} />
+                <TwitterIcon sx={{ color: "#D90429" }} />
+                <LinkedInIcon sx={{ color: "#D90429" }} />
+                <YouTubeIcon sx={{ color: "#D90429" }} />
+                <InstagramIcon sx={{ color: "#D90429" }} />
+              </Box>
+            </Box>
+          </Grid>
         </Box>
       </Grid>
       <Divider sx={{ backgroundColor: "FFD0D0", borderWidth: ".3px" }} />
