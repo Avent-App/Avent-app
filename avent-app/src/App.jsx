@@ -5,20 +5,9 @@ import Register from "./components/Register";
 import EventFeed from "./components/EventFeed";
 import EventDetails from "./components/EventDetails";
 import CreateEvent from "./components/CreateEvent";
-import { useState, useEffect } from "react";
-import apiClient from "./services/apiClient";
-
+import { useState } from "react";
 function App() {
   const [user, setUser] = useState({});
-  useEffect(() => {
-    const fetchAuthedUser = async () => {
-      const data = await apiClient.getUser();
-      if (data.data) {
-        setIsLoggedIn(true);
-        setUser(data.data.user);
-      }
-      // if (error) setError(error);
-    };
 
   return (
     <>
@@ -26,8 +15,8 @@ function App() {
         <BrowserRouter>
           <main>
             <Routes>
-              <Route path="/register" element={<Register />}></Route>
-              <Route path="/login" element={<Login />}></Route>
+              <Route path="/register" element={<Register user={user} setUser={setUser} />}></Route>
+              <Route path="/login" element={<Login user={user} setUser={setUser} />}></Route>
 
               {/*Landing page routes*/}
 

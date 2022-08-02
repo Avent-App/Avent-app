@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import login from "../assets/login.jpg";
 import { validEmail } from "../Regex";
 
-export default function Register() {
+export default function Register({ setUser }) {
   const navigate = useNavigate();
   const [account, setAccount] = React.useState("");
   const [location, setLocation] = React.useState("");
@@ -110,11 +110,13 @@ export default function Register() {
     try {
       const res = await axios.post("http://localhost:3001/auth/register", signupInfo);
       if (res?.data?.user) {
-        //   setUser(res.data.user);
+        setUser(res.data.user);
         //   setIsLoggedIn(true);
         //   apiClient.setToken(res.data.token);
         //   localStorage.setItem("token", res.data.token);
         navigate("/feed");
+      } else {
+        setErrors((e) => ({ ...e, form: "Something went wrong with registration" }));
       }
     } catch (err) {
       console.log(err);

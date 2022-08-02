@@ -91,7 +91,7 @@ function Feed() {
         setEventData(response.data.eventData);
       })
       .catch((e) => {
-        console.log("id is empty");
+        // console.log("id is empty");
       });
   });
   const renderEventCards = () => {
