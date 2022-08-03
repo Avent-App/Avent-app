@@ -3,10 +3,11 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { Avatar, Stack, Box, Container } from "@mui/material";
+import { Avatar, Stack, Box, Container, Link } from "@mui/material";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { Link as RouterLink } from "react-router-dom";
 
 export default function GlobalNavbar() {
   return (
@@ -21,7 +22,14 @@ export default function GlobalNavbar() {
               fontSize: 20,
             }}
           >
-            Avent
+            <Link
+              to="/feed"
+              color="secondary"
+              component={RouterLink}
+              underline="none"
+            >
+              Avent
+            </Link>
           </Typography>
           <Box sx={{ flexGrow: 1 }}>
             <Stack direction="row" spacing={5}>

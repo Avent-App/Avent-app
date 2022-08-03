@@ -10,7 +10,10 @@ import {
   CardActions,
   Stack,
   Avatar,
+  Link,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 export default function EventCard({
   eventImageUrl,
@@ -19,7 +22,9 @@ export default function EventCard({
   eventName,
   eventDescription,
   eventHost,
+  eventId,
 }) {
+  let navigate = useNavigate();
   return (
     <Card
       sx={{
@@ -31,14 +36,14 @@ export default function EventCard({
         flexDirection: "column",
       }}
     >
-      <CardActionArea>
+      <CardActionArea onClick={() => navigate(`/details/${eventId}`)}>
         <CardMedia
           component="img"
           height="182px"
           image={eventImageUrl ? eventImageUrl : NoPhoto}
           alt="event picture"
         />
-        <CardContent sx={{ pb: 0 }}>
+        <CardContent sx={{ pb: 0, height: "180px" }}>
           <Stack direction="row" justifyContent="space-between" sx={{ mb: 2 }}>
             <Typography color="#6E798C" sx={{ fontWeight: 600, fontSize: 12 }}>
               {eventCategory}
@@ -84,7 +89,14 @@ export default function EventCard({
           color="secondary"
           sx={{ fontWeight: 600, fontSize: 12 }}
         >
-          Learn more →
+          <Link
+            to={`/details/${eventId}`}
+            color="secondary"
+            component={RouterLink}
+            underline="none"
+          >
+            Learn more →
+          </Link>
         </Typography>
       </CardActions>
     </Card>
