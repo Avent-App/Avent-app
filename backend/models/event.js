@@ -13,6 +13,7 @@ class Event {
       "end_date",
       "address",
       "event_category",
+      "image_url",
     ];
 
     requiredFields.forEach((field) => {
@@ -35,10 +36,12 @@ class Event {
             description,
             start_date,
             end_date,
-            address,event_category
+            address,
+            event_category,
+            image_url
         )
-        VALUES ($1,$2,$3,$4,$5,$6,$7)
-        RETURNING host_id,title,description,start_date,end_date,address,event_category;
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+        RETURNING host_id,title,description,start_date,end_date,address,event_category,image_url;
         `,
       [
         event.host_id,
@@ -48,6 +51,7 @@ class Event {
         event.end_date,
         event.address,
         event.event_category,
+        event.image_url,
       ]
     );
     //return the exercise

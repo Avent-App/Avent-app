@@ -51,6 +51,7 @@ export default function CreateEvent() {
       end_date: eventDate,
       image_url: eventImageUrl,
       description: eventDescription,
+      // host_id has to be replaced with the logged in user
       host_id: 1,
       event_category: eventType,
     };
