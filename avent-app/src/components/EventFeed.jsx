@@ -117,7 +117,6 @@ function Hero({ eventsData, setSearchItem, searchItem }) {
   );
 }
 
-function Feed({ eventsData, isLoading }) {
   const renderEventCards = () => {
     if (eventsData.length > 0) {
       return (
@@ -134,6 +133,7 @@ function Feed({ eventsData, isLoading }) {
                 eventDescription={event.description}
                 eventHost={event.host_id}
                 eventImageUrl={event.image_url}
+                eventId={event.event_id}
               />
             </Grid>
           ))}

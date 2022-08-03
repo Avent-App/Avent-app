@@ -16,6 +16,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import CircularProgress from "@mui/material/CircularProgress";
+import NoPhoto from "../assets/No-Photo-Available.jpeg";
+import { useNavigate } from "react-router-dom";
 
 // This page GETS information from the events table using the eventsId param in the URL and displays it to the user.
 
@@ -23,7 +25,9 @@ export default function EventDetails() {
   const { eventId } = useParams();
   const [eventData, setEventData] = useState({});
   const [userData, setUserData] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  let navigate = useNavigate();
 
   useEffect(() => {
     setIsLoading(true);
@@ -42,6 +46,7 @@ export default function EventDetails() {
       })
       .catch((error) => {
         console.log(error);
+        navigate("/404");
       })
       .finally((res) => {
         setTimeout(() => setIsLoading(false), 400);
@@ -67,7 +72,7 @@ export default function EventDetails() {
         <Container maxWidth="xl">
           <img
             style={{ width: "100%", height: "600px" }}
-            src="https://theperfectevent.com/wp-content/uploads/2020/01/Main-Scroll-2.jpg"
+            src={eventData.image_url ? eventData.image_url : NoPhoto}
           />
           <EventInformation eventData={eventData} userData={userData} />
           <Stack>
