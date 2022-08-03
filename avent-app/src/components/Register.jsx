@@ -15,8 +15,9 @@ import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import login from "../assets/login.jpg";
 import { validEmail } from "../Regex";
+import apiClient from "../services/apiClient";
 
-export default function Register({ setUser }) {
+export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
   const navigate = useNavigate();
   const [account, setAccount] = React.useState("");
   const [location, setLocation] = React.useState("");
@@ -111,15 +112,17 @@ export default function Register({ setUser }) {
       return alert("Please fill out the entire form.");
     }
     try {
-      const res = await axios.post("http://localhost:3001/auth/register", signupInfo);
+      const res = await apiClient.signupUser(signupInfo);
       if (res?.data?.user) {
         setUser(res.data.user);
-        //   setIsLoggedIn(true);
-        //   apiClient.setToken(res.data.token);
-        //   localStorage.setItem("token", res.data.token);
+        setIsLoggedIn(true);
+        apiClient.setToken(res.data.token);
         navigate("/feed");
       } else {
-        setErrors((e) => ({ ...e, form: "Something went wrong with registration" }))
+        setErrors((e) => ({
+          ...e,
+          form: "Something went wrong with registration",
+        }));
       }
     } catch (err) {
       console.log(err);
@@ -200,7 +203,12 @@ export default function Register({ setUser }) {
                 </span>
               )}
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 1 }}
+            >
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <label
                   style={{
@@ -222,7 +230,10 @@ export default function Register({ setUser }) {
                   Last Name
                 </label>
               </Box>
-              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
+              <Box
+                className="namesInput"
+                sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}
+              >
                 <TextField
                   margin="normal"
                   fullWidth
@@ -358,7 +369,11 @@ export default function Register({ setUser }) {
               </Button>
               <Grid container>
                 <Grid item sx={{ marginTop: "50px", marginLeft: "7.5rem" }}>
-                  <Link href="/login" variant="body2" sx={{ textDecoration: "none" }}>
+                  <Link
+                    href="/login"
+                    variant="body2"
+                    sx={{ textDecoration: "none" }}
+                  >
                     <span
                       style={{
                         color: "#828282",

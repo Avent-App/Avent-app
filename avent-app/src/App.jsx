@@ -10,6 +10,7 @@ import { useState } from "react";
 
 function App() {
   const [user, setUser] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <>
@@ -17,8 +18,22 @@ function App() {
         <BrowserRouter>
           <main>
             <Routes>
-              <Route path="/register" element={<Register user={user} setUser={setUser} />}></Route>
-              <Route path="/login" element={<Login user={user} setUser={setUser} />}></Route>
+              <Route
+                path="/register"
+                element={<Register user={user} setUser={setUser} isLoggedIn={isLoggedIn}
+                setIsLoggedIn={setIsLoggedIn} />}
+              ></Route>
+              <Route
+                path="/login"
+                element={
+                  <Login
+                    user={user}
+                    setUser={setUser}
+                    isLoggedIn={isLoggedIn}
+                    setIsLoggedIn={setIsLoggedIn}
+                  />
+                }
+              ></Route>
 
               {/*Landing page routes*/}
 

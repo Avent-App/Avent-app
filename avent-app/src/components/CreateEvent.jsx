@@ -15,6 +15,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import apiClient from "../services/apiClient";
 
 export default function CreateEvent() {
   const [errors, setErrors] = useState({});
@@ -77,10 +78,7 @@ export default function CreateEvent() {
     // };
 
     try {
-      const res = await axios.post(
-        "http://localhost:3001/event/create",
-        eventsInfo
-      );
+      const res = await apiClient.createEvent(eventsInfo, `event/create`);
       if (res?.data) {
         console.log("Successfully posted into the database!");
         alert("Congratulations, your event has been successfully created!");
