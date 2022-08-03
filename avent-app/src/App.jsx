@@ -6,7 +6,8 @@ import EventFeed from "./components/EventFeed";
 import EventDetails from "./components/EventDetails";
 import CreateEvent from "./components/CreateEvent";
 import NotFound from "./components/NotFound";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 function App() {
   const [user, setUser] = useState({});

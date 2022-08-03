@@ -1,34 +1,57 @@
 import * as React from "react";
-import {
-  Container,
-  Typography,
-  Stack,
-  Box,
-  TextField,
-  Button,
-  Grid,
-  Divider,
-} from "@mui/material";
+import { Container, Typography, Stack, Box, TextField, Button, Grid, Divider } from "@mui/material";
 import GlobalNavbar from "./GlobalNavbar";
 import { Link as RouterLink } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import EventCard from "./EventCard";
 import CircularProgress from "@mui/material/CircularProgress";
 
-export default function EventFeed({}) {
+export default function EventFeed() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [eventsData, setEventsData] = useState([]);
+  const [searchItem, setSearchItem] = React.useState("");
+  const results = eventsData.filter((event) => {
+    return event.title.toLowerCase().includes(searchItem);
+  });
+
+  useEffect(() => {
+    setIsLoading(true);
+    axios
+      .get(`http://localhost:3001/event/`)
+      .then((response) => {
+        setEventsData(response.data.events);
+        console.log(response.data.events);
+      })
+      .catch((e) => {
+        // console.log("id is empty");
+      })
+      .finally((res) => {
+        setTimeout(() => setIsLoading(false), 400);
+      });
+  }, []);
+
   return (
     <div>
       <GlobalNavbar />
-      <Hero />
+      <Hero eventsData={eventsData} setSearchItem={setSearchItem} searchItem={searchItem} />
       <Container maxWidth="xl" sx={{ mb: 5 }}>
-        <Feed />
+        <Feed eventsData={results} isLoading={isLoading} />
       </Container>
     </div>
   );
 }
 
-function Hero() {
+function Hero({ eventsData, setSearchItem, searchItem }) {
+  /**
+   * filtering products array, lower casing them and checking if stateVar "searchItem" inputted by user is included in the array
+   */
+
+  /**
+   *
+   * @param {*} e
+   * Func search for item in searchBar input tag
+   */
   return (
     <Box
       alignContent="center"
@@ -51,24 +74,19 @@ function Hero() {
           Upcoming Events in San Francisco
         </Typography>
         {/* Eventually, San Francisco will be replaced with the city that a user has chosen */}
-        <Typography
-          align="center"
-          sx={{ fontWeight: 400, fontSize: 16, lineHeight: "22px" }}
-        >
-          Et has minim elitr intellegat. Mea aeterno eleifend antiopam ad, nam
-          no suscipit quaerendum. <br /> At nam minimum ponderum. Est audiam
-          animal molestiae te.
+        <Typography align="center" sx={{ fontWeight: 400, fontSize: 16, lineHeight: "22px" }}>
+          Et has minim elitr intellegat. Mea aeterno eleifend antiopam ad, nam no suscipit quaerendum. <br /> At nam minimum ponderum. Est audiam animal
+          molestiae te.
         </Typography>
       </Stack>
-      <Stack
-        justifyContent="center"
-        alignItems="center"
-        direction="row"
-        spacing={3}
-      >
+      <Stack justifyContent="center" alignItems="center" direction="row" spacing={3}>
         <TextField
           variant="outlined"
           label="Search for an event"
+          value={searchItem}
+          onChange={(event) => {
+            setSearchItem(event.target.value);
+          }}
           InputProps={{ sx: { height: 45 } }}
           InputLabelProps={{ sx: { height: 50, top: -5 } }}
           sx={{
@@ -98,27 +116,6 @@ function Hero() {
     </Box>
   );
 }
-
-function Feed() {
-  const [eventsData, setEventsData] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
-  /**
-   * On load, get event data from the link...
-   */
-  useEffect(() => {
-    setIsLoading(true);
-    axios
-      .get(`http://localhost:3001/event/`)
-      .then((response) => {
-        setEventsData(response.data.events);
-      })
-      .catch((e) => {
-        // console.log("id is empty");
-      })
-      .finally((res) => {
-        setTimeout(() => setIsLoading(false), 400);
-      });
-  }, []);
 
   const renderEventCards = () => {
     if (eventsData.length > 0) {
@@ -165,14 +162,8 @@ function Feed() {
   return (
     <div>
       <Box sx={{ mt: 11, mb: 2 }}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Typography sx={{ fontWeight: 700, fontSize: 45 }}>
-            Explore
-          </Typography>
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Typography sx={{ fontWeight: 700, fontSize: 45 }}>Explore</Typography>
           <Button
             color="secondary"
             variant="contained"
