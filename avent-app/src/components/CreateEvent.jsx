@@ -19,6 +19,7 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 export default function CreateEvent() {
   const [errors, setErrors] = useState({});
   const [value, setValue] = React.useState(new Date("2022-08-10T21:00:00"));
+  const navigate = useNavigate();
 
   const handleChangeDateTime = (newValue) => {
     setValue(newValue);
@@ -33,7 +34,6 @@ export default function CreateEvent() {
     event.preventDefault();
     setErrors((e) => ({ ...e, form: null }));
     const data = new FormData(event.currentTarget);
-    // const navigate = useNavigate();
 
     //Printing out the data retreived from the createEvent page
     const eventName = data.get("eventName");
@@ -77,11 +77,14 @@ export default function CreateEvent() {
     // };
 
     try {
-      const res = await axios.post("http://localhost:3001/event/create", eventsInfo);
+      const res = await axios.post(
+        "http://localhost:3001/event/create",
+        eventsInfo
+      );
       if (res?.data) {
         console.log("Successfully posted into the database!");
         alert("Congratulations, your event has been successfully created!");
-        // navigate("/feed");
+        navigate("/feed");
       }
     } catch (err) {
       console.log(err);
@@ -111,7 +114,20 @@ export default function CreateEvent() {
           }}
         />
 
-        <Grid item xs={12} sm={8} md={5} elevation={6} sx={{ display: "flex", flexDirection: "column", alignContent: "center", marginBottom: 0, marginTop: 0 }}>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={5}
+          elevation={6}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignContent: "center",
+            marginBottom: 0,
+            marginTop: 0,
+          }}
+        >
           <Box
             sx={{
               my: 8,
@@ -137,7 +153,12 @@ export default function CreateEvent() {
             >
               Create an Event
             </Typography>
-            <Box component="form" noValidate onSubmit={handleOnSubmit} sx={{ mt: 1 }}>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleOnSubmit}
+              sx={{ mt: 1 }}
+            >
               <label
                 style={{
                   fontFamily: "Inter",
@@ -199,7 +220,10 @@ export default function CreateEvent() {
                 </label>
               </Box>
 
-              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
+              <Box
+                className="namesInput"
+                sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}
+              >
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DesktopDatePicker
                     inputFormat="MM/dd/yyyy"
@@ -207,11 +231,19 @@ export default function CreateEvent() {
                     id="date"
                     name="date"
                     onChange={handleChangeDateTime}
-                    renderInput={(params) => <TextField {...params} sx={{ marginBottom: ".5rem" }} />}
+                    renderInput={(params) => (
+                      <TextField {...params} sx={{ marginBottom: ".5rem" }} />
+                    )}
                   />
                 </LocalizationProvider>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <TimePicker id="time" name="time" value={value} onChange={handleChangeDateTime} renderInput={(params) => <TextField {...params} />} />
+                  <TimePicker
+                    id="time"
+                    name="time"
+                    value={value}
+                    onChange={handleChangeDateTime}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
                 </LocalizationProvider>
               </Box>
               <label

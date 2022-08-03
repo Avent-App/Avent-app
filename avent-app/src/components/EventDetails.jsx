@@ -15,44 +15,72 @@ import ReplyIcon from "@mui/icons-material/Reply";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import CircularProgress from "@mui/material/CircularProgress";
 
 // This page GETS information from the events table using the eventsId param in the URL and displays it to the user.
 
 export default function EventDetails() {
   const { eventId } = useParams();
-  const [eventData, setEventData] = useState([]);
+  const [eventData, setEventData] = useState({});
+  const [userData, setUserData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(`http://localhost:3001/event/${eventId}`)
       .then((res) => {
+        //Now setting event data
         console.log(res.data.event[0]);
         setEventData(res.data.event[0]);
+        //Now setting user data
+        axios
+          .get(`http://localhost:3001/user/${res.data.event[0].host_id}`)
+          .then((res) => {
+            setUserData(res.data);
+          });
       })
       .catch((error) => {
         console.log(error);
+      })
+      .finally((res) => {
+        setTimeout(() => setIsLoading(false), 400);
       });
   }, []);
 
   return (
     <div>
       <GlobalNavbar />
-      <Container maxWidth="xl">
-        <img
-          style={{ width: "100%", height: "600px" }}
-          src="https://theperfectevent.com/wp-content/uploads/2020/01/Main-Scroll-2.jpg"
-        />
-        <EventInformation eventData={eventData} />
-        <Stack>
-          <CommentSection />
-          <Comment />
-        </Stack>
-      </Container>
+      {isLoading ? (
+        <Container
+          maxWidth={false}
+          sx={{
+            display: "flex",
+            height: "100vh",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <CircularProgress color="secondary" size={100} />
+        </Container>
+      ) : (
+        <Container maxWidth="xl">
+          <img
+            style={{ width: "100%", height: "600px" }}
+            src="https://theperfectevent.com/wp-content/uploads/2020/01/Main-Scroll-2.jpg"
+          />
+          <EventInformation eventData={eventData} userData={userData} />
+          <Stack>
+            <CommentSection />
+            <Comment />
+          </Stack>
+        </Container>
+      )}
     </div>
   );
 }
 
-function EventInformation({ eventData }) {
+function EventInformation({ eventData, userData }) {
   const startDate = new Date(eventData.start_date);
   const endDate = new Date(eventData.end_date);
 
@@ -147,13 +175,13 @@ function EventInformation({ eventData }) {
             </Button>
           </Stack>
         </Stack>
-        <HostInfo eventData={eventData} />
+        <HostInfo userData={userData} />
       </Stack>
     </Box>
   );
 }
 
-function HostInfo() {
+function HostInfo({ userData }) {
   //Use host id to GET host information.
 
   return (
@@ -167,10 +195,10 @@ function HostInfo() {
         style={{ border: "1.68724px solid #26235C" }}
       />
       <Typography align="center" sx={{ fontWeight: 700, fontSize: 30 }}>
-        David Barcenas
+        {`${userData.first_name} ${userData.last_name}`}
       </Typography>
       <Typography align="center" sx={{ fontWeight: 400, fontSize: 19 }}>
-        Salesforce Intern
+        {`${userData.company} ${userData.account_type}`}
       </Typography>
 
       <Button

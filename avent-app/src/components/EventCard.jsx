@@ -3,22 +3,43 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Button, CardActionArea, CardActions, Stack, Avatar } from "@mui/material";
+import NoPhoto from "../assets/No-Photo-Available.jpeg";
+import {
+  Button,
+  CardActionArea,
+  CardActions,
+  Stack,
+  Avatar,
+} from "@mui/material";
 
-export default function EventCard({ eventImageUrl, eventCategory, startDate, eventName, eventDescription, eventHost }) {
+export default function EventCard({
+  eventImageUrl,
+  eventCategory,
+  startDate,
+  eventName,
+  eventDescription,
+  eventHost,
+}) {
   return (
     <Card
       sx={{
-        maxWidth: 345,
-        height: 435,
+        width: "100%",
+        height: "435px",
         borderRadius: "17px",
         boxShadow: "0px 26.1132px 69.6352px rgba(0, 0, 0, 0.06)",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <CardActionArea>
-        <CardMedia component="img" height="182" image={eventImageUrl} alt="event picture" />
-        <CardContent>
-          <Stack direction="row" justifyContent="space-between" sx={{ mb: 1 }}>
+        <CardMedia
+          component="img"
+          height="182px"
+          image={eventImageUrl ? eventImageUrl : NoPhoto}
+          alt="event picture"
+        />
+        <CardContent sx={{ pb: 0 }}>
+          <Stack direction="row" justifyContent="space-between" sx={{ mb: 2 }}>
             <Typography color="#6E798C" sx={{ fontWeight: 600, fontSize: 12 }}>
               {eventCategory}
             </Typography>
@@ -26,26 +47,45 @@ export default function EventCard({ eventImageUrl, eventCategory, startDate, eve
               {startDate}
             </Typography>
           </Stack>
-          <Typography gutterBottom variant="h5" component="div" sx={{ fontWeight: 600 }}>
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            sx={{ fontWeight: 600 }}
+          >
             {eventName}
           </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+          <Typography
+            sx={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              display: "-webkit-box",
+              WebkitLineClamp: "4",
+              WebkitBoxOrient: "vertical",
+            }}
+            variant="body2"
+            color="text.secondary"
+            paragraph
+          >
             {eventDescription}
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <Stack direction="row" alignItems="center" spacing={10}>
-          <Stack direction="row" spacing={1} alignItems="center" justifyContent="center" sx={{ ml: 1 }}>
-            <Avatar alt="profile picture" />
-            <Typography color="secondary" sx={{ fontWeight: 600, fontSize: 12 }}>
-              {eventHost}
-            </Typography>
-          </Stack>
-          <Typography color="secondary" sx={{ fontWeight: 600, fontSize: 12 }}>
-            Learn more →
-          </Typography>
-        </Stack>
+      <CardActions sx={{ mb: 1, mr: 1, ml: 1, mt: "auto" }}>
+        <Avatar alt="profile picture" />
+        <Typography
+          color="secondary"
+          sx={{ fontWeight: 600, fontSize: 12, ml: 1 }}
+        >
+          {eventHost}
+        </Typography>
+        <Typography
+          style={{ marginLeft: "auto" }}
+          color="secondary"
+          sx={{ fontWeight: 600, fontSize: 12 }}
+        >
+          Learn more →
+        </Typography>
       </CardActions>
     </Card>
   );

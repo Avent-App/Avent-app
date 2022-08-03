@@ -1,16 +1,27 @@
 import * as React from "react";
-import { Container, Typography, Stack, Box, TextField, Button, Grid } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Stack,
+  Box,
+  TextField,
+  Button,
+  Grid,
+  Divider,
+} from "@mui/material";
 import GlobalNavbar from "./GlobalNavbar";
 import { Link as RouterLink } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
+import EventCard from "./EventCard";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function EventFeed({}) {
   return (
     <div>
       <GlobalNavbar />
       <Hero />
-      <Container maxWidth="lg">
+      <Container maxWidth="xl" sx={{ mb: 5 }}>
         <Feed />
       </Container>
     </div>
@@ -40,12 +51,21 @@ function Hero() {
           Upcoming Events in San Francisco
         </Typography>
         {/* Eventually, San Francisco will be replaced with the city that a user has chosen */}
-        <Typography align="center" sx={{ fontWeight: 400, fontSize: 16, lineHeight: "22px" }}>
-          Et has minim elitr intellegat. Mea aeterno eleifend antiopam ad, nam no suscipit quaerendum. <br /> At nam minimum ponderum. Est audiam animal
-          molestiae te.
+        <Typography
+          align="center"
+          sx={{ fontWeight: 400, fontSize: 16, lineHeight: "22px" }}
+        >
+          Et has minim elitr intellegat. Mea aeterno eleifend antiopam ad, nam
+          no suscipit quaerendum. <br /> At nam minimum ponderum. Est audiam
+          animal molestiae te.
         </Typography>
       </Stack>
-      <Stack justifyContent="center" alignItems="center" direction="row" spacing={3}>
+      <Stack
+        justifyContent="center"
+        alignItems="center"
+        direction="row"
+        spacing={3}
+      >
         <TextField
           variant="outlined"
           label="Search for an event"
@@ -80,35 +100,44 @@ function Hero() {
 }
 
 function Feed() {
-  const [eventData, setEventData] = React.useState([]);
+  const [eventsData, setEventsData] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
   /**
    * On load, get event data from the link...
    */
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(`http://localhost:3001/event/`)
       .then((response) => {
-        setEventData(response.data.eventData);
+        setEventsData(response.data.events);
       })
       .catch((e) => {
-        console.log("id is empty");
-        console.log("-->", response.data.eventData);
+        // console.log("id is empty");
+      })
+      .finally((res) => {
+        setTimeout(() => setIsLoading(false), 400);
       });
-  });
+  }, []);
+
   const renderEventCards = () => {
-    if (eventData > 0) {
+    if (eventsData.length > 0) {
       return (
-        <Grid container spacing={4}>
-          {eventData.map((event, idx) => (
-            <EventCard
-              key={idx}
-              eventName={event.title}
-              eventCategory={event.event_category}
-              startDate={event.start_date}
-              eventDescription={event.description}
-              eventImageUrl={event.image_url}
-              eventHost={event.host_id}
-            />
+        <Grid container spacing={{ xl: 4, lg: 3, md: 2, sm: 2 }}>
+          {eventsData.map((event, idx) => (
+            <Grid key={idx} item xl={3} lg={3} md={4} sm={6} xs={12}>
+              <EventCard
+                eventName={event.title}
+                eventCategory={event.event_category.toUpperCase()}
+                startDate={new Date(event.start_date).toLocaleString("en-US", {
+                  dateStyle: "medium",
+                  timeStyle: "short",
+                })}
+                eventDescription={event.description}
+                eventImageUrl={event.image_url}
+                eventHost={event.host_id}
+              />
+            </Grid>
           ))}
         </Grid>
       );
@@ -134,30 +163,51 @@ function Feed() {
 
   return (
     <div>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mt: 11 }}>
-        <Typography sx={{ fontWeight: 700, fontSize: 45 }}>Explore</Typography>
-        <Button
-          color="secondary"
-          variant="contained"
-          to="/createEvent"
-          component={RouterLink}
-          sx={{
-            height: 43,
-            width: 148.8,
-            borderRadius: "6px",
-            padding: "12.1333px 18.2px",
-            fontWeight: "bold",
-            fontSize: "14.1556px",
-          }}
-          disableElevation
+      <Box sx={{ mt: 11, mb: 2 }}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
         >
-          Create an event
-        </Button>
-      </Stack>
-      <Grid container>
-        {/* Event feed cards go here... might have to use stack */}
-        {renderEventCards()}
-      </Grid>
+          <Typography sx={{ fontWeight: 700, fontSize: 45 }}>
+            Explore
+          </Typography>
+          <Button
+            color="secondary"
+            variant="contained"
+            to="/createEvent"
+            component={RouterLink}
+            sx={{
+              height: 43,
+              width: 148.8,
+              borderRadius: "6px",
+              padding: "12.1333px 18.2px",
+              fontWeight: "bold",
+              fontSize: "14.1556px",
+            }}
+            disableElevation
+          >
+            Create an event
+          </Button>
+        </Stack>
+        <Divider sx={{ mt: 1 }} />
+      </Box>
+
+      {isLoading ? (
+        <Container
+          maxWidth={false}
+          sx={{
+            display: "flex",
+            height: "100vh",
+            justifyContent: "center",
+            mt: 10,
+          }}
+        >
+          <CircularProgress color="secondary" size={100} />
+        </Container>
+      ) : (
+        renderEventCards()
+      )}
     </div>
   );
 }
