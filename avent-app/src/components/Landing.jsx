@@ -1,15 +1,5 @@
 import React from "react";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Stack,
-  Button,
-  Container,
-  Card,
-  CardContent,
-  CssBaseline,
-} from "@mui/material";
+import { AppBar, Toolbar, Typography, Stack, Button, Container, Card, CardContent, CssBaseline } from "@mui/material";
 import heroBanner from "../assets/Different_people_01.jpg";
 import EventCard from "./EventCard";
 import phoneImage from "../assets/2992779.jpg";
@@ -43,10 +33,7 @@ function Navbar() {
   return (
     <AppBar position="sticky" elevation={0}>
       <Toolbar>
-        <Typography
-          variant="h6"
-          sx={{ display: { xs: "none", sm: "block" }, flexGrow: 1 }}
-        >
+        <Typography variant="h6" sx={{ display: { xs: "none", sm: "block" }, flexGrow: 1 }}>
           Avent
         </Typography>
         <Stack direction="row" spacing={12}>
@@ -56,24 +43,10 @@ function Navbar() {
             <Button color="inherit">Help</Button>
           </Stack>
           <Stack direction="row" spacing={3}>
-            <Button
-              color="secondary"
-              variant="contained"
-              to="/login"
-              component={RouterLink}
-              sx={{ height: 42, width: 83 }}
-              disableElevation
-            >
+            <Button color="secondary" variant="contained" to="/login" component={RouterLink} sx={{ height: 42, width: 83 }} disableElevation>
               Login
             </Button>
-            <Button
-              color="secondary"
-              variant="contained"
-              to="/register"
-              component={RouterLink}
-              sx={{ height: 42, width: 83 }}
-              disableElevation
-            >
+            <Button color="secondary" variant="contained" to="/register" component={RouterLink} sx={{ height: 42, width: 83 }} disableElevation>
               Register
             </Button>
           </Stack>
@@ -86,16 +59,10 @@ function Navbar() {
 function Hero() {
   return (
     <Stack spacing={3} alignItems="center" sx={{ mt: 10 }}>
-      <Typography
-        align="center"
-        sx={{ fontSize: 70, fontWeight: "bold", lineHeight: 1 }}
-      >
+      <Typography align="center" sx={{ fontSize: 70, fontWeight: "bold", lineHeight: 1 }}>
         We just upgraded <br /> your internship
       </Typography>
-      <Typography
-        align="center"
-        sx={{ fontWeight: "regular", fontSize: 17, fontStyle: "normal" }}
-      >
+      <Typography align="center" sx={{ fontWeight: "regular", fontSize: 17, fontStyle: "normal" }}>
         Avent helps interns find events and network in <br /> their new city.
       </Typography>
       <Button
@@ -109,12 +76,7 @@ function Hero() {
       >
         Find an event now
       </Button>
-      <img
-        className="heroBanner"
-        style={{ maxWidth: "100%" }}
-        src={heroBanner}
-        alt="people standing around"
-      />
+      <img className="heroBanner" style={{ maxWidth: "100%" }} src={heroBanner} alt="people standing around" />
     </Stack>
   );
 }
@@ -123,8 +85,7 @@ function SubHero() {
   return (
     <Box
       sx={{
-        background:
-          "linear-gradient(180deg, #fcebeb 43.23%, rgba(252, 235, 235, 0) 100%)",
+        background: "linear-gradient(180deg, #fcebeb 43.23%, rgba(252, 235, 235, 0) 100%)",
         height: 519,
         position: "relative",
         bottom: 100,
@@ -145,9 +106,7 @@ function SubHero() {
         <Grid container spacing={2} sx={{ px: 24 }}>
           <Grid item xs={4}>
             <EventCard
-              eventImageUrl={
-                "https://thumbs.dreamstime.com/b/tropical-beach-party-24320856.jpg"
-              }
+              eventImageUrl={"https://thumbs.dreamstime.com/b/tropical-beach-party-24320856.jpg"}
               eventCategory={"COMMUNITY"}
               datePosted={"7/22/21"}
               eventName={"Beach Party"}
@@ -173,9 +132,7 @@ function SubHero() {
           </Grid>
           <Grid item xs={4}>
             <EventCard
-              eventImageUrl={
-                "https://www.signupgenius.com/cms/images/groups/beach-clean-up-tips-ideas-article-600x400.jpg"
-              }
+              eventImageUrl={"https://www.signupgenius.com/cms/images/groups/beach-clean-up-tips-ideas-article-600x400.jpg"}
               eventCategory={"INTERN EVENT"}
               datePosted={"7/22/21"}
               eventName={"Beach Cleanup Day"}
@@ -197,17 +154,8 @@ function Body() {
       <Typography align="center" sx={{ fontWeight: 700, fontSize: 45 }}>
         Network with other interns
       </Typography>
-      <Stack
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-        spacing={1.69}
-      >
-        <img
-          src={phoneImage}
-          style={{ height: 488, width: 488 }}
-          alt="picture of people texting each other"
-        ></img>
+      <Stack direction="row" justifyContent="center" alignItems="center" spacing={1.69}>
+        <img src={phoneImage} style={{ height: 488, width: 488 }} alt="picture of people texting each other"></img>
         <Stack spacing={3.75}>
           <Card
             sx={{
@@ -218,16 +166,10 @@ function Body() {
             }}
           >
             <CardContent>
-              <Typography
-                sx={{ fontWeight: 400, fontSize: 16, mt: 2 }}
-                color="#D90429"
-              >
+              <Typography sx={{ fontWeight: 400, fontSize: 16, mt: 2 }} color="#D90429">
                 Total users registered
               </Typography>
-              <Typography
-                sx={{ fontWeight: 600, fontSize: 21 }}
-                color="#D90429"
-              >
+              <Typography sx={{ fontWeight: 600, fontSize: 21 }} color="#D90429">
                 10,000+
               </Typography>
             </CardContent>
@@ -241,16 +183,10 @@ function Body() {
             }}
           >
             <CardContent>
-              <Typography
-                sx={{ fontWeight: 400, fontSize: 16, mt: 2 }}
-                color="#D90429"
-              >
+              <Typography sx={{ fontWeight: 400, fontSize: 16, mt: 2 }} color="#D90429">
                 Events posted per month
               </Typography>
-              <Typography
-                sx={{ fontWeight: 600, fontSize: 21 }}
-                color="#D90429"
-              >
+              <Typography sx={{ fontWeight: 600, fontSize: 21 }} color="#D90429">
                 5,000+
               </Typography>
             </CardContent>
@@ -264,16 +200,10 @@ function Body() {
             }}
           >
             <CardContent>
-              <Typography
-                sx={{ fontWeight: 400, fontSize: 16, mt: 2 }}
-                color="#D90429"
-              >
+              <Typography sx={{ fontWeight: 400, fontSize: 16, mt: 2 }} color="#D90429">
                 Total messages sent
               </Typography>
-              <Typography
-                sx={{ fontWeight: 600, fontSize: 21 }}
-                color="#D90429"
-              >
+              <Typography sx={{ fontWeight: 600, fontSize: 21 }} color="#D90429">
                 1,000,000+
               </Typography>
             </CardContent>
@@ -310,9 +240,7 @@ function Footer() {
               justifyContent: "space-around",
             }}
           >
-            <div sx={{ marginLeft: "10rem" }}>
-              <LocationOnIcon sx={{ color: "#D90429" }} />
-            </div>
+            <LocationOnIcon sx={{ color: "#D90429" }} />
             345 Faulconer Drive, Suite 4 • Charlottesville, CA, 12345
           </Typography>
           <Grid
@@ -353,9 +281,7 @@ function Footer() {
               >
                 Social Media
               </Typography>
-              <Box
-                sx={{ display: "flex", flexDirection: "row", gap: "1.5rem" }}
-              >
+              <Box sx={{ display: "flex", flexDirection: "row", gap: "1.5rem" }}>
                 <FacebookIcon sx={{ color: "#D90429" }} />
                 <TwitterIcon sx={{ color: "#D90429" }} />
                 <LinkedInIcon sx={{ color: "#D90429" }} />
@@ -367,9 +293,7 @@ function Footer() {
         </Box>
       </Grid>
       <Divider sx={{ backgroundColor: "FFD0D0", borderWidth: ".3px" }} />
-      <Typography sx={{ textAlign: "end", fontSize: "14px" }}>
-        @2022 All right reserved
-      </Typography>
+      <Typography sx={{ textAlign: "end", fontSize: "14px" }}>@2022 All right reserved</Typography>
     </>
   );
 }

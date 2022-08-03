@@ -119,10 +119,14 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
         apiClient.setToken(res.data.token);
         navigate("/feed");
       } else {
+<<<<<<< Updated upstream
         setErrors((e) => ({
           ...e,
           form: "Something went wrong with registration",
         }));
+=======
+        setErrors((e) => ({ ...e, form: "Something went wrong with registration" }));
+>>>>>>> Stashed changes
       }
     } catch (err) {
       console.log(err);
@@ -342,12 +346,7 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                 style={{ marginTop: "8px" }}
                 onChange={handleOnInputChange}
               />
-              <ControlledOpenSelect
-                account={account}
-                location={location}
-                setLocation={setLocation}
-                setAccount={setAccount}
-              />
+              <ControlledOpenSelect account={account} location={location} setLocation={setLocation} setAccount={setAccount} />
               <Button
                 type="submit"
                 fullWidth
