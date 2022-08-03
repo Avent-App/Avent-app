@@ -111,6 +111,7 @@ function Feed() {
       .get(`http://localhost:3001/event/`)
       .then((response) => {
         setEventsData(response.data.events);
+        console.log(response.data.events);
       })
       .catch((e) => {
         // console.log("id is empty");
@@ -134,8 +135,8 @@ function Feed() {
                   timeStyle: "short",
                 })}
                 eventDescription={event.description}
-                eventImageUrl={event.image_url}
                 eventHost={event.host_id}
+                eventImageUrl={event.image_url}
               />
             </Grid>
           ))}
