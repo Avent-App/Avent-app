@@ -7,6 +7,7 @@ import {
   TextField,
   Button,
   Grid,
+  Divider,
 } from "@mui/material";
 import GlobalNavbar from "./GlobalNavbar";
 import { Link as RouterLink } from "react-router-dom";
@@ -20,7 +21,7 @@ export default function EventFeed({}) {
     <div>
       <GlobalNavbar />
       <Hero />
-      <Container maxWidth="lg">
+      <Container maxWidth="xl" sx={{ mb: 5 }}>
         <Feed />
       </Container>
     </div>
@@ -122,13 +123,16 @@ function Feed() {
   const renderEventCards = () => {
     if (eventsData.length > 0) {
       return (
-        <Grid container spacing={2}>
+        <Grid container spacing={{ xl: 4, lg: 3, md: 2, sm: 2 }}>
           {eventsData.map((event, idx) => (
-            <Grid key={idx} item xs={4}>
+            <Grid key={idx} item xl={3} lg={3} md={4} sm={6} xs={12}>
               <EventCard
                 eventName={event.title}
-                eventCategory={event.category}
-                startDate={event.start_date}
+                eventCategory={event.event_category.toUpperCase()}
+                startDate={new Date(event.start_date).toLocaleString("en-US", {
+                  dateStyle: "medium",
+                  timeStyle: "short",
+                })}
                 eventDescription={event.description}
                 eventImageUrl={event.image_url}
                 eventHost={event.host_id}
@@ -159,31 +163,36 @@ function Feed() {
 
   return (
     <div>
-      <Stack
-        direction="row"
-        alignItems="center"
-        justifyContent="space-between"
-        sx={{ mt: 11 }}
-      >
-        <Typography sx={{ fontWeight: 700, fontSize: 45 }}>Explore</Typography>
-        <Button
-          color="secondary"
-          variant="contained"
-          to="/createEvent"
-          component={RouterLink}
-          sx={{
-            height: 43,
-            width: 148.8,
-            borderRadius: "6px",
-            padding: "12.1333px 18.2px",
-            fontWeight: "bold",
-            fontSize: "14.1556px",
-          }}
-          disableElevation
+      <Box sx={{ mt: 11, mb: 2 }}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
         >
-          Create an event
-        </Button>
-      </Stack>
+          <Typography sx={{ fontWeight: 700, fontSize: 45 }}>
+            Explore
+          </Typography>
+          <Button
+            color="secondary"
+            variant="contained"
+            to="/createEvent"
+            component={RouterLink}
+            sx={{
+              height: 43,
+              width: 148.8,
+              borderRadius: "6px",
+              padding: "12.1333px 18.2px",
+              fontWeight: "bold",
+              fontSize: "14.1556px",
+            }}
+            disableElevation
+          >
+            Create an event
+          </Button>
+        </Stack>
+        <Divider sx={{ mt: 1 }} />
+      </Box>
+
       {isLoading ? (
         <Container
           maxWidth={false}
