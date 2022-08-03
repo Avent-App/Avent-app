@@ -11,7 +11,7 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", security.requireAuthenticatedUser, async (req, res) => {
   id = req.params.id;
 
   getUser = await User.fetchUserByID(id);
