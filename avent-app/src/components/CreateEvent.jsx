@@ -54,22 +54,21 @@ export default function CreateEvent() {
       event_category: eventType,
     };
     console.log(eventsInfo);
-    console.log(value);
 
     if (
-      eventsInfo.event_Name === "" ||
-      eventsInfo.event_Address === "" ||
-      eventsInfo.event_Date === "" ||
-      eventsInfo.event_Time === "" ||
-      eventsInfo.event_imageUrl === "" ||
-      eventsInfo.event_Type === "" ||
-      eventsInfo.event_Description === ""
+      eventsInfo.title === "" ||
+      eventsInfo.address === "" ||
+      eventsInfo.start_date === "" ||
+      eventsInfo.end_dateime === "" ||
+      eventsInfo.image_url === "" ||
+      eventsInfo.description === "" ||
+      eventsInfo.event_category === ""
     ) {
       return alert("Please fill out the entire form.");
     }
 
     /**
-     * Post the event info to the correct user id... Each user should have their own exercise info.
+     * Post the event info to the correct user id... Each user should have their own events info.
      */
 
     // let params = {

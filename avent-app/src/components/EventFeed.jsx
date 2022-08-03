@@ -108,7 +108,7 @@ function Feed() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:3001/event`)
+      .get(`http://localhost:3001/event/`)
       .then((response) => {
         setEventsData(response.data.events);
       })
