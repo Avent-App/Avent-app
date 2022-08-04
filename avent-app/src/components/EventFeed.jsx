@@ -8,36 +8,32 @@ import {
   Button,
   Grid,
   Divider,
+  checkboxClasses,
 } from "@mui/material";
 import GlobalNavbar from "./GlobalNavbar";
 import { Link as RouterLink } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import EventCard from "./EventCard";
 import CircularProgress from "@mui/material/CircularProgress";
+import apiClient from "../services/apiClient";
 
 export default function EventFeed() {
   const [isLoading, setIsLoading] = useState(true);
   const [eventsData, setEventsData] = useState([]);
   const [searchItem, setSearchItem] = React.useState("");
-  const results = eventsData.filter((event) => {
-    return event.title.toLowerCase().includes(searchItem);
-  });
+
+  const getData = async () => {
+    setIsLoading(true);
+    const res = await apiClient.getEvents();
+    console.log(res.data.events);
+    setEventsData(res.data.events);
+    setIsLoading(false);
+  };
+
+  // Adding a change to check if a pull request will happen.
 
   useEffect(() => {
-    setIsLoading(true);
-    axios
-      .get(`http://localhost:3001/event/`)
-      .then((response) => {
-        setEventsData(response.data.events);
-        console.log(response.data.events);
-      })
-      .catch((e) => {
-        // console.log("id is empty");
-      })
-      .finally((res) => {
-        setTimeout(() => setIsLoading(false), 400);
-      });
+    getData();
   }, []);
 
   return (
@@ -49,7 +45,12 @@ export default function EventFeed() {
         searchItem={searchItem}
       />
       <Container maxWidth="xl" sx={{ mb: 5 }}>
-        <Feed eventsData={results} isLoading={isLoading} />
+        <Feed
+          eventsData={eventsData.filter((event) => {
+            return event.title.toLowerCase().includes(searchItem);
+          })}
+          isLoading={isLoading}
+        />
       </Container>
     </div>
   );

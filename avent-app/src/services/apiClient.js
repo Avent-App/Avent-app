@@ -19,7 +19,14 @@ class ApiClient {
       "Content-Type": "application/json",
     };
 
+    console.log(url);
+
+    if (!this.token) {
+      this.token = localStorage.getItem(this.tokenName);
+    }
+
     if (this.token) {
+      console.log(this.token);
       headers["Authorization"] = `Bearer ${this.token}`;
     }
 
@@ -35,6 +42,13 @@ class ApiClient {
 
   async fetchUserFromToken() {
     return await this.request({ endpoint: `auth/me`, method: `GET` });
+  }
+
+  async getEvents() {
+    return await this.request({
+      endpoint: `event/`,
+      method: `GET`,
+    });
   }
 
   async createEvent(data, point) {
