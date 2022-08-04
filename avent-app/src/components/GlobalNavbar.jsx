@@ -55,7 +55,7 @@ export default function GlobalNavbar() {
             <Stack direction="row" spacing={5}>
               <Button color="inherit">Item 1</Button>
               <Button color="inherit">Item 2</Button>
-              <Button color="inherit">Item 3</Button>
+              <Button color="inherit">About Us</Button>
               <Button color="inherit">Item 4</Button>
             </Stack>
           </Box>
