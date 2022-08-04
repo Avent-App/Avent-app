@@ -5,7 +5,7 @@ import about from "../assets/about.jpg";
 
 const AboutUs = () => {
   return (
-    <Grid container component="main" sx={{ height: "100vh", display: "flex" }}>
+    <Grid container component="main" sx={{ height: "70vh", display: "flex" }}>
       <CssBaseline />
       <Grid item xs={12} sm={8} md={5} elevation={6}>
         <Box
@@ -15,13 +15,13 @@ const AboutUs = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            marginTop: "250px",
+            // marginTop: "250px",
             marginLeft: "150px",
             width: "550px",
-            height: "580px",
+            height: "500px",
           }}
         >
-          <Typography sx={{ fontSize: 80, fontWeight: "bold", lineHeight: 1.3, width: "10px", marginRight: "34rem", marginBottom: "1.5rem" }}>
+          <Typography sx={{ fontSize: 45, fontWeight: "bold", lineHeight: 1.3, width: "10px", marginRight: "34rem", marginBottom: "1.5rem" }}>
             About Us
           </Typography>
           <Typography align="justify" sx={{ fontWeight: "regular", fontSize: 16, fontStyle: "normal", width: "30vw" }}>

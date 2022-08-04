@@ -8,22 +8,10 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Link as RouterLink } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
 
-const useStyles = makeStyles((theme) => ({
-  clickableIcon: {
-    color: "black",
-    "&:hover": {
-      color: "#D90429",
-    },
-    cursor: "pointer",
-  },
-}));
-
 export default function GlobalNavbar() {
-  const classes = useStyles();
   const navigate = useNavigate();
 
   /**
@@ -51,21 +39,13 @@ export default function GlobalNavbar() {
               Avent
             </Link>
           </Typography>
-          <Box sx={{ flexGrow: 1 }}>
-            <Stack direction="row" spacing={5}>
-              <Button color="inherit">Item 1</Button>
-              <Button color="inherit">Item 2</Button>
-              <Button color="inherit">About Us</Button>
-              <Button color="inherit">Item 4</Button>
-            </Stack>
-          </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Stack direction="row" spacing={4} justifyContent="center" alignItems="center">
-              <AddCircleOutlineIcon onClick={(event) => (window.location.href = "createEvent")} className={classes.clickableIcon} />
+              <AddCircleOutlineIcon onClick={(event) => (window.location.href = "createEvent")} />
               <NotificationsNoneOutlinedIcon />
-              <SettingsOutlinedIcon className={classes.clickableIcon} />
+              <SettingsOutlinedIcon />
               <Avatar />
-              <LogoutIcon onClick={handleOnLogout} className={classes.clickableIcon} />
+              <LogoutIcon onClick={handleOnLogout} />
             </Stack>
           </Box>
         </Toolbar>
