@@ -22,6 +22,12 @@ export default function EventFeed() {
   const [eventsData, setEventsData] = useState([]);
   const [searchItem, setSearchItem] = React.useState("");
 
+
+  const results = eventsData.filter((event) => {
+    return event.title.toLowerCase().includes(searchItem);
+  });
+
+
   const getData = async () => {
     setIsLoading(true);
     const res = await apiClient.getEvents();
@@ -37,11 +43,7 @@ export default function EventFeed() {
   return (
     <div>
       <GlobalNavbar />
-      <Hero
-        eventsData={eventsData}
-        setSearchItem={setSearchItem}
-        searchItem={searchItem}
-      />
+      <Hero eventsData={eventsData} setSearchItem={setSearchItem} searchItem={searchItem} />
       <Container maxWidth="xl" sx={{ mb: 5 }}>
         <Feed
           eventsData={eventsData.filter((event) => {
@@ -86,21 +88,12 @@ function Hero({ eventsData, setSearchItem, searchItem }) {
           Upcoming Events in San Francisco
         </Typography>
         {/* Eventually, San Francisco will be replaced with the city that a user has chosen */}
-        <Typography
-          align="center"
-          sx={{ fontWeight: 400, fontSize: 16, lineHeight: "22px" }}
-        >
-          Et has minim elitr intellegat. Mea aeterno eleifend antiopam ad, nam
-          no suscipit quaerendum. <br /> At nam minimum ponderum. Est audiam
-          animal molestiae te.
+        <Typography align="center" sx={{ fontWeight: 400, fontSize: 16, lineHeight: "22px" }}>
+          Et has minim elitr intellegat. Mea aeterno eleifend antiopam ad, nam no suscipit quaerendum. <br /> At nam minimum ponderum. Est audiam animal
+          molestiae te.
         </Typography>
       </Stack>
-      <Stack
-        justifyContent="center"
-        alignItems="center"
-        direction="row"
-        spacing={3}
-      >
+      <Stack justifyContent="center" alignItems="center" direction="row" spacing={3}>
         <TextField
           variant="outlined"
           label="Search for an event"
@@ -184,14 +177,8 @@ function Feed({ eventsData, isLoading }) {
   return (
     <div>
       <Box sx={{ mt: 11, mb: 2 }}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Typography sx={{ fontWeight: 700, fontSize: 45 }}>
-            Explore
-          </Typography>
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Typography sx={{ fontWeight: 700, fontSize: 45 }}>Explore</Typography>
           <Button
             color="secondary"
             variant="contained"
