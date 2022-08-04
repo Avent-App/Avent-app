@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import React from "react";
+import EventCardHorizontal from "./EventCardHorizontal";
 import GlobalNavbar from "./GlobalNavbar";
 
 export default function Settings() {
@@ -382,8 +383,27 @@ function MyProfile() {
 function MyReservations() {
   return (
     <Box sx={{ flex: 1 }}>
-      <Typography sx={{ fontWeight: 700, fontSize: 28, mt: 3, mb: 1.5 }}>
-        My Reservations
+      <Typography sx={{ fontWeight: 700, fontSize: 45, mt: 3, mb: 1.5 }}>
+        My Event Reservations
+      </Typography>
+      <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>
+        This Week
+      </Typography>
+      <EventCardHorizontal
+        eventCategory={"FUN"}
+        eventHost={"david"}
+        eventDescription={
+          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sit hic praesentium nihil consequatur cupiditate ratione a dolorem voluptates eaque iusto, dolore sint temporibus maxime ipsa! Repellendus laboriosam excepturi velit error. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sit hic praesentium nihil consequatur cupiditate ratione a dolorem voluptates eaque iusto, dolore sint temporibus maxime ipsa! Repellendus laboriosam excepturi velit error."
+        }
+        startDate={"April 1st, 2022"}
+        eventName={"Pool Party"}
+        eventImageUrl={
+          "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F184375039%2F474927372937%2F1%2Foriginal.20211111-155142?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C236%2C4724%2C2362&s=ff52e826c551abbd9a90a39cccc5c303"
+        }
+        eventId={2}
+      />
+      <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>
+        Previous Events
       </Typography>
     </Box>
   );
