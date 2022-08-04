@@ -5,6 +5,10 @@ import {
   Typography,
   Stack,
   Avatar,
+  TextField,
+  MenuItem,
+  FormControl,
+  Select,
 } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import React from "react";
@@ -26,7 +30,7 @@ export default function Settings() {
 
 function Sidebar() {
   return (
-    <Box sx={{ width: 291, height: 744, mt: 8 }}>
+    <Box sx={{ width: 291, height: 744, mt: 3 }}>
       <Typography sx={{ fontWeight: 700, fontSize: 28, mb: 1.5 }}>
         Settings
       </Typography>
@@ -74,13 +78,13 @@ function Sidebar() {
           <Typography
             sx={{ fontWeight: 400, fontSize: 13, color: "rgba(0, 0, 0, 0.29)" }}
           >
-            Username
+            Location
           </Typography>
           <Typography sx={{ fontWeight: 400, fontSize: 13 }}>
-            marcdabest
+            San Francisco, CA
           </Typography>
           <Typography sx={{ fontWeight: 400, fontSize: 13, color: "red" }}>
-            Edit Username
+            Edit Location
           </Typography>
         </Stack>
       </Paper>
@@ -130,10 +134,12 @@ function Sidebar() {
 function MyProfile() {
   return (
     <Box sx={{ flex: 1 }}>
-      <Typography sx={{ fontWeight: 700, fontSize: 28, mt: 8, mb: 1.5 }}>
+      <Typography sx={{ fontWeight: 700, fontSize: 28, mt: 3, mb: 1.5 }}>
         My Profile
       </Typography>
+
       {/* Banner below */}
+
       <Box
         sx={{
           background: "linear-gradient(90deg, #D90429 0%, #AC001E 100%)",
@@ -143,17 +149,20 @@ function MyProfile() {
       />
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Avatar
-          src="https://mail.google.com/mail/u/1?ui=2&ik=4cadaf9047&attid=0.1&permmsgid=msg-a:r7927660803503747604&th=1826617b843e9cfa&view=fimg&fur=ip&sz=s0-l75-ft&attbid=ANGjdJ_J49NGAQPxv7-1SIbazs8L_-sQGGY5vICbdWaGUB1I2_FwX6LmXgin5OdTQPwSkJCJ70JxQ_Y7TU6z21EFdp-1rRBPo0zt3mHMKoniHbEWE9zSxGALKZMvTbE&disp=emb&realattid=18266179ee2b772052e1"
           sx={{
             width: 180,
             height: 180,
             border: "9.32726px solid #FFFFFF",
             position: "relative",
-            bottom: 40,
+            bottom: 60,
             left: 10,
           }}
         />
-        <Stack direction="row" spacing={2}>
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{ position: "relative", bottom: 30 }}
+        >
           <Button
             sx={{ width: 158, height: 48 }}
             variant="outlined"
@@ -172,6 +181,199 @@ function MyProfile() {
           </Button>
         </Stack>
       </Stack>
+
+      {/* Form below */}
+
+      <Box component="form" noValidate>
+        <Stack sx={{ position: "relative", bottom: 40 }} spacing={2}>
+          <Typography sx={{ fontWeight: 700, fontSize: 24 }}>
+            Edit Your Profile
+          </Typography>
+          <Stack direction="row" alignItems="center" spacing={3}>
+            <Typography
+              sx={{
+                fontFamily: "Inter",
+                color: "#828282",
+                fontWeight: 600,
+                textTransform: "none",
+                fontSize: "16px",
+                width: 100,
+              }}
+              align="left"
+            >
+              First Name:
+            </Typography>
+            <TextField
+              fullWidth
+              id="firstName"
+              placeholder="Paul"
+              name="firstName"
+            />
+          </Stack>
+          <Stack direction="row" alignItems="center" spacing={3}>
+            <Typography
+              sx={{
+                fontFamily: "Inter",
+                color: "#828282",
+                fontWeight: 600,
+                textTransform: "none",
+                fontSize: "16px",
+                width: 100,
+              }}
+              align="left"
+            >
+              Last Name:
+            </Typography>
+            <TextField
+              fullWidth
+              id="lastName"
+              placeholder="Franco"
+              name="lastName"
+            />
+          </Stack>
+          <Stack direction="row" alignItems="center" spacing={3}>
+            <Typography
+              sx={{
+                fontFamily: "Inter",
+                color: "#828282",
+                fontWeight: 600,
+                textTransform: "none",
+                fontSize: "16px",
+                width: 100,
+              }}
+              align="left"
+            >
+              Email Address:
+            </Typography>
+            <TextField
+              fullWidth
+              id="email"
+              placeholder="paulfranco@gmail.com"
+              name="email"
+              autoComplete="email"
+            />
+          </Stack>
+          <Stack direction="row" alignItems="center" spacing={3}>
+            <Typography
+              sx={{
+                fontFamily: "Inter",
+                color: "#828282",
+                fontWeight: 600,
+                textTransform: "none",
+                fontSize: "16px",
+                width: 100,
+              }}
+              align="left"
+            >
+              Password:
+            </Typography>
+            <TextField
+              fullWidth
+              name="password"
+              placeholder="**************"
+              type="password"
+              id="password"
+            />
+          </Stack>
+          <Stack direction="row" alignItems="center" spacing={3}>
+            <Typography
+              sx={{
+                fontFamily: "Inter",
+                color: "#828282",
+                fontWeight: 600,
+                textTransform: "none",
+                fontSize: "16px",
+                width: 100,
+              }}
+              align="left"
+            >
+              Confirm Password:
+            </Typography>
+            <TextField
+              fullWidth
+              name="confirmPassword"
+              placeholder="**************"
+              type="password"
+              id="confirmPassword"
+            />
+          </Stack>
+          <Stack direction="row" alignItems="center" spacing={3}>
+            <Typography
+              sx={{
+                fontFamily: "Inter",
+                color: "#828282",
+                fontWeight: 600,
+                textTransform: "none",
+                fontSize: "16px",
+                width: 100,
+              }}
+            >
+              Location:
+            </Typography>
+
+            <FormControl fullWidth>
+              <Select
+                labelId="demo-controlled-open-select-label"
+                id="location"
+                value={location}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value={"San Francisco, CA"}>
+                  San Francisco, CA
+                </MenuItem>
+                <MenuItem value={"New York, NY"}>New York, NY</MenuItem>
+                <MenuItem value={"Austin, TX"}>Austin, TX</MenuItem>
+                <MenuItem value={"Seattle, WA"}>Seattle, WA</MenuItem>
+              </Select>
+            </FormControl>
+          </Stack>
+
+          <Stack direction="row" alignItems="center" spacing={3}>
+            <Typography
+              sx={{
+                fontFamily: "Inter",
+                color: "#828282",
+                fontWeight: 600,
+                textTransform: "none",
+                fontSize: "16px",
+                width: 100,
+              }}
+              align="left"
+            >
+              Company:
+            </Typography>
+            <TextField
+              fullWidth
+              name="company"
+              placeholder="Salesforce"
+              id="company"
+            />
+          </Stack>
+          <Stack direction="row" spacing={3}>
+            <Typography
+              sx={{
+                fontFamily: "Inter",
+                color: "#828282",
+                fontWeight: 600,
+                textTransform: "none",
+                fontSize: "16px",
+                width: 100,
+              }}
+              align="left"
+            >
+              Bio:
+            </Typography>
+            <TextField
+              multiline
+              rows={3}
+              fullWidth
+              placeholder="Enter a short bio here"
+            />
+          </Stack>
+        </Stack>
+      </Box>
     </Box>
   );
 }
