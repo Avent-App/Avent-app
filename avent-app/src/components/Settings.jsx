@@ -21,7 +21,8 @@ export default function Settings() {
       <Container maxWidth="xl">
         <Stack direction="row" spacing={12}>
           <Sidebar />
-          <MyProfile />
+          {/* <MyProfile /> */}
+          <MyReservations />
         </Stack>
       </Container>
     </div>
@@ -374,6 +375,16 @@ function MyProfile() {
           </Stack>
         </Stack>
       </Box>
+    </Box>
+  );
+}
+
+function MyReservations() {
+  return (
+    <Box sx={{ flex: 1 }}>
+      <Typography sx={{ fontWeight: 700, fontSize: 28, mt: 3, mb: 1.5 }}>
+        My Reservations
+      </Typography>
     </Box>
   );
 }
