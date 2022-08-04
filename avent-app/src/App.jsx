@@ -6,6 +6,7 @@ import EventFeed from "./components/EventFeed";
 import EventDetails from "./components/EventDetails";
 import CreateEvent from "./components/CreateEvent";
 import NotFound from "./components/NotFound";
+import Settings from "./components/Settings";
 import { useState, useEffect } from "react";
 import AboutUs from "./components/AboutUs";
 // import { SubHero } from "./components/Landing";
@@ -20,9 +21,28 @@ function App() {
         <BrowserRouter>
           <main>
             <Routes>
-              <Route path="/register" element={<Register user={user} setUser={setUser} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}></Route>
-              <Route path="/login" element={<Login user={user} setUser={setUser} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}></Route>
-
+              <Route
+                path="/register"
+                element={
+                  <Register
+                    user={user}
+                    setUser={setUser}
+                    isLoggedIn={isLoggedIn}
+                    setIsLoggedIn={setIsLoggedIn}
+                  />
+                }
+              ></Route>
+              <Route
+                path="/login"
+                element={
+                  <Login
+                    user={user}
+                    setUser={setUser}
+                    isLoggedIn={isLoggedIn}
+                    setIsLoggedIn={setIsLoggedIn}
+                  />
+                }
+              ></Route>
               {/*Landing page routes*/}
 
               <Route path="/" element={<Landing />} />
@@ -33,7 +53,7 @@ function App() {
               <Route path="/details/:eventId" element={<EventDetails />} />
               <Route path="/createEvent" element={<CreateEvent />} />
               <Route path="/aboutUs" element={<AboutUs />} />
-              <Route path="/home" element={<Landing />} />
+              <Route path="/settings" element={<Settings />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
