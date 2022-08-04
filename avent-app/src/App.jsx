@@ -5,16 +5,43 @@ import Register from "./components/Register";
 import EventFeed from "./components/EventFeed";
 import EventDetails from "./components/EventDetails";
 import CreateEvent from "./components/CreateEvent";
+import NotFound from "./components/NotFound";
+import Settings from "./components/Settings";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 function App() {
+  const [user, setUser] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   return (
     <>
       <div className="app">
         <BrowserRouter>
           <main>
             <Routes>
-              <Route path="/register" element={<Register />}></Route>
-              <Route path="/login" element={<Login />}></Route>
+              <Route
+                path="/register"
+                element={
+                  <Register
+                    user={user}
+                    setUser={setUser}
+                    isLoggedIn={isLoggedIn}
+                    setIsLoggedIn={setIsLoggedIn}
+                  />
+                }
+              ></Route>
+              <Route
+                path="/login"
+                element={
+                  <Login
+                    user={user}
+                    setUser={setUser}
+                    isLoggedIn={isLoggedIn}
+                    setIsLoggedIn={setIsLoggedIn}
+                  />
+                }
+              ></Route>
 
               {/*Landing page routes*/}
 
@@ -23,8 +50,10 @@ function App() {
               {/*Event feed routes*/}
 
               <Route path="/feed" element={<EventFeed />} />
-              <Route path="/details" element={<EventDetails />} />
+              <Route path="/details/:eventId" element={<EventDetails />} />
               <Route path="/createEvent" element={<CreateEvent />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
         </BrowserRouter>

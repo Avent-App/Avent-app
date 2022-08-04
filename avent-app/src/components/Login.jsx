@@ -11,8 +11,10 @@ import axios from "axios";
 import Navbar from "./Navbar";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import login from "../assets/login.jpg";
+import apiClient from "../services/apiClient";
 
-export default function Login() {
+export default function Login({ user, setUser, isLoggedIn, setIsLoggedIn }) {
   const navigate = useNavigate();
   const [errors, setErrors] = React.useState("");
   const [form, setForm] = useState({
@@ -35,7 +37,6 @@ export default function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrors((e) => ({ ...e, form: null }));
-    console.log(event.currentTarget);
     const data = new FormData(event.currentTarget);
 
     const email = data.get("email");
@@ -47,15 +48,14 @@ export default function Login() {
     };
 
     try {
-      const res = await axios.post(
-        "http://localhost:3001/auth/login",
+      const res = await apiClient.loginUser(
         signinInfo
       );
-      if (res?.data) {
-        //   setUser(res.data.user);
-        //   setIsLoggedIn(true);
-        //   apiClient.setToken(res.data.token);
-        //   localStorage.setItem("token", res.data.token);
+      console.log(res.data)
+      if (res?.data?.user) {
+        setUser(res.data.user);
+        apiClient.setToken(res.data.token);
+        setIsLoggedIn(true);
         navigate("/feed");
       } else {
         console.log("--->", res.data);
@@ -85,14 +85,12 @@ export default function Login() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage:
-              "url(https://tardigital.com.br/wp-content/uploads/2022/05/persons.png)",
+            backgroundImage: `url(${login})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "120%",
             backgroundPosition: "center",
           }}
         />
-
         <Grid
           item
           xs={12}
@@ -192,24 +190,6 @@ export default function Login() {
                 style={{ marginTop: "8px" }}
               />
 
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-                sx={{ fontFamily: "Inter", color: "#828282" }}
-              />
-              <Link
-                href="#"
-                variant="body2"
-                sx={{
-                  color: "#D90429",
-                  textDecoration: "none",
-                  marginLeft: "10rem",
-                  fontWeight: 600,
-                  fontFamily: "Inter",
-                }}
-              >
-                Forgot password?
-              </Link>
               <Button
                 type="submit"
                 fullWidth

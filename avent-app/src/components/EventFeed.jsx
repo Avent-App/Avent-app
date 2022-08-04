@@ -7,23 +7,65 @@ import {
   TextField,
   Button,
   Grid,
+  Divider,
+  checkboxClasses,
 } from "@mui/material";
 import GlobalNavbar from "./GlobalNavbar";
 import { Link as RouterLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import EventCard from "./EventCard";
+import CircularProgress from "@mui/material/CircularProgress";
+import apiClient from "../services/apiClient";
 
-export default function EventFeed({}) {
+export default function EventFeed() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [eventsData, setEventsData] = useState([]);
+  const [searchItem, setSearchItem] = React.useState("");
+
+  const getData = async () => {
+    setIsLoading(true);
+    const res = await apiClient.getEvents();
+    console.log(res.data.events);
+    setEventsData(res.data.events);
+    setIsLoading(false);
+  };
+
+  // Adding a change to check if a pull request will happen.
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <div>
       <GlobalNavbar />
-      <Hero />
-      <Container maxWidth="lg">
-        <Feed />
+      <Hero
+        eventsData={eventsData}
+        setSearchItem={setSearchItem}
+        searchItem={searchItem}
+      />
+      <Container maxWidth="xl" sx={{ mb: 5 }}>
+        <Feed
+          eventsData={eventsData.filter((event) => {
+            return event.title.toLowerCase().includes(searchItem);
+          })}
+          isLoading={isLoading}
+        />
       </Container>
     </div>
   );
 }
 
-function Hero() {
+function Hero({ eventsData, setSearchItem, searchItem }) {
+  /**
+   * filtering products array, lower casing them and checking if stateVar "searchItem" inputted by user is included in the array
+   */
+
+  /**
+   *
+   * @param {*} e
+   * Func search for item in searchBar input tag
+   */
   return (
     <Box
       alignContent="center"
@@ -64,6 +106,10 @@ function Hero() {
         <TextField
           variant="outlined"
           label="Search for an event"
+          value={searchItem}
+          onChange={(event) => {
+            setSearchItem(event.target.value);
+          }}
           InputProps={{ sx: { height: 45 } }}
           InputLabelProps={{ sx: { height: 50, top: -5 } }}
           sx={{
@@ -94,37 +140,96 @@ function Hero() {
   );
 }
 
-function Feed() {
+function Feed({ eventsData, isLoading }) {
+  const renderEventCards = () => {
+    if (eventsData.length > 0) {
+      return (
+        <Grid container spacing={{ xl: 4, lg: 3, md: 2, sm: 2 }}>
+          {eventsData.map((event, idx) => (
+            <Grid key={idx} item xl={3} lg={3} md={4} sm={6} xs={12}>
+              <EventCard
+                eventName={event.title}
+                eventCategory={event.event_category.toUpperCase()}
+                startDate={new Date(event.start_date).toLocaleString("en-US", {
+                  dateStyle: "medium",
+                  timeStyle: "short",
+                })}
+                eventDescription={event.description}
+                eventHost={event.host_id}
+                eventImageUrl={event.image_url}
+                eventId={event.event_id}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      );
+    } else {
+      return (
+        <Typography
+          variant="h5"
+          sx={{
+            color: "black",
+            top: 100,
+            fontWeight: "bold",
+            mb: 5,
+            mt: 5,
+            display: "flex",
+            alignContent: "center",
+          }}
+        >
+          Nothing to show!
+        </Typography>
+      );
+    }
+  };
+
   return (
     <div>
-      <Stack
-        direction="row"
-        alignItems="center"
-        justifyContent="space-between"
-        sx={{ mt: 11 }}
-      >
-        <Typography sx={{ fontWeight: 700, fontSize: 45 }}>Explore</Typography>
-        <Button
-          color="secondary"
-          variant="contained"
-          to="/createEvent"
-          component={RouterLink}
-          sx={{
-            height: 43,
-            width: 148.8,
-            borderRadius: "6px",
-            padding: "12.1333px 18.2px",
-            fontWeight: "bold",
-            fontSize: "14.1556px",
-          }}
-          disableElevation
+      <Box sx={{ mt: 11, mb: 2 }}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
         >
-          Create an event
-        </Button>
-      </Stack>
-      <Grid container>
-        {/* Event feed cards go here... might have to use stack */}
-      </Grid>
+          <Typography sx={{ fontWeight: 700, fontSize: 45 }}>
+            Explore
+          </Typography>
+          <Button
+            color="secondary"
+            variant="contained"
+            to="/createEvent"
+            component={RouterLink}
+            sx={{
+              height: 43,
+              width: 148.8,
+              borderRadius: "6px",
+              padding: "12.1333px 18.2px",
+              fontWeight: "bold",
+              fontSize: "14.1556px",
+            }}
+            disableElevation
+          >
+            Create an event
+          </Button>
+        </Stack>
+        <Divider sx={{ mt: 1 }} />
+      </Box>
+
+      {isLoading ? (
+        <Container
+          maxWidth={false}
+          sx={{
+            display: "flex",
+            height: "100vh",
+            justifyContent: "center",
+            mt: 10,
+          }}
+        >
+          <CircularProgress color="secondary" size={100} />
+        </Container>
+      ) : (
+        renderEventCards()
+      )}
     </div>
   );
 }
