@@ -8,7 +8,8 @@ import CreateEvent from "./components/CreateEvent";
 import NotFound from "./components/NotFound";
 import Settings from "./components/Settings";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import AboutUs from "./components/AboutUs";
+// import { SubHero } from "./components/Landing";
 
 function App() {
   const [user, setUser] = useState({});
@@ -42,7 +43,6 @@ function App() {
                   />
                 }
               ></Route>
-
               {/*Landing page routes*/}
 
               <Route path="/" element={<Landing />} />
@@ -52,6 +52,7 @@ function App() {
               <Route path="/feed" element={<EventFeed />} />
               <Route path="/details/:eventId" element={<EventDetails />} />
               <Route path="/createEvent" element={<CreateEvent />} />
+              <Route path="/aboutUs" element={<AboutUs />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

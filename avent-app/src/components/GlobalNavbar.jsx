@@ -8,8 +8,21 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Link as RouterLink } from "react-router-dom";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useNavigate } from "react-router-dom";
 
 export default function GlobalNavbar() {
+  const navigate = useNavigate();
+
+  /**
+   * Function that handles when the logs out
+   */
+  const handleOnLogout = () => {
+    // setAppState({});
+    // setUserLoggedIn(false);
+    navigate("/");
+  };
+
   return (
     <Container maxWidth="xl">
       <AppBar position="sticky" elevation={0}>
@@ -22,34 +35,17 @@ export default function GlobalNavbar() {
               fontSize: 20,
             }}
           >
-            <Link
-              to="/feed"
-              color="secondary"
-              component={RouterLink}
-              underline="none"
-            >
+            <Link to="/feed" color="secondary" component={RouterLink} underline="none">
               Avent
             </Link>
           </Typography>
-          <Box sx={{ flexGrow: 1 }}>
-            <Stack direction="row" spacing={5}>
-              <Button color="inherit">Item 1</Button>
-              <Button color="inherit">Item 2</Button>
-              <Button color="inherit">Item 3</Button>
-              <Button color="inherit">Item 4</Button>
-            </Stack>
-          </Box>
           <Box sx={{ flexGrow: 0 }}>
-            <Stack
-              direction="row"
-              spacing={4}
-              justifyContent="center"
-              alignItems="center"
-            >
-              <AddCircleOutlineIcon />
+            <Stack direction="row" spacing={4} justifyContent="center" alignItems="center">
+              <AddCircleOutlineIcon onClick={(event) => (window.location.href = "createEvent")} />
               <NotificationsNoneOutlinedIcon />
               <SettingsOutlinedIcon />
               <Avatar />
+              <LogoutIcon onClick={handleOnLogout} />
             </Stack>
           </Box>
         </Toolbar>
