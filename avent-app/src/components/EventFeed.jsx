@@ -30,6 +30,8 @@ export default function EventFeed() {
     setIsLoading(false);
   };
 
+  // Adding a change to check if a pull request will happen.
+
   useEffect(() => {
     getData();
   }, []);
