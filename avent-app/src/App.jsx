@@ -6,6 +6,7 @@ import EventFeed from "./components/EventFeed";
 import EventDetails from "./components/EventDetails";
 import CreateEvent from "./components/CreateEvent";
 import NotFound from "./components/NotFound";
+import Settings from "./components/Settings";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -21,8 +22,14 @@ function App() {
             <Routes>
               <Route
                 path="/register"
-                element={<Register user={user} setUser={setUser} isLoggedIn={isLoggedIn}
-                setIsLoggedIn={setIsLoggedIn} />}
+                element={
+                  <Register
+                    user={user}
+                    setUser={setUser}
+                    isLoggedIn={isLoggedIn}
+                    setIsLoggedIn={setIsLoggedIn}
+                  />
+                }
               ></Route>
               <Route
                 path="/login"
@@ -45,6 +52,7 @@ function App() {
               <Route path="/feed" element={<EventFeed />} />
               <Route path="/details/:eventId" element={<EventDetails />} />
               <Route path="/createEvent" element={<CreateEvent />} />
+              <Route path="/settings" element={<Settings />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
