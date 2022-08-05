@@ -8,7 +8,6 @@ import Typography from "@mui/material/Typography";
 import { Container } from "@mui/material";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import GlobalNavbar from "./GlobalNavbar";
 import createEvent from "../assets/createEvent.png";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";

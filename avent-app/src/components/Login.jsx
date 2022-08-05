@@ -7,7 +7,6 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { Container, FormControlLabel, Checkbox } from "@mui/material";
-import axios from "axios";
 import Navbar from "./Navbar";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -48,10 +47,8 @@ export default function Login({ user, setUser, isLoggedIn, setIsLoggedIn }) {
     };
 
     try {
-      const res = await apiClient.loginUser(
-        signinInfo
-      );
-      console.log(res.data)
+      const res = await apiClient.loginUser(signinInfo);
+      console.log(res.data);
       if (res?.data?.user) {
         setUser(res.data.user);
         apiClient.setToken(res.data.token);
