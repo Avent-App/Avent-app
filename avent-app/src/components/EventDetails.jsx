@@ -22,7 +22,7 @@ import apiClient from "../services/apiClient";
 
 // This page GETS information from the events table using the eventsId param in the URL and displays it to the user.
 
-export default function EventDetails() {
+export default function EventDetails({isLoggedIn, setIsLoggedIn}) {
   const { eventId } = useParams();
   const [eventData, setEventData] = useState({});
   const [userData, setUserData] = useState({});
@@ -51,7 +51,7 @@ export default function EventDetails() {
 
   return (
     <div>
-      <GlobalNavbar />
+      <GlobalNavbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
       {isLoading ? (
         <Container
           maxWidth={false}
