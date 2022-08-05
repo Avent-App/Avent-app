@@ -2,7 +2,6 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import { Avatar, Stack, Box, Container, Link } from "@mui/material";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
@@ -11,15 +10,15 @@ import { Link as RouterLink } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
 
-export default function GlobalNavbar() {
+export default function GlobalNavbar({ isLoggedIn, setUser }) {
   const navigate = useNavigate();
 
   /**
-   * Function that handles when the logs out
+   * Function that handles when the user logs out
    */
   const handleOnLogout = () => {
-    // setAppState({});
-    // setUserLoggedIn(false);
+    setUser({});
+    // isLoggedIn(false);
     navigate("/");
   };
 
@@ -41,11 +40,42 @@ export default function GlobalNavbar() {
           </Typography>
           <Box sx={{ flexGrow: 0 }}>
             <Stack direction="row" spacing={4} justifyContent="center" alignItems="center">
-              <AddCircleOutlineIcon onClick={(event) => (window.location.href = "createEvent")} />
+              <AddCircleOutlineIcon
+                style={{ cursor: "pointer" }}
+                sx={[
+                  {
+                    "&:hover": {
+                      color: "red",
+                      backgroundColor: "white",
+                    },
+                  },
+                  AddCircleOutlineIcon && {
+                    "&:hover": { backgroundColor: "grey" },
+                  },
+                ]}
+                onClick={(event) => (window.location.href = "createEvent")}
+              />
               <NotificationsNoneOutlinedIcon />
               <SettingsOutlinedIcon />
               <Avatar />
-              <LogoutIcon onClick={handleOnLogout} />
+              <LogoutIcon
+                style={{ cursor: "pointer" }}
+                sx={[
+                  {
+                    "&:hover": {
+                      color: "red",
+                      backgroundColor: "white",
+                    },
+                  },
+                  LogoutIcon && {
+                    "&:hover": { backgroundColor: "grey" },
+                  },
+                  AddCircleOutlineIcon && {
+                    "&:hover": { backgroundColor: "grey" },
+                  },
+                ]}
+                onClick={handleOnLogout}
+              />
             </Stack>
           </Box>
         </Toolbar>

@@ -6,13 +6,22 @@ import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+<<<<<<< Updated upstream
 import { Container, FormControlLabel, Checkbox } from "@mui/material";
+=======
+import { Container } from "@mui/material";
+>>>>>>> Stashed changes
 import Navbar from "./Navbar";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import login from "../assets/login.jpg";
 import apiClient from "../services/apiClient";
 
+/**
+ *
+ * @param {*} param0 props drilled down from app.js
+ * @returns a login form set with errors in case user has entered invalid credentials
+ */
 export default function Login({ user, setUser, isLoggedIn, setIsLoggedIn }) {
   const navigate = useNavigate();
   const [errors, setErrors] = React.useState("");
@@ -20,19 +29,27 @@ export default function Login({ user, setUser, isLoggedIn, setIsLoggedIn }) {
     email: "",
     password: "",
   });
-
+  /**
+   * t
+   * @param {*} event targets the change inputted by user in textfield to check email validation using regex
+   */
   const handleOnInputChange = (event) => {
+    //** Regex for validating emails */
     if (event.target.name === "email") {
-      if (event.target.value.indexOf("@") === -1) {
-        setErrors((e) => ({ ...e, email: "Please enter a valid email." }));
+      if (!validEmail.test(event.target.value)) {
+        setErrors((e) => ({ ...e, email: "Your email is invalid" }));
+        // setEmailErr(true);
       } else {
         setErrors((e) => ({ ...e, email: null }));
       }
     }
-
     setForm((f) => ({ ...f, [event.target.name]: event.target.value }));
   };
 
+  /**
+   * this function is responsible for submitting the login data and checking it with the database. errors are set in case user has entered invalid credentials
+   * @param {*} event to get user's inputs from email and passowd textfields
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrors((e) => ({ ...e, form: null }));
@@ -139,12 +156,7 @@ export default function Login({ user, setUser, isLoggedIn, setIsLoggedIn }) {
                 </span>
               )}
             </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
-            >
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <label
                 style={{
                   fontFamily: "Inter",
@@ -208,11 +220,7 @@ export default function Login({ user, setUser, isLoggedIn, setIsLoggedIn }) {
               </Button>
               <Grid container>
                 <Grid item sx={{ marginTop: "50px", marginLeft: "5.7rem" }}>
-                  <Link
-                    href="/register"
-                    variant="body2"
-                    sx={{ textDecoration: "none" }}
-                  >
+                  <Link href="/register" variant="body2" sx={{ textDecoration: "none" }}>
                     <span
                       style={{
                         color: "#828282",
