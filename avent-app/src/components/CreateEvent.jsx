@@ -94,8 +94,9 @@ export default function CreateEvent({isLoggedIn, setIsLoggedIn}) {
   };
 
   return (
+
     <Container maxWidth="xl">
-      <GlobalNavbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
+      <GlobalNavbar disableGutters isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
@@ -150,7 +151,12 @@ export default function CreateEvent({isLoggedIn, setIsLoggedIn}) {
             >
               Create an Event
             </Typography>
-            <Box component="form" noValidate onSubmit={handleOnSubmit} sx={{ mt: 1 }}>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleOnSubmit}
+              sx={{ mt: 1 }}
+            >
               <label
                 style={{
                   fontFamily: "Inter",
@@ -212,7 +218,10 @@ export default function CreateEvent({isLoggedIn, setIsLoggedIn}) {
                 </label>
               </Box>
 
-              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
+              <Box
+                className="namesInput"
+                sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}
+              >
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DesktopDatePicker
                     inputFormat="MM/dd/yyyy"
@@ -220,11 +229,19 @@ export default function CreateEvent({isLoggedIn, setIsLoggedIn}) {
                     id="date"
                     name="date"
                     onChange={handleChangeDateTime}
-                    renderInput={(params) => <TextField {...params} sx={{ marginBottom: ".5rem" }} />}
+                    renderInput={(params) => (
+                      <TextField {...params} sx={{ marginBottom: ".5rem" }} />
+                    )}
                   />
                 </LocalizationProvider>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <TimePicker id="time" name="time" value={value} onChange={handleChangeDateTime} renderInput={(params) => <TextField {...params} />} />
+                  <TimePicker
+                    id="time"
+                    name="time"
+                    value={value}
+                    onChange={handleChangeDateTime}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
                 </LocalizationProvider>
               </Box>
               <label
