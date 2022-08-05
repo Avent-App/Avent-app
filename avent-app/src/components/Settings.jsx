@@ -19,6 +19,20 @@ import SmallEventCard from "./SmallEventCard";
 import { Link as RouterLink } from "react-router-dom";
 
 // This file houses all of the views for the settings page.
+export default function Settings({ isLoggedIn, setIsLoggedIn }) {
+  return (
+    <div>
+      <GlobalNavbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <Container maxWidth="xl">
+        <Stack direction="row" spacing={12}>
+          <Sidebar />
+          {/* <MyProfile /> */}
+          <MyReservations />
+        </Stack>
+      </Container>
+    </div>
+  );
+}
 
 export function Sidebar({ selected }) {
   return (

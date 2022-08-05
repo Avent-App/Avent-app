@@ -7,7 +7,9 @@ import EventCard from "./EventCard";
 import CircularProgress from "@mui/material/CircularProgress";
 import apiClient from "../services/apiClient";
 
-export default function EventFeed({ isLoggedIn, setUser }) {
+
+export default function EventFeed({isLoggedIn, setIsLoggedIn, setUser}) {
+
   const [isLoading, setIsLoading] = useState(true);
   //state var to store array of events fetched from database
   const [eventsData, setEventsData] = useState([]);
@@ -31,8 +33,13 @@ export default function EventFeed({ isLoggedIn, setUser }) {
 
   return (
     <div>
-      <GlobalNavbar setUser={setUser} isLoggedIn={isLoggedIn} />
-      <Hero eventsData={eventsData} setSearchItem={setSearchItem} searchItem={searchItem} />
+      <GlobalNavbar setUser={setUser} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
+      <Hero
+        eventsData={eventsData}
+        setSearchItem={setSearchItem}
+        searchItem={searchItem}
+      />
+
       <Container maxWidth="xl" sx={{ mb: 5 }}>
         <Feed
           //filters eventData array and includes the value iputted by user
