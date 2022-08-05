@@ -10,30 +10,17 @@ import {
   FormControl,
   Select,
   Grid,
+  Link,
 } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import React from "react";
 import EventCardHorizontal from "./EventCardHorizontal";
-import GlobalNavbar from "./GlobalNavbar";
 import SmallEventCard from "./SmallEventCard";
+import { Link as RouterLink } from "react-router-dom";
 
-export default function Settings() {
-  return (
-    <div>
-      <GlobalNavbar />
-      <Container maxWidth="xl">
-        <Stack direction="row" spacing={12}>
-          <Sidebar />
-          {/* <MyProfile /> */}
-          {/* <MyReservations /> */}
-          <MyEventListings />
-        </Stack>
-      </Container>
-    </div>
-  );
-}
+// This file houses all of the views for the settings page.
 
-function Sidebar() {
+export function Sidebar({ selected }) {
   return (
     <Box sx={{ width: 291, height: 744, mt: 3 }}>
       <Typography sx={{ fontWeight: 700, fontSize: 28, mb: 1.5 }}>
@@ -105,28 +92,69 @@ function Sidebar() {
       >
         <Typography
           color="secondary"
-          sx={{ fontWeight: 700, fontSize: 18, ml: 4, my: 3.9 }}
+          sx={{
+            fontWeight: selected == "Profile" ? 700 : 400,
+            fontSize: 18,
+            ml: 4,
+            my: 3.9,
+          }}
         >
-          My Profile
+          <Link
+            to="/settings/profile"
+            color="secondary"
+            component={RouterLink}
+            underline="none"
+          >
+            My Profile
+          </Link>
         </Typography>
         <Divider />
         <Typography
           color="secondary"
-          sx={{ fontWeight: 400, fontSize: 18, ml: 4, my: 3.9 }}
+          sx={{
+            fontWeight: selected == "Reservations" ? 700 : 400,
+            fontSize: 18,
+            ml: 4,
+            my: 3.9,
+          }}
         >
-          My Reservations
+          <Link
+            to="/settings/reservations"
+            color="secondary"
+            component={RouterLink}
+            underline="none"
+          >
+            My Reservations
+          </Link>
         </Typography>
         <Divider />
         <Typography
           color="secondary"
-          sx={{ fontWeight: 400, fontSize: 18, ml: 4, my: 3.9 }}
+          sx={{
+            fontWeight: selected == "Listings" ? 700 : 400,
+            fontSize: 18,
+            ml: 4,
+            my: 3.9,
+          }}
         >
-          My Event Listings
+          <Link
+            to="/settings/listings"
+            color="secondary"
+            component={RouterLink}
+            underline="none"
+          >
+            My Event Listings
+          </Link>
         </Typography>
         <Divider />
         <Typography
           color="secondary"
-          sx={{ fontWeight: 400, fontSize: 18, ml: 4, my: 3.9 }}
+          sx={{
+            fontWeight: selected == "Payment" ? 700 : 400,
+            fontSize: 18,
+            ml: 4,
+            my: 3.9,
+          }}
         >
           Payment Options
         </Typography>
@@ -136,7 +164,7 @@ function Sidebar() {
   );
 }
 
-function MyProfile() {
+export function MyProfile() {
   return (
     <Box sx={{ flex: 1 }}>
       <Typography sx={{ fontWeight: 700, fontSize: 28, mt: 3, mb: 1.5 }}>
@@ -383,7 +411,7 @@ function MyProfile() {
   );
 }
 
-function MyReservations() {
+export function MyReservations() {
   return (
     <Box sx={{ flex: 1 }}>
       <Typography sx={{ fontWeight: 700, fontSize: 45, mt: 3, mb: 1.5 }}>
@@ -438,7 +466,7 @@ function MyReservations() {
   );
 }
 
-function MyEventListings() {
+export function MyEventListings() {
   return (
     <Box sx={{ flex: 1 }}>
       <Typography sx={{ fontWeight: 700, fontSize: 45, mt: 3, mb: 1.5 }}>
