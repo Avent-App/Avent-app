@@ -16,6 +16,7 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import AboutUs from "./AboutUs";
 
 export default function Landing() {
   return (
@@ -24,6 +25,7 @@ export default function Landing() {
       <Hero />
       <SubHero />
       <Body />
+      <AboutUs />
       <Footer />
     </Container>
   );

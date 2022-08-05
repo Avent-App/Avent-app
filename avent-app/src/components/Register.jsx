@@ -10,27 +10,28 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { Container } from "@mui/material";
-import axios from "axios";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import login from "../assets/login.jpg";
 import { validEmail } from "../Regex";
 import apiClient from "../services/apiClient";
 
+/**
+ *
+ * @param {*} param0 props drilled down from app.js
+ * @returns registration form
+ */
 export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
   const navigate = useNavigate();
   const [account, setAccount] = React.useState("");
   const [location, setLocation] = React.useState("");
   const [errors, setErrors] = React.useState({});
-  const [emailErr, setEmailErr] = React.useState(false);
   const [form, setForm] = React.useState({
     first_name: "",
     last_name: "",
     email: "",
     password: "",
     confirmPassword: "",
-    // account_type: "",
-    // location: "",
   });
 
   /**
@@ -62,15 +63,6 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
         setErrors((e) => ({ ...e, email: null }));
       }
     }
-
-    // if (event.target.name === "email") {
-    //   if (event.target.value.indexOf("@") === -1) {
-    //     setErrors((e) => ({ ...e, email: "Please enter a valid email." }));
-    //   } else {
-    //     setErrors((e) => ({ ...e, email: null }));
-    //   }
-    // }
-
     setForm((f) => ({ ...f, [event.target.name]: event.target.value }));
   };
 
@@ -98,7 +90,10 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
       location: location,
       company: company,
     };
-    console.log(signupInfo);
+
+    /**
+     * checks user has filled out whole form, if not returns an alert
+     */
     if (
       signupInfo.first_name === "" ||
       signupInfo.last_name === "" ||
@@ -203,12 +198,7 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                 </span>
               )}
             </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
-            >
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <label
                   style={{
@@ -230,10 +220,7 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                   Last Name
                 </label>
               </Box>
-              <Box
-                className="namesInput"
-                sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}
-              >
+              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
                 <TextField
                   margin="normal"
                   fullWidth
@@ -342,12 +329,7 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                 style={{ marginTop: "8px" }}
                 onChange={handleOnInputChange}
               />
-              <ControlledOpenSelect
-                account={account}
-                location={location}
-                setLocation={setLocation}
-                setAccount={setAccount}
-              />
+              <ControlledOpenSelect account={account} location={location} setLocation={setLocation} setAccount={setAccount} />
               <Button
                 type="submit"
                 fullWidth
@@ -369,11 +351,7 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
               </Button>
               <Grid container>
                 <Grid item sx={{ marginTop: "50px", marginLeft: "7.5rem" }}>
-                  <Link
-                    href="/login"
-                    variant="body2"
-                    sx={{ textDecoration: "none" }}
-                  >
+                  <Link href="/login" variant="body2" sx={{ textDecoration: "none" }}>
                     <span
                       style={{
                         color: "#828282",
@@ -403,6 +381,12 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
     </Container>
   );
 }
+
+/**
+ *
+ * @param {*} param0 props passed from register component
+ * @returns dropdown textfields for "location" and "type of account" textields
+ */
 function ControlledOpenSelect({ location, account, setLocation, setAccount }) {
   const [accountOpen, setAccountOpen] = React.useState(false);
   const [locationOpen, setLocationOpen] = React.useState(false);
