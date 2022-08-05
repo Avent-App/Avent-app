@@ -10,16 +10,27 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Link as RouterLink } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
+import apiClient from "../services/apiClient";
+import { useEffect } from "react";
 
-export default function GlobalNavbar() {
+export default function GlobalNavbar({ isLoggedIn, setIsLoggedIn }) {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    
+    if (!apiClient.getToken()) {
+      navigate("/login");
+    }
+  }, [isLoggedIn]);
+
+  // !apiClient.tokenValidation(token)
 
   /**
    * Function that handles when the logs out
    */
   const handleOnLogout = () => {
-    // setAppState({});
-    // setUserLoggedIn(false);
+    // setIsLoggedIn(false);
+    apiClient.deleteToken();
     navigate("/");
   };
 
@@ -35,13 +46,25 @@ export default function GlobalNavbar() {
               fontSize: 20,
             }}
           >
-            <Link to="/feed" color="secondary" component={RouterLink} underline="none">
+            <Link
+              to="/feed"
+              color="secondary"
+              component={RouterLink}
+              underline="none"
+            >
               Avent
             </Link>
           </Typography>
           <Box sx={{ flexGrow: 0 }}>
-            <Stack direction="row" spacing={4} justifyContent="center" alignItems="center">
-              <AddCircleOutlineIcon onClick={(event) => (window.location.href = "createEvent")} />
+            <Stack
+              direction="row"
+              spacing={4}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <AddCircleOutlineIcon
+                onClick={(event) => (window.location.href = "createEvent")}
+              />
               <NotificationsNoneOutlinedIcon />
               <SettingsOutlinedIcon />
               <Avatar />

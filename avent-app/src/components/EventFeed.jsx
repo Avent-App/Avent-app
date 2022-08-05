@@ -17,7 +17,7 @@ import EventCard from "./EventCard";
 import CircularProgress from "@mui/material/CircularProgress";
 import apiClient from "../services/apiClient";
 
-export default function EventFeed() {
+export default function EventFeed({isLoggedIn, setIsLoggedIn}) {
   const [isLoading, setIsLoading] = useState(true);
   const [eventsData, setEventsData] = useState([]);
   const [searchItem, setSearchItem] = React.useState("");
@@ -42,7 +42,7 @@ export default function EventFeed() {
 
   return (
     <div>
-      <GlobalNavbar />
+      <GlobalNavbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
       <Hero
         eventsData={eventsData}
         setSearchItem={setSearchItem}

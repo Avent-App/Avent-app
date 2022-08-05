@@ -16,7 +16,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import apiClient from "../services/apiClient";
 
-export default function CreateEvent() {
+export default function CreateEvent({isLoggedIn, setIsLoggedIn}) {
   const [errors, setErrors] = useState({});
   const [value, setValue] = React.useState(new Date("2022-08-10T21:00:00"));
   const navigate = useNavigate();
@@ -96,7 +96,7 @@ export default function CreateEvent() {
 
   return (
     <Container maxWidth="xl">
-      <GlobalNavbar />
+      <GlobalNavbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
