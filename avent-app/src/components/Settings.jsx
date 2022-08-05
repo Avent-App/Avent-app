@@ -27,7 +27,6 @@ export default function Settings({ isLoggedIn, setIsLoggedIn }) {
         <Stack direction="row" spacing={12}>
           <Sidebar />
           {/* <MyProfile /> */}
-          <MyReservations />
         </Stack>
       </Container>
     </div>
