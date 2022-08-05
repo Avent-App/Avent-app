@@ -45,7 +45,7 @@ export function Sidebar({ selected }) {
             align="center"
             sx={{ fontSize: 28, fontWeight: 700, lineHeight: "32px" }}
           >
-            Paul <br /> Franco
+            Marc <br /> Benioff
           </Typography>
           <Button
             to="/settings/profile"
@@ -259,7 +259,7 @@ export function MyProfile() {
             <TextField
               fullWidth
               id="firstName"
-              placeholder="Paul"
+              placeholder="Marc"
               name="firstName"
             />
           </Stack>
@@ -280,7 +280,7 @@ export function MyProfile() {
             <TextField
               fullWidth
               id="lastName"
-              placeholder="Franco"
+              placeholder="Benioff"
               name="lastName"
             />
           </Stack>
@@ -301,7 +301,7 @@ export function MyProfile() {
             <TextField
               fullWidth
               id="email"
-              placeholder="paulfranco@gmail.com"
+              placeholder="marcbenioff@gmail.com"
               name="email"
               autoComplete="email"
             />
