@@ -12,12 +12,10 @@ import { useNavigate } from "react-router-dom";
 import apiClient from "../services/apiClient";
 import { useEffect } from "react";
 
-export default function GlobalNavbar({ isLoggedIn, setIsLoggedIn, setUser } }) {
-
+export default function GlobalNavbar({ isLoggedIn, setIsLoggedIn, setUser }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    
     if (!apiClient.getToken()) {
       navigate("/login");
     }
@@ -27,9 +25,9 @@ export default function GlobalNavbar({ isLoggedIn, setIsLoggedIn, setUser } }) {
    * Function that handles when the user logs out
    */
   const handleOnLogout = () => {
-    setIsLoggedIn(false);
+    // setIsLoggedIn(false);
     apiClient.deleteToken();
-    setUser({});
+    // setUser({});
     navigate("/");
   };
 
@@ -55,7 +53,12 @@ export default function GlobalNavbar({ isLoggedIn, setIsLoggedIn, setUser } }) {
             </Link>
           </Typography>
           <Box sx={{ flexGrow: 0 }}>
-            <Stack direction="row" spacing={4} justifyContent="center" alignItems="center">
+            <Stack
+              direction="row"
+              spacing={4}
+              justifyContent="center"
+              alignItems="center"
+            >
               <AddCircleOutlineIcon
                 style={{ cursor: "pointer" }}
                 sx={[
