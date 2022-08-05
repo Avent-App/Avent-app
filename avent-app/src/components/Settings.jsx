@@ -9,27 +9,18 @@ import {
   MenuItem,
   FormControl,
   Select,
+  Grid,
+  Link,
 } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import React from "react";
-import GlobalNavbar from "./GlobalNavbar";
+import EventCardHorizontal from "./EventCardHorizontal";
+import SmallEventCard from "./SmallEventCard";
+import { Link as RouterLink } from "react-router-dom";
 
-export default function Settings() {
-  return (
-    <div>
-      <GlobalNavbar />
-      <Container maxWidth="xl">
-        <Stack direction="row" spacing={12}>
-          <Sidebar />
-          {/* <MyProfile /> */}
-          <MyReservations />
-        </Stack>
-      </Container>
-    </div>
-  );
-}
+// This file houses all of the views for the settings page.
 
-function Sidebar() {
+export function Sidebar({ selected }) {
   return (
     <Box sx={{ width: 291, height: 744, mt: 3 }}>
       <Typography sx={{ fontWeight: 700, fontSize: 28, mb: 1.5 }}>
@@ -56,7 +47,13 @@ function Sidebar() {
           >
             Paul <br /> Franco
           </Typography>
-          <Button color="secondary" variant="outlined" sx={{ width: 118 }}>
+          <Button
+            to="/settings/profile"
+            component={RouterLink}
+            color="secondary"
+            variant="outlined"
+            sx={{ width: 118 }}
+          >
             Edit Profile
           </Button>
         </Stack>
@@ -71,7 +68,14 @@ function Sidebar() {
             marcbenioff@salesforce.com
           </Typography>
           <Typography sx={{ fontWeight: 400, fontSize: 13, color: "red" }}>
-            Edit
+            <Link
+              to="/settings/profile"
+              color="secondary"
+              component={RouterLink}
+              underline="none"
+            >
+              Edit
+            </Link>
           </Typography>
         </Stack>
         <Divider />
@@ -85,7 +89,14 @@ function Sidebar() {
             San Francisco, CA
           </Typography>
           <Typography sx={{ fontWeight: 400, fontSize: 13, color: "red" }}>
-            Edit Location
+            <Link
+              to="/settings/profile"
+              color="secondary"
+              component={RouterLink}
+              underline="none"
+            >
+              Edit Location
+            </Link>
           </Typography>
         </Stack>
       </Paper>
@@ -101,28 +112,69 @@ function Sidebar() {
       >
         <Typography
           color="secondary"
-          sx={{ fontWeight: 700, fontSize: 18, ml: 4, my: 3.9 }}
+          sx={{
+            fontWeight: selected == "Profile" ? 700 : 400,
+            fontSize: 18,
+            ml: 4,
+            my: 3.9,
+          }}
         >
-          My Profile
+          <Link
+            to="/settings/profile"
+            color="secondary"
+            component={RouterLink}
+            underline="none"
+          >
+            My Profile
+          </Link>
         </Typography>
         <Divider />
         <Typography
           color="secondary"
-          sx={{ fontWeight: 400, fontSize: 18, ml: 4, my: 3.9 }}
+          sx={{
+            fontWeight: selected == "Reservations" ? 700 : 400,
+            fontSize: 18,
+            ml: 4,
+            my: 3.9,
+          }}
         >
-          My Reservations
+          <Link
+            to="/settings/reservations"
+            color="secondary"
+            component={RouterLink}
+            underline="none"
+          >
+            My Reservations
+          </Link>
         </Typography>
         <Divider />
         <Typography
           color="secondary"
-          sx={{ fontWeight: 400, fontSize: 18, ml: 4, my: 3.9 }}
+          sx={{
+            fontWeight: selected == "Listings" ? 700 : 400,
+            fontSize: 18,
+            ml: 4,
+            my: 3.9,
+          }}
         >
-          My Event Listings
+          <Link
+            to="/settings/listings"
+            color="secondary"
+            component={RouterLink}
+            underline="none"
+          >
+            My Event Listings
+          </Link>
         </Typography>
         <Divider />
         <Typography
           color="secondary"
-          sx={{ fontWeight: 400, fontSize: 18, ml: 4, my: 3.9 }}
+          sx={{
+            fontWeight: selected == "Payment" ? 700 : 400,
+            fontSize: 18,
+            ml: 4,
+            my: 3.9,
+          }}
         >
           Payment Options
         </Typography>
@@ -132,7 +184,7 @@ function Sidebar() {
   );
 }
 
-function MyProfile() {
+export function MyProfile() {
   return (
     <Box sx={{ flex: 1 }}>
       <Typography sx={{ fontWeight: 700, fontSize: 28, mt: 3, mb: 1.5 }}>
@@ -379,12 +431,112 @@ function MyProfile() {
   );
 }
 
-function MyReservations() {
+export function MyReservations() {
   return (
     <Box sx={{ flex: 1 }}>
-      <Typography sx={{ fontWeight: 700, fontSize: 28, mt: 3, mb: 1.5 }}>
-        My Reservations
+      <Typography sx={{ fontWeight: 700, fontSize: 45, mt: 3, mb: 1.5 }}>
+        My Event Reservations
       </Typography>
+      <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>
+        This Week
+      </Typography>
+      <EventCardHorizontal
+        eventCategory={"FUN"}
+        eventHost={"david"}
+        eventDescription={
+          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sit hic praesentium nihil consequatur cupiditate ratione a dolorem voluptates eaque iusto, dolore sint temporibus maxime ipsa! Repellendus laboriosam excepturi velit error. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sit hic praesentium nihil consequatur cupiditate ratione a dolorem voluptates eaque iusto, dolore sint temporibus maxime ipsa! Repellendus laboriosam excepturi velit error."
+        }
+        startDate={"April 1st, 2022"}
+        eventName={"Pool Party"}
+        eventImageUrl={
+          "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F184375039%2F474927372937%2F1%2Foriginal.20211111-155142?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C236%2C4724%2C2362&s=ff52e826c551abbd9a90a39cccc5c303"
+        }
+        eventId={2}
+      />
+      <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>
+        Previous Events
+      </Typography>
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
+          <SmallEventCard
+            eventCategory={"FUN"}
+            eventHost={"david"}
+            startDate={"April 1st, 2022"}
+            eventName={"Pool Party"}
+            eventImageUrl={
+              "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F184375039%2F474927372937%2F1%2Foriginal.20211111-155142?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C236%2C4724%2C2362&s=ff52e826c551abbd9a90a39cccc5c303"
+            }
+            eventId={2}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <SmallEventCard
+            eventCategory={"FUN"}
+            eventHost={"david"}
+            startDate={"April 1st, 2022"}
+            eventName={"Pool Party"}
+            eventImageUrl={
+              "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F184375039%2F474927372937%2F1%2Foriginal.20211111-155142?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C236%2C4724%2C2362&s=ff52e826c551abbd9a90a39cccc5c303"
+            }
+            eventId={2}
+          />
+        </Grid>
+      </Grid>
+    </Box>
+  );
+}
+
+export function MyEventListings() {
+  return (
+    <Box sx={{ flex: 1 }}>
+      <Typography sx={{ fontWeight: 700, fontSize: 45, mt: 3, mb: 1.5 }}>
+        My Event Listings
+      </Typography>
+      <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>
+        This Week
+      </Typography>
+      <EventCardHorizontal
+        eventCategory={"FUN"}
+        eventHost={"david"}
+        eventDescription={
+          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sit hic praesentium nihil consequatur cupiditate ratione a dolorem voluptates eaque iusto, dolore sint temporibus maxime ipsa! Repellendus laboriosam excepturi velit error. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sit hic praesentium nihil consequatur cupiditate ratione a dolorem voluptates eaque iusto, dolore sint temporibus maxime ipsa! Repellendus laboriosam excepturi velit error."
+        }
+        startDate={"April 1st, 2022"}
+        eventName={"Pool Party"}
+        eventImageUrl={
+          "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F184375039%2F474927372937%2F1%2Foriginal.20211111-155142?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C236%2C4724%2C2362&s=ff52e826c551abbd9a90a39cccc5c303"
+        }
+        eventId={2}
+      />
+      <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>
+        Previous Events
+      </Typography>
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
+          <SmallEventCard
+            eventCategory={"FUN"}
+            eventHost={"david"}
+            startDate={"April 1st, 2022"}
+            eventName={"Pool Party"}
+            eventImageUrl={
+              "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F184375039%2F474927372937%2F1%2Foriginal.20211111-155142?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C236%2C4724%2C2362&s=ff52e826c551abbd9a90a39cccc5c303"
+            }
+            eventId={2}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <SmallEventCard
+            eventCategory={"FUN"}
+            eventHost={"david"}
+            startDate={"April 1st, 2022"}
+            eventName={"Pool Party"}
+            eventImageUrl={
+              "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F184375039%2F474927372937%2F1%2Foriginal.20211111-155142?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C236%2C4724%2C2362&s=ff52e826c551abbd9a90a39cccc5c303"
+            }
+            eventId={2}
+          />
+        </Grid>
+      </Grid>
     </Box>
   );
 }
