@@ -17,10 +17,15 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import apiClient from "../services/apiClient";
 
 export default function CreateEvent({isLoggedIn, setIsLoggedIn}) {
+
   const [errors, setErrors] = useState({});
   const [value, setValue] = React.useState(new Date("2022-08-10T21:00:00"));
   const navigate = useNavigate();
 
+  /**
+   * function that checks for new values on date and time pickers textfields
+   * @param {*} newValue it's the event target value inputted by users
+   */
   const handleChangeDateTime = (newValue) => {
     setValue(newValue);
   };
@@ -35,11 +40,12 @@ export default function CreateEvent({isLoggedIn, setIsLoggedIn}) {
     setErrors((e) => ({ ...e, form: null }));
     const data = new FormData(event.currentTarget);
 
-    //Printing out the data retreived from the createEvent page
+    /**
+     * Printing out the data retreived from the createEvent page
+     */
     const eventName = data.get("eventName");
     const eventAddress = data.get("eventAddress");
     const eventDate = value;
-    const eventTime = value;
     const eventImageUrl = data.get("image_url");
     const eventType = data.get("eventType");
     const eventDescription = data.get("eventDescription");
@@ -54,8 +60,10 @@ export default function CreateEvent({isLoggedIn, setIsLoggedIn}) {
       host_id: 1,
       event_category: eventType,
     };
-    console.log(eventsInfo);
 
+    /**
+     * this checks for user to fill out the entire form, if not returns an alert
+     */
     if (
       eventsInfo.title === "" ||
       eventsInfo.address === "" ||
@@ -67,15 +75,6 @@ export default function CreateEvent({isLoggedIn, setIsLoggedIn}) {
     ) {
       return alert("Please fill out the entire form.");
     }
-
-    /**
-     * Post the event info to the correct user id... Each user should have their own events info.
-     */
-
-    // let params = {
-    //   eventsInfo: eventsInfo,
-    //   // userId: user.id,
-    // };
 
     try {
       const res = await apiClient.createEvent(eventsInfo, `event/create`);
@@ -151,12 +150,7 @@ export default function CreateEvent({isLoggedIn, setIsLoggedIn}) {
             >
               Create an Event
             </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleOnSubmit}
-              sx={{ mt: 1 }}
-            >
+            <Box component="form" noValidate onSubmit={handleOnSubmit} sx={{ mt: 1 }}>
               <label
                 style={{
                   fontFamily: "Inter",
@@ -218,10 +212,7 @@ export default function CreateEvent({isLoggedIn, setIsLoggedIn}) {
                 </label>
               </Box>
 
-              <Box
-                className="namesInput"
-                sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}
-              >
+              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DesktopDatePicker
                     inputFormat="MM/dd/yyyy"
@@ -229,19 +220,11 @@ export default function CreateEvent({isLoggedIn, setIsLoggedIn}) {
                     id="date"
                     name="date"
                     onChange={handleChangeDateTime}
-                    renderInput={(params) => (
-                      <TextField {...params} sx={{ marginBottom: ".5rem" }} />
-                    )}
+                    renderInput={(params) => <TextField {...params} sx={{ marginBottom: ".5rem" }} />}
                   />
                 </LocalizationProvider>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <TimePicker
-                    id="time"
-                    name="time"
-                    value={value}
-                    onChange={handleChangeDateTime}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
+                  <TimePicker id="time" name="time" value={value} onChange={handleChangeDateTime} renderInput={(params) => <TextField {...params} />} />
                 </LocalizationProvider>
               </Box>
               <label

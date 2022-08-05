@@ -8,6 +8,7 @@ import CreateEvent from "./components/CreateEvent";
 import NotFound from "./components/NotFound";
 import { useState, useEffect } from "react";
 import AboutUs from "./components/AboutUs";
+
 import Listings from "./components/Listings";
 import Reservations from "./components/Reservations";
 import Profile from "./components/Profile";
@@ -24,35 +25,15 @@ function App() {
         <BrowserRouter>
           <main>
             <Routes>
-              <Route
-                path="/register"
-                element={
-                  <Register
-                    user={user}
-                    setUser={setUser}
-                    isLoggedIn={isLoggedIn}
-                    setIsLoggedIn={setIsLoggedIn}
-                  />
-                }
-              ></Route>
-              <Route
-                path="/login"
-                element={
-                  <Login
-                    user={user}
-                    setUser={setUser}
-                    isLoggedIn={isLoggedIn}
-                    setIsLoggedIn={setIsLoggedIn}
-                  />
-                }
-              ></Route>
+              <Route path="/register" element={<Register user={user} setUser={setUser} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}></Route>
+              <Route path="/login" element={<Login user={user} setUser={setUser} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}></Route>
               {/*Landing page routes*/}
 
               <Route path="/" element={<Landing />} />
 
               {/*Event feed routes*/}
 
-              <Route path="/feed" element={<EventFeed />} />
+              <Route path="/feed" element={<EventFeed setUser={setUser} isLoggedIn={isLoggedIn.user} />} />
               <Route path="/details/:eventId" element={<EventDetails />} />
               <Route path="/createEvent" element={<CreateEvent />} />
               <Route path="/aboutUs" element={<AboutUs />} />
