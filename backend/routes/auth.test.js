@@ -13,8 +13,8 @@ describe("Auth Routes", () => {
   describe("POST /auth/login/", () => {
     test("User can login successfully with valid credentials", async () => {
       const res = await request(app).post("/auth/login/").send({
-        email: "lebron@james.io",
-        password: "password1",
+        email: "i@sf.com",
+        password: "123",
       });
       expect(res.body).toEqual({
         token: expect.any(String),
