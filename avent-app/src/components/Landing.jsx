@@ -16,6 +16,7 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import AboutUs from "./AboutUs";
 
 export default function Landing() {
   return (
@@ -24,6 +25,7 @@ export default function Landing() {
       <Hero />
       <SubHero />
       <Body />
+      <AboutUs />
       <Footer />
     </Container>
   );
@@ -253,7 +255,9 @@ function Footer() {
           >
             <Box>
               <Typography component="p">
-                <CallIcon sx={{ color: "#D90429" }} />
+                <span style={{ marginTop: "10rem" }}>
+                  <CallIcon sx={{ color: "#D90429" }} />
+                </span>
                 (123) 456-7890
               </Typography>
             </Box>
@@ -269,19 +273,21 @@ function Footer() {
               flexDirection: "row",
             }}
           >
-            <Box>
-              <Typography
-                component="p"
-                sx={{
-                  color: "GrayText",
-                  fontWeight: "500",
-                  marginTop: "1rem",
-                  marginLeft: ".5rem",
-                }}
-              >
-                Social Media
-              </Typography>
-              <Box sx={{ display: "flex", flexDirection: "row", gap: "1.5rem" }}>
+            <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+              <Box>
+                <Typography
+                  component="p"
+                  sx={{
+                    color: "GrayText",
+                    fontWeight: "500",
+                    marginTop: "1rem",
+                    marginLeft: ".5rem",
+                  }}
+                >
+                  Social Media
+                </Typography>
+              </Box>
+              <Box sx={{ display: "flex", flexDirection: "row", gap: "1.5rem", marginTop: "1rem" }}>
                 <FacebookIcon sx={{ color: "#D90429" }} />
                 <TwitterIcon sx={{ color: "#D90429" }} />
                 <LinkedInIcon sx={{ color: "#D90429" }} />

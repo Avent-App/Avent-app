@@ -44,6 +44,20 @@ class ApiClient {
     return await this.request({ endpoint: `auth/me`, method: `GET` });
   }
 
+  async getUser(point) {
+    return await this.request({
+      endpoint: `user/${point}`,
+      method: `GET`,
+    });
+  }
+
+  async getEvent(point) {
+    return await this.request({
+      endpoint: `event/${point}`,
+      method: `GET`,
+    });
+  }
+
   async getEvents() {
     return await this.request({
       endpoint: `event/`,

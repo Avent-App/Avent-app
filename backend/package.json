@@ -4,12 +4,13 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest -i",
     "start": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/core": "^4.12.4",
     "bcrypt": "^5.0.1",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
@@ -19,5 +20,9 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.19",
     "pg": "^8.7.3"
+  },
+  "devDependencies": {
+    "jest": "^28.1.3",
+    "supertest": "^6.2.4"
   }
 }

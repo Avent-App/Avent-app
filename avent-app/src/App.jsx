@@ -6,9 +6,13 @@ import EventFeed from "./components/EventFeed";
 import EventDetails from "./components/EventDetails";
 import CreateEvent from "./components/CreateEvent";
 import NotFound from "./components/NotFound";
-import Settings from "./components/Settings";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import AboutUs from "./components/AboutUs";
+
+import Listings from "./components/Listings";
+import Reservations from "./components/Reservations";
+import Profile from "./components/Profile";
+// import { SubHero } from "./components/Landing";
 
 function App() {
   const [user, setUser] = useState({});
@@ -20,39 +24,21 @@ function App() {
         <BrowserRouter>
           <main>
             <Routes>
-              <Route
-                path="/register"
-                element={
-                  <Register
-                    user={user}
-                    setUser={setUser}
-                    isLoggedIn={isLoggedIn}
-                    setIsLoggedIn={setIsLoggedIn}
-                  />
-                }
-              ></Route>
-              <Route
-                path="/login"
-                element={
-                  <Login
-                    user={user}
-                    setUser={setUser}
-                    isLoggedIn={isLoggedIn}
-                    setIsLoggedIn={setIsLoggedIn}
-                  />
-                }
-              ></Route>
-
+              <Route path="/register" element={<Register user={user} setUser={setUser} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}></Route>
+              <Route path="/login" element={<Login user={user} setUser={setUser} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}></Route>
               {/*Landing page routes*/}
 
               <Route path="/" element={<Landing />} />
 
               {/*Event feed routes*/}
 
-              <Route path="/feed" element={<EventFeed />} />
+              <Route path="/feed" element={<EventFeed setUser={setUser} isLoggedIn={isLoggedIn.user} />} />
               <Route path="/details/:eventId" element={<EventDetails />} />
               <Route path="/createEvent" element={<CreateEvent />} />
-              <Route path="/settings" element={<Settings />} />
+              <Route path="/aboutUs" element={<AboutUs />} />
+              <Route path="/settings/profile" element={<Profile />} />
+              <Route path="/settings/reservations" element={<Reservations />} />
+              <Route path="/settings/listings" element={<Listings />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

@@ -2,34 +2,34 @@ require("dotenv").config();
 require("colors");
 
 const PORT = process.env.PORT ? Number(process.env.PORT) : 3001;
-const SECRET_KEY =
-  process.env.jwtSecret || "78023nfsidh792u34bn90f2n934f01nfasopiadfd;'p[21j9302iesnj";
+const SECRET_KEY = process.env.jwtSecret || "super_dev";
+
+const IS_TESTING = process.env.NODE_ENV === "test";
 
 function getDatabaseUri() {
   const dbUser = process.env.DATABASE_USER || "postgres";
-  const dbPass = process.env.DATABASE_PASS
-    ? encodeURI(process.env.DATABASE_PASS)
-    : "postgres";
+  const dbPass = process.env.DATABASE_PASS ? encodeURI(process.env.DATABASE_PASS) : "postgres";
   const dbHost = process.env.DATABASE_HOST || "localhost";
   const dbPort = process.env.DATABASE_PORT || 5432;
-  const dbName = process.env.DATABASE_NAME || "avent";
+  const dbTestName = process.env.DATABASE_TEST_NAME || "avent_test";
+  const dbProdName = process.env.DATABASE_NAME || "avent";
+  const dbName = process.env.NODE_ENV === "test" ? dbTestName : dbProdName;
 
-  return (
-    process.env.DATABASE_URL ||
-    `postgresql://${dbUser}:${dbPass}@${dbHost}:${dbPort}/${dbName}`
-  );
+  return process.env.DATABASE_URL || `postgresql://${dbUser}:${dbPass}@${dbHost}:${dbPort}/${dbName}`;
 }
 
-const BCRYPT_WORK_FACTOR = 13;
+const BCRYPT_WORK_FACTOR = IS_TESTING ? 1 : 13;
 
 console.log("avent config:".red);
 console.log("Port:".blue, PORT);
+console.log("IS_TESTING:".blue, IS_TESTING);
 console.log("Database URI:".blue, getDatabaseUri());
 console.log("avent config:".green);
 console.log("---");
 
 module.exports = {
   PORT,
+  IS_TESTING,
   getDatabaseUri,
   BCRYPT_WORK_FACTOR,
   SECRET_KEY,

@@ -1,15 +1,5 @@
 import * as React from "react";
-import {
-  Container,
-  Typography,
-  Stack,
-  Box,
-  TextField,
-  Button,
-  Grid,
-  Divider,
-  checkboxClasses,
-} from "@mui/material";
+import { Container, Typography, Stack, Box, TextField, Button, Grid, Divider, checkboxClasses } from "@mui/material";
 import GlobalNavbar from "./GlobalNavbar";
 import { Link as RouterLink } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -17,11 +7,16 @@ import EventCard from "./EventCard";
 import CircularProgress from "@mui/material/CircularProgress";
 import apiClient from "../services/apiClient";
 
-export default function EventFeed() {
+export default function EventFeed({ isLoggedIn, setUser }) {
   const [isLoading, setIsLoading] = useState(true);
+  //state var to store array of events fetched from database
   const [eventsData, setEventsData] = useState([]);
+  //state var to set users input from searchbar
   const [searchItem, setSearchItem] = React.useState("");
 
+  /**
+   *asynchronous function for fetching the events data from database
+   */
   const getData = async () => {
     setIsLoading(true);
     const res = await apiClient.getEvents();
@@ -30,22 +25,17 @@ export default function EventFeed() {
     setIsLoading(false);
   };
 
-  // Adding a change to check if a pull request will happen.
-
   useEffect(() => {
     getData();
   }, []);
 
   return (
     <div>
-      <GlobalNavbar />
-      <Hero
-        eventsData={eventsData}
-        setSearchItem={setSearchItem}
-        searchItem={searchItem}
-      />
+      <GlobalNavbar setUser={setUser} isLoggedIn={isLoggedIn} />
+      <Hero eventsData={eventsData} setSearchItem={setSearchItem} searchItem={searchItem} />
       <Container maxWidth="xl" sx={{ mb: 5 }}>
         <Feed
+          //filters eventData array and includes the value iputted by user
           eventsData={eventsData.filter((event) => {
             return event.title.toLowerCase().includes(searchItem);
           })}
@@ -57,15 +47,6 @@ export default function EventFeed() {
 }
 
 function Hero({ eventsData, setSearchItem, searchItem }) {
-  /**
-   * filtering products array, lower casing them and checking if stateVar "searchItem" inputted by user is included in the array
-   */
-
-  /**
-   *
-   * @param {*} e
-   * Func search for item in searchBar input tag
-   */
   return (
     <Box
       alignContent="center"
@@ -88,21 +69,12 @@ function Hero({ eventsData, setSearchItem, searchItem }) {
           Upcoming Events in San Francisco
         </Typography>
         {/* Eventually, San Francisco will be replaced with the city that a user has chosen */}
-        <Typography
-          align="center"
-          sx={{ fontWeight: 400, fontSize: 16, lineHeight: "22px" }}
-        >
-          Et has minim elitr intellegat. Mea aeterno eleifend antiopam ad, nam
-          no suscipit quaerendum. <br /> At nam minimum ponderum. Est audiam
-          animal molestiae te.
+        <Typography align="center" sx={{ fontWeight: 400, fontSize: 16, lineHeight: "22px" }}>
+          Et has minim elitr intellegat. Mea aeterno eleifend antiopam ad, nam no suscipit quaerendum. <br /> At nam minimum ponderum. Est audiam animal
+          molestiae te.
         </Typography>
       </Stack>
-      <Stack
-        justifyContent="center"
-        alignItems="center"
-        direction="row"
-        spacing={3}
-      >
+      <Stack justifyContent="center" alignItems="center" direction="row" spacing={3}>
         <TextField
           variant="outlined"
           label="Search for an event"
@@ -141,6 +113,10 @@ function Hero({ eventsData, setSearchItem, searchItem }) {
 }
 
 function Feed({ eventsData, isLoading }) {
+  /**
+   *
+   * @returns creates a grid of event cards by mapping the eventsData array from the database
+   */
   const renderEventCards = () => {
     if (eventsData.length > 0) {
       return (
@@ -185,15 +161,9 @@ function Feed({ eventsData, isLoading }) {
 
   return (
     <div>
-      <Box sx={{ mt: 11, mb: 2 }}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Typography sx={{ fontWeight: 700, fontSize: 45 }}>
-            Explore
-          </Typography>
+      <Box sx={{ mt: 5, mb: 2 }}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Typography sx={{ fontWeight: 700, fontSize: 45 }}>Explore</Typography>
           <Button
             color="secondary"
             variant="contained"

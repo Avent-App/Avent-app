@@ -18,6 +18,7 @@ import { useParams } from "react-router";
 import CircularProgress from "@mui/material/CircularProgress";
 import NoPhoto from "../assets/No-Photo-Available.jpeg";
 import { useNavigate } from "react-router-dom";
+import apiClient from "../services/apiClient";
 
 // This page GETS information from the events table using the eventsId param in the URL and displays it to the user.
 
@@ -29,28 +30,23 @@ export default function EventDetails() {
 
   let navigate = useNavigate();
 
+  const getData = async () => {
+    try {
+      setIsLoading(true);
+      const res = await apiClient.getEvent(eventId);
+      setEventData(res.data.event[0]);
+      const res2 = await apiClient.getUser(res.data.event[0].host_id);
+      setUserData(res2.data);
+      setIsLoading(false);
+      setTimeout(() => setIsLoading(false), 400);
+    } catch (e) {
+      console.log(e);
+      navigate("/404");
+    }
+  };
+
   useEffect(() => {
-    setIsLoading(true);
-    axios
-      .get(`http://localhost:3001/event/${eventId}`)
-      .then((res) => {
-        //Now setting event data
-        console.log(res.data.event[0]);
-        setEventData(res.data.event[0]);
-        //Now setting user data
-        axios
-          .get(`http://localhost:3001/user/${res.data.event[0].host_id}`)
-          .then((res) => {
-            setUserData(res.data);
-          });
-      })
-      .catch((error) => {
-        console.log(error);
-        navigate("/404");
-      })
-      .finally((res) => {
-        setTimeout(() => setIsLoading(false), 400);
-      });
+    getData();
   }, []);
 
   return (

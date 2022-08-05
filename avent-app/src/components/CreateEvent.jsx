@@ -8,7 +8,6 @@ import Typography from "@mui/material/Typography";
 import { Container } from "@mui/material";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import GlobalNavbar from "./GlobalNavbar";
 import createEvent from "../assets/createEvent.png";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -17,11 +16,19 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import apiClient from "../services/apiClient";
 
+/**
+ *
+ * @returns a container or form for users to create/post an event
+ */
 export default function CreateEvent() {
   const [errors, setErrors] = useState({});
   const [value, setValue] = React.useState(new Date("2022-08-10T21:00:00"));
   const navigate = useNavigate();
 
+  /**
+   * function that checks for new values on date and time pickers textfields
+   * @param {*} newValue it's the event target value inputted by users
+   */
   const handleChangeDateTime = (newValue) => {
     setValue(newValue);
   };
@@ -36,11 +43,12 @@ export default function CreateEvent() {
     setErrors((e) => ({ ...e, form: null }));
     const data = new FormData(event.currentTarget);
 
-    //Printing out the data retreived from the createEvent page
+    /**
+     * Printing out the data retreived from the createEvent page
+     */
     const eventName = data.get("eventName");
     const eventAddress = data.get("eventAddress");
     const eventDate = value;
-    const eventTime = value;
     const eventImageUrl = data.get("image_url");
     const eventType = data.get("eventType");
     const eventDescription = data.get("eventDescription");
@@ -55,8 +63,10 @@ export default function CreateEvent() {
       host_id: 1,
       event_category: eventType,
     };
-    console.log(eventsInfo);
 
+    /**
+     * this checks for user to fill out the entire form, if not returns an alert
+     */
     if (
       eventsInfo.title === "" ||
       eventsInfo.address === "" ||
@@ -68,15 +78,6 @@ export default function CreateEvent() {
     ) {
       return alert("Please fill out the entire form.");
     }
-
-    /**
-     * Post the event info to the correct user id... Each user should have their own events info.
-     */
-
-    // let params = {
-    //   eventsInfo: eventsInfo,
-    //   // userId: user.id,
-    // };
 
     try {
       const res = await apiClient.createEvent(eventsInfo, `event/create`);
@@ -96,7 +97,7 @@ export default function CreateEvent() {
   };
 
   return (
-    <Container maxWidth="xl">
+    <Container disableGutters maxWidth="xl">
       <GlobalNavbar />
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
