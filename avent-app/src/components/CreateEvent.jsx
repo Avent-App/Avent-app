@@ -97,7 +97,7 @@ export default function CreateEvent() {
   };
 
   return (
-    <Container maxWidth="xl">
+    <Container disableGutters maxWidth="xl">
       <GlobalNavbar />
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
@@ -153,7 +153,12 @@ export default function CreateEvent() {
             >
               Create an Event
             </Typography>
-            <Box component="form" noValidate onSubmit={handleOnSubmit} sx={{ mt: 1 }}>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleOnSubmit}
+              sx={{ mt: 1 }}
+            >
               <label
                 style={{
                   fontFamily: "Inter",
@@ -215,7 +220,10 @@ export default function CreateEvent() {
                 </label>
               </Box>
 
-              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
+              <Box
+                className="namesInput"
+                sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}
+              >
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DesktopDatePicker
                     inputFormat="MM/dd/yyyy"
@@ -223,11 +231,19 @@ export default function CreateEvent() {
                     id="date"
                     name="date"
                     onChange={handleChangeDateTime}
-                    renderInput={(params) => <TextField {...params} sx={{ marginBottom: ".5rem" }} />}
+                    renderInput={(params) => (
+                      <TextField {...params} sx={{ marginBottom: ".5rem" }} />
+                    )}
                   />
                 </LocalizationProvider>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <TimePicker id="time" name="time" value={value} onChange={handleChangeDateTime} renderInput={(params) => <TextField {...params} />} />
+                  <TimePicker
+                    id="time"
+                    name="time"
+                    value={value}
+                    onChange={handleChangeDateTime}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
                 </LocalizationProvider>
               </Box>
               <label
