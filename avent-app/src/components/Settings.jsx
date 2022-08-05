@@ -47,7 +47,13 @@ export function Sidebar({ selected }) {
           >
             Paul <br /> Franco
           </Typography>
-          <Button color="secondary" variant="outlined" sx={{ width: 118 }}>
+          <Button
+            to="/settings/profile"
+            component={RouterLink}
+            color="secondary"
+            variant="outlined"
+            sx={{ width: 118 }}
+          >
             Edit Profile
           </Button>
         </Stack>
@@ -62,7 +68,14 @@ export function Sidebar({ selected }) {
             marcbenioff@salesforce.com
           </Typography>
           <Typography sx={{ fontWeight: 400, fontSize: 13, color: "red" }}>
-            Edit
+            <Link
+              to="/settings/profile"
+              color="secondary"
+              component={RouterLink}
+              underline="none"
+            >
+              Edit
+            </Link>
           </Typography>
         </Stack>
         <Divider />
@@ -76,7 +89,14 @@ export function Sidebar({ selected }) {
             San Francisco, CA
           </Typography>
           <Typography sx={{ fontWeight: 400, fontSize: 13, color: "red" }}>
-            Edit Location
+            <Link
+              to="/settings/profile"
+              color="secondary"
+              component={RouterLink}
+              underline="none"
+            >
+              Edit Location
+            </Link>
           </Typography>
         </Stack>
       </Paper>
