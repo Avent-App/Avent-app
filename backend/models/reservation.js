@@ -72,9 +72,9 @@ class Reservation {
     //This function gets upcoming reservations based on a user's id.
     const result = await db.query(
       `
-      SELECT *
-      FROM events, reservations
-      WHERE reservations.user_id = $1 AND reservations.event_id = events.event_id AND events.start_date > NOW();
+      SELECT events.event_id, host_id, title, description, image_url, address, start_date, event_category, first_name, last_name
+      FROM events, reservations, users
+      WHERE reservations.user_id = $1 AND reservations.event_id = events.event_id AND events.host_id = users.id AND events.start_date > NOW();
       `,
       [userId]
     );
@@ -85,9 +85,9 @@ class Reservation {
     //This function gets upcoming reservations based on a user's id.
     const result = await db.query(
       `
-      SELECT *
-      FROM events, reservations
-      WHERE reservations.user_id = $1 AND reservations.event_id = events.event_id AND events.end_date < NOW();
+      SELECT events.event_id, host_id, title, description, image_url, address, start_date, event_category, first_name, last_name
+      FROM events, reservations, users
+      WHERE reservations.user_id = $1 AND reservations.event_id = events.event_id AND events.host_id = users.id AND events.end_date < NOW();
       `,
       [userId]
     );

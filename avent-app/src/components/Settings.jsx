@@ -458,7 +458,7 @@ export function MyReservations({ upcomingReservations, pastReservations }) {
           <EventCardHorizontal
             key={idx}
             eventCategory={reservation.event_category}
-            eventHost={reservation.host_id}
+            eventHost={`${reservation.first_name} ${reservation.last_name}`}
             eventDescription={reservation.description}
             startDate={new Date(reservation.start_date).toLocaleString(
               "en-US",
@@ -482,7 +482,7 @@ export function MyReservations({ upcomingReservations, pastReservations }) {
             <Grid key={idx} item xs={6}>
               <SmallEventCard
                 eventCategory={reservation.event_category}
-                eventHost={reservation.host_id}
+                eventHost={`${reservation.first_name} ${reservation.last_name}`}
                 startDate={new Date(reservation.start_date).toLocaleString(
                   "en-US",
                   {

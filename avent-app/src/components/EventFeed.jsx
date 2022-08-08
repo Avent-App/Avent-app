@@ -159,7 +159,7 @@ function Feed({ eventsData, isLoading }) {
                   timeStyle: "short",
                 })}
                 eventDescription={event.description}
-                eventHost={event.host_id}
+                eventHost={`${event.first_name} ${event.last_name}`}
                 eventImageUrl={event.image_url}
                 eventId={event.event_id}
               />
