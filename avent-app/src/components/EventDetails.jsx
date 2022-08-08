@@ -19,10 +19,13 @@ import CircularProgress from "@mui/material/CircularProgress";
 import NoPhoto from "../assets/No-Photo-Available.jpeg";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../services/apiClient";
+import Zoom from "@mui/material/Zoom";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 
 // This page GETS information from the events table using the eventsId param in the URL and displays it to the user.
 
-export default function EventDetails({ isLoggedIn, setIsLoggedIn }) {
+export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
   const { eventId } = useParams();
   const [eventData, setEventData] = useState({});
   const [hostData, setHostData] = useState({});
@@ -74,6 +77,7 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn }) {
             eventData={eventData}
             hostData={hostData}
             eventId={eventId}
+            user={user}
           />
           <Stack>
             <CommentSection />
@@ -85,7 +89,7 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn }) {
   );
 }
 
-function EventInformation({ eventData, hostData, eventId }) {
+function EventInformation({ eventData, hostData, eventId, user }) {
   const startDate = new Date(eventData.start_date);
   const endDate = new Date(eventData.end_date);
 
@@ -180,21 +184,26 @@ function EventInformation({ eventData, hostData, eventId }) {
             </Button>
           </Stack>
         </Stack>
-        <HostInfo hostData={hostData} eventId={eventId} />
+        <HostInfo hostData={hostData} eventId={eventId} user={user} />
       </Stack>
     </Box>
   );
 }
 
-function HostInfo({ hostData, eventId }) {
+function HostInfo({ hostData, eventId, user }) {
   //Use host id to GET host information.
-  function handleOnSubmit() {
+  const [alertVisibility, setAlertVisibility] = useState(false);
+
+  async function handleOnSubmit() {
     const reservationObject = {
-      user_id: hostData.id,
+      user_id: user.id,
       event_id: parseInt(eventId),
     };
 
-    apiClient.createRSVP(reservationObject);
+    try {
+      const res = await apiClient.createRSVP(reservationObject);
+      setAlertVisibility(true);
+    } catch (e) {}
   }
 
   return (
@@ -223,6 +232,23 @@ function HostInfo({ hostData, eventId }) {
       >
         RSVP
       </Button>
+      {alertVisibility ? (
+        <Zoom
+          in={alertVisibility}
+          timeout={{ enter: 500, exit: 500 }}
+          addEndListener={() => {
+            setTimeout(() => {
+              setAlertVisibility(false);
+            }, 4000);
+          }}
+          sx={{ my: 2 }}
+        >
+          <Alert severity="success">
+            <AlertTitle>Success</AlertTitle>
+            You have successfully RSVPed for this event!
+          </Alert>
+        </Zoom>
+      ) : null}
     </Stack>
   );
 }
