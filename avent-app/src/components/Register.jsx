@@ -13,7 +13,7 @@ import { Container } from "@mui/material";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import login from "../assets/login.jpg";
-import { validEmail } from "../Regex";
+import { validEmail, validPassword } from "../Regex";
 import apiClient from "../services/apiClient";
 
 /**
@@ -65,6 +65,19 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
     }
     setForm((f) => ({ ...f, [event.target.name]: event.target.value }));
   };
+
+  //   //** Regex for validating passwords */
+  //      if (event.target.name === "password") {
+  //       if (!validPassword.test(event.target.value)) {
+  //         setErrors((e) => ({ ...e, password: "Your password is invalid" }));
+  //         // setEmailErr(true);
+  //       } else {
+  //         setErrors((e) => ({ ...e, password: null }));
+  //       }
+  //     }
+  //     setForm((f) => ({ ...f, [event.target.name]: event.target.value }));
+  //   }
+  // ;
 
   /**
    *

@@ -7,7 +7,7 @@ beforeEach(commonBeforeEach);
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
-/************************************** POST /auth/token */
+/** POST /auth/token */
 
 describe("Auth Routes", () => {
   describe("POST /auth/login/", () => {
@@ -20,14 +20,14 @@ describe("Auth Routes", () => {
         token: expect.any(String),
         user: {
           id: expect.any(Number),
-          password: "password",
-          first_name: "LeBron",
-          last_name: "James",
+          password: "$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq",
+          first_name: "Irem",
+          last_name: "Komurcu",
           account_type: "intern",
-          email: "lebron@james.io",
+          email: "i@sf.com",
           created_at: expect.any(String),
           updated_at: expect.any(String),
-          location: "123 Mission St",
+          location: "San Francisco",
           company: "Salesforce",
         },
       });
@@ -43,15 +43,15 @@ describe("Auth Routes", () => {
 
     test("Throws Unauthenticated error when user provides wrong password", async () => {
       const res = await request(app).post("/auth/login/").send({
-        email: "lebron@james.io",
-        password: "nope",
+        email: "i@sf.com",
+        password: "wrong",
       });
       expect(res.statusCode).toEqual(401);
     });
 
     test("Throws Bad Request error when user doesn't provide password", async () => {
       const res = await request(app).post("/auth/login/").send({
-        email: "lebron@james.io",
+        email: "i@sf.com",
       });
       expect(res.statusCode).toEqual(400);
     });
@@ -64,36 +64,40 @@ describe("Auth Routes", () => {
     });
   });
 
-  // /************************************** POST /auth/register */
-  // describe("POST /auth/register/", () => {
-  //   test("Allows user to register with valid credentials", async () => {
-  //     const res = await request(app).post("/auth/register/").send({
-  //       username: "new",
-  //       firstName: "first",
-  //       lastName: "last",
-  //       password: "pw",
-  //       email: "new@email.com",
-  //     });
-  //     expect(res.statusCode).toEqual(201);
-  //     expect(res.body).toEqual({
-  //       token: expect.any(String),
-  //       user: {
-  //         id: expect.any(Number),
-  //         username: "new",
-  //         firstName: "first",
-  //         lastName: "last",
-  //         email: "new@email.com",
-  //         createdAt: expect.any(String),
-  //         isAdmin: false,
-  //       },
-  //     });
-  //   });
+  // /**POST /auth/register */
+  describe("POST /auth/register/", () => {
+    test("Allows user to register with valid credentials", async () => {
+      const res = await request(app)
+        .post("/auth/register/")
+        .send({
+          first_name: "first",
+          last_name: "last",
+          password: "pw",
+          email: "new@email.com",
+          location: "San Francisco",
+          company: "Salesforce",
+          account_type: expect.any(String),
+        });
+      expect(res.statusCode).toEqual(201);
+      expect(res.body).toEqual({
+        token: expect.any(String),
+        user: {
+          first_name: "first",
+          last_name: "last",
+          email: "new@email.com",
+          password: expect.any(String),
+          location: "San Francisco",
+          company: "Salesforce",
+          account_type: expect.any(String),
+        },
+      });
+    });
 
-  //   test("Throws Bad Request error when user doesn't provide all fields", async () => {
-  //     const res = await request(app).post("/auth/register/").send({
-  //       username: "new",
-  //     });
-  //     expect(res.statusCode).toEqual(400);
-  //   });
-  // });
+    test("Throws Bad Request error when user doesn't provide all fields", async () => {
+      const res = await request(app).post("/auth/register/").send({
+        email: "new",
+      });
+      expect(res.statusCode).toEqual(400);
+    });
+  });
 });
