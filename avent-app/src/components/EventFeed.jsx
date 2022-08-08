@@ -32,7 +32,7 @@ export default function EventFeed({ isLoggedIn, setIsLoggedIn, setUser }) {
     const res = await apiClient.getEvents();
     console.log(res.data.events);
     setEventsData(res.data.events);
-    setIsLoading(false);
+    setTimeout(() => setIsLoading(false), 500);
   };
 
   useEffect(() => {

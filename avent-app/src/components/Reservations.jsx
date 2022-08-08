@@ -20,7 +20,7 @@ export default function Reservations({ user }) {
     const res2 = await apiClient.getPastReservations(user.id);
     setPastReservations(res2.data.getPastReservations);
     console.log(user);
-    setIsLoading(false);
+    setTimeout(() => setIsLoading(false), 500);
   };
 
   useEffect(() => {

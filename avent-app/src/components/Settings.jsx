@@ -445,44 +445,17 @@ export function MyProfile() {
 }
 
 export function MyReservations({ upcomingReservations, pastReservations }) {
-  return (
-    <Box sx={{ flex: 1 }}>
-      <Typography sx={{ fontWeight: 700, fontSize: 45, mt: 3, mb: 1.5 }}>
-        My Event Reservations
-      </Typography>
-      <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>
-        Upcoming
-      </Typography>
-      {upcomingReservations.map((reservation, idx) => {
-        return (
-          <EventCardHorizontal
-            key={idx}
-            eventCategory={reservation.event_category}
-            eventHost={`${reservation.first_name} ${reservation.last_name}`}
-            eventDescription={reservation.description}
-            startDate={new Date(reservation.start_date).toLocaleString(
-              "en-US",
-              {
-                dateStyle: "medium",
-                timeStyle: "short",
-              }
-            )}
-            eventName={reservation.title}
-            eventImageUrl={reservation.image_url}
-            eventId={reservation.event_id}
-          />
-        );
-      })}
-      <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>
-        Previous Events
-      </Typography>
-      <Grid container spacing={3}>
-        {pastReservations.map((reservation, idx) => {
-          return (
-            <Grid key={idx} item xs={6}>
-              <SmallEventCard
+  const renderUpcomingReservations = () => {
+    if (upcomingReservations.length > 0) {
+      return (
+        <Box>
+          {upcomingReservations.map((reservation, idx) => {
+            return (
+              <EventCardHorizontal
+                key={idx}
                 eventCategory={reservation.event_category}
                 eventHost={`${reservation.first_name} ${reservation.last_name}`}
+                eventDescription={reservation.description}
                 startDate={new Date(reservation.start_date).toLocaleString(
                   "en-US",
                   {
@@ -494,10 +467,59 @@ export function MyReservations({ upcomingReservations, pastReservations }) {
                 eventImageUrl={reservation.image_url}
                 eventId={reservation.event_id}
               />
-            </Grid>
-          );
-        })}
-      </Grid>
+            );
+          })}
+        </Box>
+      );
+    } else {
+      return <Typography>Nothing to show!</Typography>;
+    }
+  };
+
+  const renderPastReservations = () => {
+    if (upcomingReservations.length > 0) {
+      return (
+        <Grid container spacing={3} sx={{ mb: 5 }}>
+          {pastReservations.map((reservation, idx) => {
+            return (
+              <Grid key={idx} item xs={6}>
+                <SmallEventCard
+                  eventCategory={reservation.event_category}
+                  eventHost={`${reservation.first_name} ${reservation.last_name}`}
+                  startDate={new Date(reservation.start_date).toLocaleString(
+                    "en-US",
+                    {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    }
+                  )}
+                  eventName={reservation.title}
+                  eventImageUrl={reservation.image_url}
+                  eventId={reservation.event_id}
+                />
+              </Grid>
+            );
+          })}
+        </Grid>
+      );
+    } else {
+      return <Typography>Nothing to show!</Typography>;
+    }
+  };
+
+  return (
+    <Box sx={{ flex: 1 }}>
+      <Typography sx={{ fontWeight: 700, fontSize: 45, mt: 3, mb: 1.5 }}>
+        My Event Reservations
+      </Typography>
+      <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>
+        Upcoming
+      </Typography>
+      {renderUpcomingReservations()}
+      <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>
+        Previous Events
+      </Typography>
+      {renderPastReservations()}
     </Box>
   );
 }
