@@ -3,11 +3,11 @@ import React from "react";
 import GlobalNavbar from "./GlobalNavbar";
 import ErrorImage from "../assets/ErrorImage.png";
 
-export default function NotFound() {
+export default function NotFound({isLoggedIn, setIsLoggedIn}) {
   return (
     <div>
       {/* If the user is logged in, show the glboal navbar. Otherwise, show the other navbar. */}
-      <GlobalNavbar />
+      <GlobalNavbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
       <Stack spacing={3} sx={{ mt: 10 }}>
         <Typography
           align="center"

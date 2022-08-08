@@ -18,8 +18,10 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Link as RouterLink } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
+import apiClient from "../services/apiClient";
+import { useEffect } from "react";
 
-export default function GlobalNavbar({ isLoggedIn, setUser }) {
+export default function GlobalNavbar({ isLoggedIn, setIsLoggedIn, setUser }) {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -27,12 +29,19 @@ export default function GlobalNavbar({ isLoggedIn, setUser }) {
     setAnchorEl(null);
   };
 
+  useEffect(() => {
+    if (!apiClient.getToken()) {
+      navigate("/login");
+    }
+  }, [isLoggedIn]);
+
   /**
    * Function that handles when the user logs out
    */
   const handleOnLogout = () => {
-    setUser({});
-    // isLoggedIn(false);
+    // setIsLoggedIn(false);
+    apiClient.deleteToken();
+    // setUser({});
     navigate("/");
   };
 
@@ -107,6 +116,7 @@ export default function GlobalNavbar({ isLoggedIn, setUser }) {
                         color: "red",
                         backgroundColor: "white",
                       },
+
                     },
                     LogoutIcon && {
                       "&:hover": { backgroundColor: "grey" },

@@ -12,6 +12,21 @@ class ApiClient {
     this.token = token;
     localStorage.setItem(this.tokenName, token);
   }
+  deleteToken() {
+    localStorage.removeItem(this.tokenName);
+  }
+
+  getToken() {
+    return localStorage.getItem(this.tokenName);
+  }
+
+  tokenValidation(token) {
+    if (this.token == token) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   async request({ endpoint, method = `GET`, data = {} }) {
     const url = `${this.remoteHostUrl}/${endpoint}`;
