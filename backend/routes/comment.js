@@ -1,7 +1,7 @@
 const express = require("express");
-const User = require("../models/user");
+const Comment = require("../models/comment");
 const router = express.Router();
-const { createUserJwt } = require("../utils/tokens.js");
+
 const security = require("../middleware/security");
 
 // middleware that is specific to this router
