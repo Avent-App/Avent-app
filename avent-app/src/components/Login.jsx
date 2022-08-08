@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import login from "../assets/login.jpg";
 import apiClient from "../services/apiClient";
+import { validEmail } from "../Regex";
 
 /**
  *
@@ -152,7 +153,12 @@ export default function Login({ user, setUser, isLoggedIn, setIsLoggedIn }) {
                 </span>
               )}
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 1 }}
+            >
               <label
                 style={{
                   fontFamily: "Inter",
@@ -216,7 +222,11 @@ export default function Login({ user, setUser, isLoggedIn, setIsLoggedIn }) {
               </Button>
               <Grid container>
                 <Grid item sx={{ marginTop: "50px", marginLeft: "5.7rem" }}>
-                  <Link href="/register" variant="body2" sx={{ textDecoration: "none" }}>
+                  <Link
+                    href="/register"
+                    variant="body2"
+                    sx={{ textDecoration: "none" }}
+                  >
                     <span
                       style={{
                         color: "#828282",

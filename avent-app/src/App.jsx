@@ -63,7 +63,10 @@ function App() {
               <Route path="/createEvent" element={<CreateEvent />} />
               <Route path="/aboutUs" element={<AboutUs />} />
               <Route path="/settings/profile" element={<Profile />} />
-              <Route path="/settings/reservations" element={<Reservations />} />
+              <Route
+                path="/settings/reservations"
+                element={<Reservations user={user} />}
+              />
               <Route path="/settings/listings" element={<Listings />} />
               <Route path="*" element={<NotFound />} />
               <Route

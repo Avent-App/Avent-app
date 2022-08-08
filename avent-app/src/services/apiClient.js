@@ -66,6 +66,20 @@ class ApiClient {
     });
   }
 
+  async getUpcomingReservations(point) {
+    return await this.request({
+      endpoint: `reservations/upcoming/${point}`,
+      method: `GET`,
+    });
+  }
+
+  async getPastReservations(point) {
+    return await this.request({
+      endpoint: `reservations/pastEvents/${point}`,
+      method: `GET`,
+    });
+  }
+
   async getEvent(point) {
     return await this.request({
       endpoint: `event/${point}`,
