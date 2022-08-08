@@ -11,7 +11,7 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get("/",security.requireAuthenticatedUser,  async (req, res, next) => {
+router.get("/", security.requireAuthenticatedUser, async (req, res, next) => {
   try {
     const events = await Event.getEvents(req.body);
     return res.status(200).json({ events });
@@ -32,7 +32,7 @@ router.get("/:eventId", security.requireAuthenticatedUser, async (req, res, next
 router.post("/create", security.requireAuthenticatedUser, async (req, res, next) => {
   try {
     //takes the logged in user, and posts an event to the database
-    const event = await Event.createEvent(req.body);
+    const event = await Event.createEvent({ newEvent: req.body.newEvent });
     // const token = createUserJwt(user);
 
     console.log(req.body);

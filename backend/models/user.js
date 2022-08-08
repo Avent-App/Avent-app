@@ -21,7 +21,7 @@ class User {
   }
   static async login(credentials) {
     const requiredFields = ["email", "password"];
-    console.log(credentials);
+    // console.log(credentials);
 
     requiredFields.forEach((field) => {
       if (!credentials.hasOwnProperty(field)) {
@@ -43,15 +43,7 @@ class User {
   }
 
   static async register(credentials) {
-    const requiredFields = [
-      "first_name",
-      "last_name",
-      "email",
-      "password",
-      "location",
-      "account_type",
-      "company",
-    ];
+    const requiredFields = ["first_name", "last_name", "email", "password", "location", "account_type", "company"];
 
     requiredFields.forEach((field) => {
       if (!credentials.hasOwnProperty(field)) {
@@ -66,10 +58,7 @@ class User {
 
     const lowercasedEmail = credentials.email.toLowerCase();
 
-    const hashedPassword = await bcrypt.hash(
-      credentials.password,
-      BCRYPT_WORK_FACTOR
-    );
+    const hashedPassword = await bcrypt.hash(credentials.password, BCRYPT_WORK_FACTOR);
 
     const result = await db.query(
       `
@@ -85,15 +74,7 @@ class User {
     VALUES ($1,$2,$3,$4,$5,$6,$7)
     RETURNING first_name,last_name,email,password,location,account_type, company;
     `,
-      [
-        credentials.first_name,
-        credentials.last_name,
-        lowercasedEmail,
-        hashedPassword,
-        credentials.location,
-        credentials.account_type,
-        credentials.company,
-      ]
+      [credentials.first_name, credentials.last_name, lowercasedEmail, hashedPassword, credentials.location, credentials.account_type, credentials.company]
     );
     //return the user
     const user = result.rows[0];

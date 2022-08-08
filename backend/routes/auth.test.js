@@ -20,15 +20,15 @@ describe("Auth Routes", () => {
         token: expect.any(String),
         user: {
           id: expect.any(Number),
-          password: "$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq",
+          password: expect.any(String),
           first_name: "Irem",
           last_name: "Komurcu",
           account_type: "intern",
           email: "i@sf.com",
-          created_at: expect.any(String),
-          updated_at: expect.any(String),
           location: "San Francisco",
           company: "Salesforce",
+          created_at: expect.any(String),
+          updated_at: expect.any(String),
         },
       });
     });
@@ -58,7 +58,7 @@ describe("Auth Routes", () => {
 
     test("Throws Bad Request error when user doesn't provide email", async () => {
       const res = await request(app).post("/auth/login/").send({
-        password: "password1",
+        password: "123",
       });
       expect(res.statusCode).toEqual(400);
     });

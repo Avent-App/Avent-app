@@ -4,26 +4,17 @@ const { BadRequestError } = require("../utils/errors");
 // title, description, start_date, end_date, address
 
 class Event {
-  static async createEvent(event) {
-    const requiredFields = [
-      "host_id",
-      "title",
-      "description",
-      "start_date",
-      "end_date",
-      "address",
-      "event_category",
-      "image_url",
-    ];
+  static async createEvent({ newEvent }) {
+    const requiredFields = ["host_id", "title", "description", "start_date", "end_date", "address", "event_category", "image_url"];
 
     requiredFields.forEach((field) => {
-      if (!event.hasOwnProperty(field)) {
+      if (!newEvent.hasOwnProperty(field)) {
         throw new BadRequestError(`Missing ${field} in request body.`);
       }
     });
 
     //Check for userId
-    if (!event.host_id) {
+    if (!newEvent.host_id) {
       throw new BadRequestError("Missing userId in the request body.");
     }
 
@@ -44,14 +35,14 @@ class Event {
         RETURNING host_id,title,description,start_date,end_date,address,event_category,image_url;
         `,
       [
-        event.host_id,
-        event.title,
-        event.description,
-        event.start_date,
-        event.end_date,
-        event.address,
-        event.event_category,
-        event.image_url,
+        newEvent.host_id,
+        newEvent.title,
+        newEvent.description,
+        newEvent.start_date,
+        newEvent.end_date,
+        newEvent.address,
+        newEvent.event_category,
+        newEvent.image_url,
       ]
     );
     //return the exercise

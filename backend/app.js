@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   res.send(req.body);
 });
 
@@ -42,7 +42,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   const status = err.status || 500;
   const message = err.message;
-  console.log(err);
+  // console.log(err);
 
   return res.status(status).json({
     error: { message, status },
