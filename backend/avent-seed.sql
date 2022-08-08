@@ -16,3 +16,19 @@ VALUES
 (2, 'Cooking Class', 'Learn how to cook a 3-course meal', '2022-08-01 00:00:01', '2022-08-01 16:00:01', '180 Montgomery St, San Francisco, CA 94104', 'Class', 'https://cdn.pixabay.com/photo/2018/01/16/20/07/roulades-3086743_960_720.jpg'),
 (3, 'Gardening Class', 'Learn how to grow your own herbs and vegetables', '2022-08-02 00:00:01', '2022-08-02 16:00:01', ' 730 5th Ave, New York, NY 10019', 'Class', 'https://cdn.pixabay.com/photo/2017/05/09/13/31/spring-2298279_960_720.jpg'),
 (3, 'Ice Cream Social', 'Make your own ice cream sundaes', '2022-07-30 00:00:01', '2022-07-30 16:00:01', '789 Broad St, New York, NY 10002', 'Intern', 'https://cdn.pixabay.com/photo/2016/03/23/15/00/ice-cream-1274894_960_720.jpg');
+
+INSERT INTO reservations(user_id, event_id)
+VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(1,3),
+(2,3),
+(3,1),
+(1,4),
+(1,5),
+(2,6),
+(3,1),
+(3,5),
+(1,5),
+(2,1);
