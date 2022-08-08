@@ -7,7 +7,7 @@ const Event = require("../models/event");
 
 // middleware that is specific to this router
 router.use((req, res, next) => {
-  console.log("Time: ", Date.now());
+  // console.log("Time: ", Date.now());
   next();
 });
 
@@ -32,10 +32,10 @@ router.get("/:eventId", security.requireAuthenticatedUser, async (req, res, next
 router.post("/create", security.requireAuthenticatedUser, async (req, res, next) => {
   try {
     //takes the logged in user, and posts an event to the database
-    const event = await Event.createEvent({ newEvent: req.body.newEvent });
+    const event = await Event.createEvent(req.body);
     // const token = createUserJwt(user);
 
-    console.log(req.body);
+    // console.log(req.body);
     return res.status(201).json({ event });
   } catch (e) {
     next(e);

@@ -37,6 +37,8 @@ describe("POST /events/create/", () => {
     expect(res.statusCode).toEqual(404);
 
     const { event } = res.body;
+
+    //returning UNDEFINED ??
     console.log("EVEEEENT_______________", event);
 
     expect(event).toEqual({
