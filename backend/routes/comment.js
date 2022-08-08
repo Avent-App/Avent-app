@@ -28,7 +28,9 @@ router.get(
   security.requireAuthenticatedUser,
   async (req, res, next) => {
     try {
-      const comments = await Comment.getCommentSection(req.body);
+      const comments = await Comment.getCommentSection(
+        req.params.commentSectionId
+      );
       return res.status(200).json({ comments });
     } catch (err) {
       next(err);
