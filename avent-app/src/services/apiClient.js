@@ -80,6 +80,14 @@ class ApiClient {
     });
   }
 
+  async createRSVP(data) {
+    return await this.request({
+      endpoint: "reservations/create",
+      method: `POST`,
+      data: data,
+    });
+  }
+
   async getEvent(point) {
     return await this.request({
       endpoint: `event/${point}`,

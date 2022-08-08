@@ -22,10 +22,10 @@ import apiClient from "../services/apiClient";
 
 // This page GETS information from the events table using the eventsId param in the URL and displays it to the user.
 
-export default function EventDetails({isLoggedIn, setIsLoggedIn}) {
+export default function EventDetails({ isLoggedIn, setIsLoggedIn }) {
   const { eventId } = useParams();
   const [eventData, setEventData] = useState({});
-  const [userData, setUserData] = useState({});
+  const [hostData, setHostData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   let navigate = useNavigate();
@@ -36,7 +36,7 @@ export default function EventDetails({isLoggedIn, setIsLoggedIn}) {
       const res = await apiClient.getEvent(eventId);
       setEventData(res.data.event[0]);
       const res2 = await apiClient.getUser(res.data.event[0].host_id);
-      setUserData(res2.data);
+      setHostData(res2.data);
       setIsLoading(false);
       setTimeout(() => setIsLoading(false), 400);
     } catch (e) {
@@ -51,7 +51,7 @@ export default function EventDetails({isLoggedIn, setIsLoggedIn}) {
 
   return (
     <div>
-      <GlobalNavbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
+      <GlobalNavbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       {isLoading ? (
         <Container
           maxWidth={false}
@@ -70,7 +70,11 @@ export default function EventDetails({isLoggedIn, setIsLoggedIn}) {
             style={{ width: "100%", height: "600px" }}
             src={eventData.image_url ? eventData.image_url : NoPhoto}
           />
-          <EventInformation eventData={eventData} userData={userData} />
+          <EventInformation
+            eventData={eventData}
+            hostData={hostData}
+            eventId={eventId}
+          />
           <Stack>
             <CommentSection />
             <Comment />
@@ -81,7 +85,7 @@ export default function EventDetails({isLoggedIn, setIsLoggedIn}) {
   );
 }
 
-function EventInformation({ eventData, userData }) {
+function EventInformation({ eventData, hostData, eventId }) {
   const startDate = new Date(eventData.start_date);
   const endDate = new Date(eventData.end_date);
 
@@ -176,14 +180,22 @@ function EventInformation({ eventData, userData }) {
             </Button>
           </Stack>
         </Stack>
-        <HostInfo userData={userData} />
+        <HostInfo hostData={hostData} eventId={eventId} />
       </Stack>
     </Box>
   );
 }
 
-function HostInfo({ userData }) {
+function HostInfo({ hostData, eventId }) {
   //Use host id to GET host information.
+  function handleOnSubmit() {
+    const reservationObject = {
+      user_id: hostData.id,
+      event_id: parseInt(eventId),
+    };
+
+    apiClient.createRSVP(reservationObject);
+  }
 
   return (
     <Stack
@@ -196,16 +208,17 @@ function HostInfo({ userData }) {
         style={{ border: "1.68724px solid #26235C" }}
       />
       <Typography align="center" sx={{ fontWeight: 700, fontSize: 30 }}>
-        {`${userData.first_name} ${userData.last_name}`}
+        {`${hostData.first_name} ${hostData.last_name}`}
       </Typography>
       <Typography align="center" sx={{ fontWeight: 400, fontSize: 19 }}>
-        {`${userData.company} ${userData.account_type}`}
+        {`${hostData.company} ${hostData.account_type}`}
       </Typography>
 
       <Button
         variant="contained"
         color="secondary"
         disableElevation
+        onClick={() => handleOnSubmit()}
         sx={{ width: 158, height: 43.2, borderRadius: "5.6px" }}
       >
         RSVP
