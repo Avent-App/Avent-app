@@ -451,7 +451,7 @@ export function MyReservations() {
         My Event Reservations
       </Typography>
       <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>
-        This Week
+        Upcoming
       </Typography>
       <EventCardHorizontal
         eventCategory={"FUN"}
@@ -506,7 +506,7 @@ export function MyEventListings() {
         My Event Listings
       </Typography>
       <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>
-        This Week
+        Upcoming
       </Typography>
       <EventCardHorizontal
         eventCategory={"FUN"}

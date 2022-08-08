@@ -54,7 +54,9 @@ router.delete(
   async (req, res, next) => {
     try {
       const reservationID = req.params.reservationID;
-      const deletedReservation = Reservation.deleteReservation(reservationID);
+      const deletedReservation = await Reservation.deleteReservation(
+        reservationID
+      );
       res.status(201).json({ deletedReservation });
     } catch (err) {
       next(err);
@@ -62,4 +64,34 @@ router.delete(
   }
 );
 
+//Route that gets upcoming reservations by userId
+router.get(
+  "/upcoming/:userId",
+  security.requireAuthenticatedUser,
+  async (req, res, next) => {
+    try {
+      const userID = req.params.userId;
+      const upcomingReservations = await Reservation.getUpcomingReservations(
+        userID
+      );
+      res.status(201).json({ upcomingReservations });
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.get(
+  "/pastEvents/:userId",
+  security.requireAuthenticatedUser,
+  async (req, res, next) => {
+    try {
+      const userID = req.params.userId;
+      const getPastReservations = await Reservation.getPastReservations(userID);
+      res.status(201).json({ getPastReservations });
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 module.exports = router;
