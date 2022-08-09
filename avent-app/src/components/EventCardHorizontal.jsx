@@ -9,11 +9,16 @@ import {
   CardActions,
   Stack,
   Avatar,
-  Link,
   Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { Link as RouterLink } from "react-router-dom";
+import { useState } from "react";
+import apiClient from "../services/apiClient";
 
 export default function EventCardHorizontal({
   eventImageUrl,
@@ -23,8 +28,30 @@ export default function EventCardHorizontal({
   eventDescription,
   eventHost,
   eventId,
+  reservationId,
+  getData,
 }) {
   let navigate = useNavigate();
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOnSubmit = async () => {
+    try {
+      await apiClient.deleteReservation(reservationId);
+      setOpen(false);
+      getData();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Card
@@ -40,7 +67,7 @@ export default function EventCardHorizontal({
       <CardMedia
         component="img"
         sx={{ width: 312 }}
-        image={eventImageUrl}
+        image={eventImageUrl ? eventImageUrl : NoPhoto}
         alt="Event image"
       />
       <Box
@@ -107,16 +134,69 @@ export default function EventCardHorizontal({
             color="secondary"
             sx={{ fontWeight: 600, fontSize: 12 }}
           >
-            <Link
-              to={`/details/${eventId}`}
-              color="secondary"
-              component={RouterLink}
-              underline="none"
-            >
-              Learn more →
-            </Link>
+            <Button variant="text" onClick={handleClickOpen}>
+              Cancel Reservation
+            </Button>
           </Typography>
         </CardActions>
+
+        <Dialog
+          maxWidth="md"
+          open={open}
+          onClose={handleClose}
+          PaperProps={{
+            style: { borderRadius: "10px", width: 500 },
+          }}
+        >
+          <DialogTitle sx={{ mt: 1 }}>
+            <Typography sx={{ fontWeight: 500, fontSize: 30 }}>
+              Cancel your reservation?
+            </Typography>
+          </DialogTitle>
+          <DialogContent>
+            <Typography sx={{ fontWeight: 400, fontSize: 15 }}>
+              If you cancel your reservation, you may not be able to reserve
+              again.
+            </Typography>
+          </DialogContent>
+          <DialogActions sx={{ mx: 1 }}>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
+              sx={{ width: 500 }}
+            >
+              <Button
+                onClick={handleClose}
+                variant="outlined"
+                color="secondary"
+                disableElevation
+                sx={{
+                  width: 175,
+                  height: 43.2,
+                  borderRadius: "5.6px",
+                  mb: 1,
+                }}
+              >
+                Keep Reservation
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                disableElevation
+                onClick={() => handleOnSubmit()}
+                sx={{
+                  width: 175,
+                  height: 43.2,
+                  borderRadius: "5.6px",
+                  mb: 1,
+                }}
+              >
+                Confirm
+              </Button>
+            </Stack>
+          </DialogActions>
+        </Dialog>
       </Box>
     </Card>
   );

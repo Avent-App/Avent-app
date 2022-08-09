@@ -24,7 +24,6 @@ router.post(
   async (req, res, next) => {
     try {
       const reservation = await Reservation.createReservation(req.body);
-      console.log(req.body);
       return res.status(201).json({ reservation });
     } catch (err) {
       next(err);
@@ -54,10 +53,10 @@ router.delete(
   async (req, res, next) => {
     try {
       const reservationID = req.params.reservationID;
-      const deletedReservation = await Reservation.deleteReservation(
-        reservationID
-      );
-      res.status(201).json({ deletedReservation });
+      await Reservation.deleteReservation(reservationID);
+      res
+        .status(201)
+        .send(`Successfully deleted reservation with id: ${reservationID}`);
     } catch (err) {
       next(err);
     }
@@ -74,7 +73,6 @@ router.get(
       const upcomingReservations = await Reservation.getUpcomingReservations(
         userID
       );
-      console.log(upcomingReservations);
       res.status(201).json({ upcomingReservations });
     } catch (err) {
       next(err);
@@ -103,7 +101,6 @@ router.get(
     try {
       const userID = req.params.userId;
       const eventId = req.params.eventId;
-      console.log(eventId, userID);
       const getReservation = await Reservation.checkIfReserved(eventId, userID);
       res.status(201).json({ getReservation });
     } catch (err) {
