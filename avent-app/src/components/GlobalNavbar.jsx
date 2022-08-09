@@ -116,7 +116,6 @@ export default function GlobalNavbar({ isLoggedIn, setIsLoggedIn, setUser }) {
                         color: "red",
                         backgroundColor: "white",
                       },
-
                     },
                     LogoutIcon && {
                       "&:hover": { backgroundColor: "grey" },

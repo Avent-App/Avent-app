@@ -34,6 +34,7 @@ export default function EventCardHorizontal({
         height: 312,
         borderRadius: "17px",
         boxShadow: "0px 26.1132px 69.6352px rgba(0, 0, 0, 0.06)",
+        mb: 5,
       }}
     >
       <CardMedia
