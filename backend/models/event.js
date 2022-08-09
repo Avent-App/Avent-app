@@ -56,8 +56,10 @@ class Event {
   static async getEvents() {
     const result = await db.query(
       `
-      SELECT *
-      FROM events;`
+      SELECT event_id, host_id, title, description, image_url, address, start_date, event_category, first_name, last_name
+      FROM events, users
+      WHERE events.host_id = users.id;
+      `
     );
 
     return result.rows;
