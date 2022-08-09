@@ -53,7 +53,6 @@ class Reservation {
         `,
       [reservationId]
     );
-    return result.rows;
   }
 
   static async getReservation(reservationId) {

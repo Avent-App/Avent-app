@@ -95,6 +95,13 @@ class ApiClient {
     });
   }
 
+  async deleteReservation(reservationId) {
+    return await this.request({
+      endpoint: `reservations/delete/${reservationId}`,
+      method: `DELETE`,
+    });
+  }
+
   async getEvent(point) {
     return await this.request({
       endpoint: `event/${point}`,
