@@ -78,6 +78,7 @@ class Reservation {
       `,
       [userId]
     );
+    console.log(result.rows);
     return result.rows;
   }
 
@@ -91,6 +92,21 @@ class Reservation {
       `,
       [userId]
     );
+    return result.rows;
+  }
+
+  static async checkIfReserved(eventId, userId) {
+    console.log("eventid:", eventId);
+    console.log("userid:", userId);
+    const result = await db.query(
+      `
+        SELECT *
+        FROM reservations
+        WHERE event_id = $1 AND user_id = $2;
+        `,
+      [eventId, userId]
+    );
+    console.log(result.rows);
     return result.rows;
   }
 }

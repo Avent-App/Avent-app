@@ -477,7 +477,7 @@ export function MyReservations({ upcomingReservations, pastReservations }) {
   };
 
   const renderPastReservations = () => {
-    if (upcomingReservations.length > 0) {
+    if (pastReservations.length > 0) {
       return (
         <Grid container spacing={3} sx={{ mb: 5 }}>
           {pastReservations.map((reservation, idx) => {

@@ -74,6 +74,7 @@ router.get(
       const upcomingReservations = await Reservation.getUpcomingReservations(
         userID
       );
+      console.log(upcomingReservations);
       res.status(201).json({ upcomingReservations });
     } catch (err) {
       next(err);
@@ -94,4 +95,21 @@ router.get(
     }
   }
 );
+
+router.get(
+  "/checkReserved/:userId/:eventId",
+  security.requireAuthenticatedUser,
+  async (req, res, next) => {
+    try {
+      const userID = req.params.userId;
+      const eventId = req.params.eventId;
+      console.log(eventId, userID);
+      const getReservation = await Reservation.checkIfReserved(eventId, userID);
+      res.status(201).json({ getReservation });
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
 module.exports = router;

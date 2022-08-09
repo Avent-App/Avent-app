@@ -30,6 +30,7 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
   const [eventData, setEventData] = useState({});
   const [hostData, setHostData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [reserved, setReserved] = useState(false);
 
   let navigate = useNavigate();
 
@@ -40,11 +41,23 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
       setEventData(res.data.event[0]);
       const res2 = await apiClient.getUser(res.data.event[0].host_id);
       setHostData(res2.data);
-      setIsLoading(false);
+      checkReserved();
       setTimeout(() => setIsLoading(false), 400);
     } catch (e) {
       console.log(e);
       navigate("/404");
+    }
+  };
+
+  const checkReserved = async () => {
+    try {
+      const res = await apiClient.checkReserved(eventId, user.id);
+      console.log(res.data.getReservation);
+      if (res.data.getReservation.length > 0) {
+        setReserved(true);
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -78,6 +91,8 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
             hostData={hostData}
             eventId={eventId}
             user={user}
+            reserved={reserved}
+            setReserved={setReserved}
           />
           <Stack>
             <CommentSection />
@@ -89,7 +104,14 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
   );
 }
 
-function EventInformation({ eventData, hostData, eventId, user }) {
+function EventInformation({
+  eventData,
+  hostData,
+  eventId,
+  user,
+  reserved,
+  setReserved,
+}) {
   const startDate = new Date(eventData.start_date);
   const endDate = new Date(eventData.end_date);
 
@@ -184,13 +206,19 @@ function EventInformation({ eventData, hostData, eventId, user }) {
             </Button>
           </Stack>
         </Stack>
-        <HostInfo hostData={hostData} eventId={eventId} user={user} />
+        <HostInfo
+          hostData={hostData}
+          eventId={eventId}
+          user={user}
+          reserved={reserved}
+          setReserved={setReserved}
+        />
       </Stack>
     </Box>
   );
 }
 
-function HostInfo({ hostData, eventId, user }) {
+function HostInfo({ hostData, eventId, user, reserved, setReserved }) {
   //Use host id to GET host information.
   const [alertVisibility, setAlertVisibility] = useState(false);
 
@@ -199,10 +227,11 @@ function HostInfo({ hostData, eventId, user }) {
       user_id: user.id,
       event_id: parseInt(eventId),
     };
-
     try {
       const res = await apiClient.createRSVP(reservationObject);
+      console.log(res);
       setAlertVisibility(true);
+      setReserved(true);
     } catch (e) {}
   }
 
@@ -226,9 +255,10 @@ function HostInfo({ hostData, eventId, user }) {
       <Button
         variant="contained"
         color="secondary"
+        disabled={reserved}
         disableElevation
         onClick={() => handleOnSubmit()}
-        sx={{ width: 158, height: 43.2, borderRadius: "5.6px" }}
+        sx={{ width: 158, height: 43.2, borderRadius: "5.6px", mt: 1, mb: 1 }}
       >
         RSVP
       </Button>
@@ -241,7 +271,7 @@ function HostInfo({ hostData, eventId, user }) {
               setAlertVisibility(false);
             }, 4000);
           }}
-          sx={{ my: 2 }}
+          sx={{ my: 1 }}
         >
           <Alert severity="success">
             <AlertTitle>Success</AlertTitle>
