@@ -51,13 +51,44 @@ router.post(
 );
 
 router.get(
-  "/getListings/:userId",
+  "/getUpcomingListings/:userId",
   security.requireAuthenticatedUser,
   async (req, res, next) => {
     try {
       const userID = req.params.userId;
-      const listings = await Event.getUserEventListings(userID);
-      return res.status(201).json({ listings });
+      const upcomingListings = await Event.getUpcomingUserEventListings(userID);
+      return res.status(201).json({ upcomingListings });
+    } catch (e) {
+      next(e);
+    }
+  }
+);
+
+router.get(
+  "/getPastListings/:userId",
+  security.requireAuthenticatedUser,
+  async (req, res, next) => {
+    try {
+      const userID = req.params.userId;
+      const pastListings = await Event.getPastUserEventListings(userID);
+      return res.status(201).json({ pastListings });
+    } catch (e) {
+      next(e);
+    }
+  }
+);
+
+router.delete(
+  "/deleteEventListing/:eventId",
+  security.requireAuthenticatedUser,
+  async (req, res, next) => {
+    try {
+      //Check that user who is deleting the event listing is the host...eventually
+      const eventId = req.params.eventId;
+      await Event.deleteEventListing(eventId);
+      res
+        .status(201)
+        .send(`Successfully deleted event listing with id ${eventId}`);
     } catch (e) {
       next(e);
     }

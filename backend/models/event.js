@@ -95,16 +95,38 @@ class Event {
     return result.rows;
   }
 
-  static async getUserEventListings(userId) {
+  static async getUpcomingUserEventListings(userId) {
     const result = await db.query(
       `
       SELECT event_id, host_id, title, description, image_url, address, start_date, first_name, last_name
       FROM events, users
-      WHERE events.host_id = $1 AND events.host_id = users.id;
+      WHERE events.host_id = $1 AND events.host_id = users.id AND events.start_date > NOW();
       `,
       [userId]
     );
     return result.rows;
+  }
+
+  static async getPastUserEventListings(userId) {
+    const result = await db.query(
+      `
+      SELECT event_id, host_id, title, description, image_url, address, start_date, first_name, last_name
+      FROM events, users
+      WHERE events.host_id = $1 AND events.host_id = users.id AND events.end_date < NOW();
+      `,
+      [userId]
+    );
+    return result.rows;
+  }
+
+  static async deleteEventListing(eventId) {
+    const result = await db.query(
+      `
+        DELETE FROM events
+        WHERE event_id = $1;
+        `,
+      [eventId]
+    );
   }
 }
 

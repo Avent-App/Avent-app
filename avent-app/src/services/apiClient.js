@@ -116,10 +116,24 @@ class ApiClient {
     });
   }
 
-  async getUserEventListings(userId) {
+  async getUpcomingUserEventListings(userId) {
     return await this.request({
-      endpoint: `event/getListings/${userId}`,
+      endpoint: `event/getUpcomingListings/${userId}`,
       method: `GET`,
+    });
+  }
+
+  async getPastUserEventListings(userId) {
+    return await this.request({
+      endpoint: `event/getPastListings/${userId}`,
+      method: `GET`,
+    });
+  }
+
+  async deleteEventListing(eventId) {
+    return await this.request({
+      endpoint: `event/deleteEventListing/${eventId}`,
+      method: `DELETE`,
     });
   }
 
