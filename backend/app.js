@@ -6,6 +6,7 @@ const authRoute = require("./routes/auth.js");
 const eventRoute = require("./routes/event.js");
 const userRoute = require("./routes/user.js");
 const reservationRoute = require("./routes/reservation.js");
+const commentRoute = require("./routes/comment.js");
 const { NotFoundError } = require("./utils/errors");
 const security = require("./middleware/security.js");
 
@@ -19,6 +20,7 @@ app.use("/auth", authRoute);
 app.use("/event", eventRoute);
 app.use("/user", userRoute);
 app.use("/reservations", reservationRoute);
+app.use("/comment", commentRoute);
 
 // health check
 app.get("/", function (req, res) {

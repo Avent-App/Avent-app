@@ -26,6 +26,7 @@ CREATE TABLE events(
     FOREIGN KEY (host_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+
 CREATE TABLE reservations(
     reservation_id  SERIAL PRIMARY KEY,
     user_id         INTEGER NOT NULL,
@@ -33,4 +34,19 @@ CREATE TABLE reservations(
     created_at      TIMESTAMP NOT NULL DEFAULT NOW(),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (event_id) REFERENCES events(event_id) ON DELETE CASCADE
+);
+
+CREATE TABLE comment_section(
+    comment_section_id        SERIAL PRIMARY KEY,
+    event_id                   INTEGER NOT NULL,
+    FOREIGN KEY (event_id) REFERENCES events(event_id) ON DELETE CASCADE 
+);
+
+CREATE TABLE comment(
+    comment_id      SERIAL PRIMARY KEY,
+    user_id         INTEGER NOT NULL,
+    comment_section_id INTEGER NOT NULL,
+    comment_text    TEXT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (comment_section_id) REFERENCES comment_section(comment_section_id) ON DELETE CASCADE
 );
