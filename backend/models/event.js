@@ -5,16 +5,7 @@ const { BadRequestError } = require("../utils/errors");
 
 class Event {
   static async createEvent(event) {
-    const requiredFields = [
-      "host_id",
-      "title",
-      "description",
-      "start_date",
-      "end_date",
-      "address",
-      "event_category",
-      "image_url",
-    ];
+    const requiredFields = ["host_id", "title", "description", "start_date", "end_date", "address", "event_category", "image_url"];
 
     requiredFields.forEach((field) => {
       if (!event.hasOwnProperty(field)) {
@@ -43,16 +34,7 @@ class Event {
         VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
         RETURNING host_id,title,description,start_date,end_date,address,event_category,image_url;
         `,
-      [
-        event.host_id,
-        event.title,
-        event.description,
-        event.start_date,
-        event.end_date,
-        event.address,
-        event.event_category,
-        event.image_url,
-      ]
+      [event.host_id, event.title, event.description, event.start_date, event.end_date, event.address, event.event_category, event.image_url]
     );
     //return the exercise
     const eventRow = result.rows[0];

@@ -7,7 +7,7 @@ const Event = require("../models/event");
 
 // middleware that is specific to this router
 router.use((req, res, next) => {
-  console.log("Time: ", Date.now());
+  // console.log("Time: ", Date.now());
   next();
 });
 
@@ -42,11 +42,10 @@ router.post(
       const event = await Event.createEvent(req.body);
       // const token = createUserJwt(user);
 
-      console.log(req.body);
-      return res.status(201).json({ event });
-    } catch (e) {
-      next(e);
-    }
+    // console.log(req.body);
+    return res.status(201).json({ event });
+  } catch (e) {
+    next(e);
   }
 );
 

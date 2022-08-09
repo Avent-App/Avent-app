@@ -72,7 +72,7 @@ export default function Login({ user, setUser, isLoggedIn, setIsLoggedIn }) {
         console.log("--->", res.data);
         setErrors((e) => ({
           ...e,
-          signinInfo: "Invalid username/password combination",
+          form: "Invalid username/password combination",
         }));
       }
     } catch (err) {
