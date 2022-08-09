@@ -49,7 +49,6 @@ describe("User", () => {
   });
 
   /**User.register */
-
   describe("Test register", () => {
     const newUser = {
       first_name: "Test",
