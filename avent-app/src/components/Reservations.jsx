@@ -20,7 +20,7 @@ export default function Reservations({ user }) {
     setUpcomingReservations(res.data.upcomingReservations);
     const res2 = await apiClient.getPastReservations(user.id);
     setPastReservations(res2.data.getPastReservations);
-    setTimeout(() => setIsLoading(false), 500);
+    setTimeout(() => setIsLoading(false), 700);
   };
 
   useEffect(() => {
@@ -38,9 +38,8 @@ export default function Reservations({ user }) {
               maxWidth={false}
               sx={{
                 display: "flex",
-                height: "100vh",
                 justifyContent: "center",
-                mt: 10,
+                alignItems: "center",
               }}
             >
               <CircularProgress color="secondary" size={100} />
@@ -50,6 +49,7 @@ export default function Reservations({ user }) {
               user={user}
               upcomingReservations={upcomingReservations}
               pastReservations={pastReservations}
+              getData={getData}
             />
           )}
         </Stack>

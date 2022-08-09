@@ -444,7 +444,11 @@ export function MyProfile() {
   );
 }
 
-export function MyReservations({ upcomingReservations, pastReservations }) {
+export function MyReservations({
+  upcomingReservations,
+  pastReservations,
+  getData,
+}) {
   const renderUpcomingReservations = () => {
     if (upcomingReservations.length > 0) {
       return (
@@ -466,6 +470,8 @@ export function MyReservations({ upcomingReservations, pastReservations }) {
                 eventName={reservation.title}
                 eventImageUrl={reservation.image_url}
                 eventId={reservation.event_id}
+                reservationId={reservation.reservation_id}
+                getData={getData}
               />
             );
           })}
@@ -496,6 +502,7 @@ export function MyReservations({ upcomingReservations, pastReservations }) {
                   eventName={reservation.title}
                   eventImageUrl={reservation.image_url}
                   eventId={reservation.event_id}
+                  reservationId={reservation.reservation_id}
                 />
               </Grid>
             );
