@@ -1,7 +1,9 @@
 const request = require("supertest");
 const app = require("../app");
 
-const { commonBeforeAll, commonBeforeEach, commonAfterEach, commonAfterAll, testTokens, testListingIds } = require("../tests/common");
+const { commonBeforeAll, commonBeforeEach, commonAfterEach, commonAfterAll, testTokens, testUserIds, testListingIds } = require("../tests/common");
+
+//const testTokens = { iremToken, marcToken, adminToken };
 
 beforeAll(commonBeforeAll);
 beforeEach(commonBeforeEach);
@@ -21,9 +23,11 @@ const iremListing = {
 };
 
 /************************************** POST /events/ */
-describe("POST /events/create/", () => {
+describe("POST /event/create", () => {
   test("Authed user can create new event", async () => {
+    const hostId = testUserIds[0];
     const newEvent = {
+      host_id: hostId,
       title: "Test",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur finibus, ligula eu eleifend consequat, sem metus dignissim.",
       image_url: "https://images.unsplash.com/photo-1539437829697-1b4ed5aebd19?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1534&q=80",
@@ -33,31 +37,44 @@ describe("POST /events/create/", () => {
       end_date: "2022-07-28 16:00:01",
     };
 
-    const res = await request(app).post(`/events/create`).set("authorization", `Bearer ${testTokens.Token}`).send({ newEvent });
-    expect(res.statusCode).toEqual(404);
+    const res = await request(app).post(`/event/create`).set("authorization", `Bearer ${testTokens.iremToken}`).send({
+      host_id: hostId,
+      title: "Test",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur finibus, ligula eu eleifend consequat, sem metus dignissim.",
+      image_url: "https://images.unsplash.com/photo-1539437829697-1b4ed5aebd19?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1534&q=80",
+      event_category: "Intern",
+      address: "123 Mission St",
+      start_date: "2022-07-28 00:00:01",
+      end_date: "2022-07-28 16:00:01",
+    });
+    expect(res.statusCode).toEqual(201);
 
     const { event } = res.body;
 
-    //returning UNDEFINED ??
-    console.log("EVEEEENT_______________", event);
-
     expect(event).toEqual({
-      id: expect.any(Number),
-      userId: expect.any(Number),
-      email: "i@sf.com",
       title: newEvent.title,
-      location: newEvent.address,
+      address: expect.any(String),
       description: newEvent.description,
       image_url: newEvent.image_url,
-      start_date: newEvent.start_date,
-      end_date: newEvent.end_date,
+      start_date: expect.any(String),
+      end_date: expect.any(String),
       event_category: newEvent.event_category,
+      host_id: newEvent.host_id,
     });
   });
 
   test("Throws Unauthorized error when user is unauthenticated", async () => {
-    const res = await request(app).post(`/events/create`);
-    expect(res.statusCode).toEqual(404);
+    const newEvent = {
+      title: "Test",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur finibus, ligula eu eleifend consequat, sem metus dignissim.",
+      image_url: "https://images.unsplash.com/photo-1539437829697-1b4ed5aebd19?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1534&q=80",
+      event_category: "Intern",
+      address: "123 Mission St",
+      start_date: "2022-07-28 00:00:01",
+      end_date: "2022-07-28 16:00:01",
+    };
+    const res = await request(app).post(`/event/create`).send({ newEvent });
+    expect(res.statusCode).toEqual(401);
   });
 });
 

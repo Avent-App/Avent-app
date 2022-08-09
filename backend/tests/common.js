@@ -6,6 +6,7 @@ const db = require("../db.js");
 const testListingIds = [];
 // const testRsvpsIds = [];
 const testTokens = { iremToken, marcToken, adminToken };
+const testUserIds = [];
 
 async function commonBeforeAll() {
   // delete all current test data
@@ -20,6 +21,9 @@ async function commonBeforeAll() {
 
   for (let i = 0; i < listingIds.length; i++) {
     testListingIds.push(listingIds[i]);
+  }
+  for (let i = 0; i < userIds.length; i++) {
+    testUserIds.push(userIds[i]);
   }
 
   // const bookingIds = await createRsvps(userIds, listingIds);
@@ -47,6 +51,7 @@ module.exports = {
   commonAfterEach,
   commonAfterAll,
   testListingIds,
+  testUserIds,
   // testRsvpsIds,
   testTokens,
 };
