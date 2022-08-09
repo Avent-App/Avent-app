@@ -30,6 +30,7 @@ export default function EventCardHorizontal({
   eventId,
   reservationId,
   getData,
+  pageType,
 }) {
   let navigate = useNavigate();
 
@@ -41,16 +42,6 @@ export default function EventCardHorizontal({
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const handleOnSubmit = async () => {
-    try {
-      await apiClient.deleteReservation(reservationId);
-      setOpen(false);
-      getData();
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   return (
@@ -135,69 +126,176 @@ export default function EventCardHorizontal({
             sx={{ fontWeight: 600, fontSize: 12 }}
           >
             <Button variant="text" onClick={handleClickOpen}>
-              Cancel Reservation
+              {pageType == "reservations"
+                ? "Cancel your reservation"
+                : "Delete Listing"}
             </Button>
           </Typography>
         </CardActions>
-
-        <Dialog
-          maxWidth="md"
-          open={open}
-          onClose={handleClose}
-          PaperProps={{
-            style: { borderRadius: "10px", width: 500 },
-          }}
-        >
-          <DialogTitle sx={{ mt: 1 }}>
-            <Typography sx={{ fontWeight: 500, fontSize: 30 }}>
-              Cancel your reservation?
-            </Typography>
-          </DialogTitle>
-          <DialogContent>
-            <Typography sx={{ fontWeight: 400, fontSize: 15 }}>
-              If you cancel your reservation, you may not be able to reserve
-              again.
-            </Typography>
-          </DialogContent>
-          <DialogActions sx={{ mx: 1 }}>
-            <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="space-between"
-              sx={{ width: 500 }}
-            >
-              <Button
-                onClick={handleClose}
-                variant="outlined"
-                color="secondary"
-                disableElevation
-                sx={{
-                  width: 175,
-                  height: 43.2,
-                  borderRadius: "5.6px",
-                  mb: 1,
-                }}
-              >
-                Keep Reservation
-              </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                disableElevation
-                onClick={() => handleOnSubmit()}
-                sx={{
-                  width: 175,
-                  height: 43.2,
-                  borderRadius: "5.6px",
-                  mb: 1,
-                }}
-              >
-                Confirm
-              </Button>
-            </Stack>
-          </DialogActions>
-        </Dialog>
+        {
+          <DialogBoxes
+            pageType={pageType}
+            reservationId={reservationId}
+            getData={getData}
+            handleClickOpen={handleClickOpen}
+            handleClose={handleClose}
+            open={open}
+            setOpen={setOpen}
+            eventId={eventId}
+          />
+        }
       </Box>
     </Card>
   );
+}
+
+function DialogBoxes({
+  pageType,
+  reservationId,
+  getData,
+  handleClickOpen,
+  handleClose,
+  open,
+  setOpen,
+  eventId,
+}) {
+  const handleOnSubmitReservation = async () => {
+    try {
+      await apiClient.deleteReservation(reservationId);
+      setOpen(false);
+      getData();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleOnSubmitListing = async () => {
+    try {
+      await apiClient.deleteEventListing(eventId);
+      setOpen(false);
+      getData();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  if (pageType == "reservations") {
+    return (
+      <Dialog
+        maxWidth="md"
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          style: { borderRadius: "10px", width: 500 },
+        }}
+      >
+        <DialogTitle sx={{ mt: 1 }}>
+          <Typography sx={{ fontWeight: 500, fontSize: 30 }}>
+            Cancel your reservation?
+          </Typography>
+        </DialogTitle>
+        <DialogContent>
+          <Typography sx={{ fontWeight: 400, fontSize: 15 }}>
+            If you cancel your reservation, you may not be able to reserve
+            again.
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ mx: 1 }}>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+            sx={{ width: 500 }}
+          >
+            <Button
+              onClick={handleClose}
+              variant="outlined"
+              color="secondary"
+              disableElevation
+              sx={{
+                width: 175,
+                height: 43.2,
+                borderRadius: "5.6px",
+                mb: 1,
+              }}
+            >
+              Keep Reservation
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              disableElevation
+              onClick={() => handleOnSubmitReservation()}
+              sx={{
+                width: 175,
+                height: 43.2,
+                borderRadius: "5.6px",
+                mb: 1,
+              }}
+            >
+              Confirm
+            </Button>
+          </Stack>
+        </DialogActions>
+      </Dialog>
+    );
+  } else {
+    return (
+      <Dialog
+        maxWidth="md"
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          style: { borderRadius: "10px", width: 500 },
+        }}
+      >
+        <DialogTitle sx={{ mt: 1 }}>
+          <Typography sx={{ fontWeight: 500, fontSize: 30 }}>
+            Delete your event listing?
+          </Typography>
+        </DialogTitle>
+        <DialogContent>
+          <Typography sx={{ fontWeight: 400, fontSize: 15 }}>
+            If you delete your event listing, it will be gone forever.
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ mx: 1 }}>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+            sx={{ width: 500 }}
+          >
+            <Button
+              onClick={handleClose}
+              variant="outlined"
+              color="secondary"
+              disableElevation
+              sx={{
+                width: 175,
+                height: 43.2,
+                borderRadius: "5.6px",
+                mb: 1,
+              }}
+            >
+              Keep Listing
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              disableElevation
+              onClick={() => handleOnSubmitListing()}
+              sx={{
+                width: 175,
+                height: 43.2,
+                borderRadius: "5.6px",
+                mb: 1,
+              }}
+            >
+              Confirm
+            </Button>
+          </Stack>
+        </DialogActions>
+      </Dialog>
+    );
+  }
 }

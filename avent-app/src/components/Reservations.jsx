@@ -50,6 +50,7 @@ export default function Reservations({ user }) {
               upcomingReservations={upcomingReservations}
               pastReservations={pastReservations}
               getData={getData}
+              pageType={"reservations"}
             />
           )}
         </Stack>

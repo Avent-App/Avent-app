@@ -63,14 +63,20 @@ function App() {
                 path="/details/:eventId"
                 element={<EventDetails user={user} />}
               />
-              <Route path="/createEvent" element={<CreateEvent />} />
+              <Route
+                path="/createEvent"
+                element={<CreateEvent user={user} />}
+              />
               <Route path="/aboutUs" element={<AboutUs />} />
               <Route path="/settings/profile" element={<Profile />} />
               <Route
                 path="/settings/reservations"
                 element={<Reservations user={user} />}
               />
-              <Route path="/settings/listings" element={<Listings />} />
+              <Route
+                path="/settings/listings"
+                element={<Listings user={user} />}
+              />
               <Route path="*" element={<NotFound />} />
               <Route
                 path="/feed"
