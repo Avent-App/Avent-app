@@ -50,6 +50,20 @@ router.post(
   }
 );
 
+router.get(
+  "/getListings/:userId",
+  security.requireAuthenticatedUser,
+  async (req, res, next) => {
+    try {
+      const userID = req.params.userId;
+      const listings = await Event.getUserEventListings(userID);
+      return res.status(201).json({ listings });
+    } catch (e) {
+      next(e);
+    }
+  }
+);
+
 router.get("/me", security.requireAuthenticatedUser, async (req, res, next) => {
   try {
     const { email } = res.locals.user;

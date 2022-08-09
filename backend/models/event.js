@@ -94,6 +94,18 @@ class Event {
     );
     return result.rows;
   }
+
+  static async getUserEventListings(userId) {
+    const result = await db.query(
+      `
+      SELECT event_id, host_id, title, description, image_url, address, start_date, first_name, last_name
+      FROM events, users
+      WHERE events.host_id = $1 AND events.host_id = users.id;
+      `,
+      [userId]
+    );
+    return result.rows;
+  }
 }
 
 module.exports = Event;

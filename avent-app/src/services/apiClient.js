@@ -116,6 +116,13 @@ class ApiClient {
     });
   }
 
+  async getUserEventListings(userId) {
+    return await this.request({
+      endpoint: `event/getListings/${userId}`,
+      method: `GET`,
+    });
+  }
+
   async createEvent(data, point) {
     return await this.request({
       endpoint: point + `/`,
