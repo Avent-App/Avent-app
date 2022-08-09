@@ -23,7 +23,7 @@ describe("Auth Routes", () => {
           password: expect.any(String),
           first_name: "Irem",
           last_name: "Komurcu",
-          account_type: "intern",
+          account_type: "Intern",
           email: "i@sf.com",
           location: "San Francisco",
           company: "Salesforce",

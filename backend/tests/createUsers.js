@@ -8,7 +8,7 @@ const createUsers = async () => {
     INSERT INTO users (password, account_type, first_name, last_name, email, location, company)
     VALUES (
       '${await bcrypt.hash("123", BCRYPT_WORK_FACTOR)}',
-      'intern',
+      'Intern',
       'Irem',
       'Komurcu',
       'i@sf.com',
@@ -24,7 +24,7 @@ const createUsers = async () => {
       'Apple'
     ), (
       '${await bcrypt.hash("123", BCRYPT_WORK_FACTOR)}',
-      'intern',
+      'Intern',
       'Enrique',
       'Rico',
       'e@sf.com',
