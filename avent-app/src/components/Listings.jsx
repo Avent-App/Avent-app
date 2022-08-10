@@ -24,7 +24,7 @@ export default function Listings({ user }) {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [user]);
 
   return (
     <div>

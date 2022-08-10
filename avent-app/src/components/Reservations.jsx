@@ -25,7 +25,7 @@ export default function Reservations({ user }) {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [user]);
 
   return (
     <div>
