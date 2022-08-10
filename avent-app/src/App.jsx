@@ -13,11 +13,23 @@ import Listings from "./components/Listings";
 import Reservations from "./components/Reservations";
 import Profile from "./components/Profile";
 import Settings from "./components/Settings";
+import apiClient from "./services/apiClient";
 // import { SubHero } from "./components/Landing";
 
 function App() {
   const [user, setUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  async function getUserFromToken() {
+    if (await apiClient.getToken()) {
+      const res = await apiClient.fetchUserFromToken();
+      setUser(res.data.user);
+    }
+  }
+
+  useEffect(() => {
+    getUserFromToken();
+  }, []);
 
   return (
     <>

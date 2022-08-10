@@ -63,7 +63,7 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [user]);
 
   return (
     <div>
