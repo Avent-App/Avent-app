@@ -82,7 +82,10 @@ function App() {
                 element={<CreateEvent user={user} />}
               />
               <Route path="/aboutUs" element={<AboutUs />} />
-              <Route path="/settings/profile" element={<Profile />} />
+              <Route
+                path="/settings/profile"
+                element={<Profile user={user} setUser={setUser} />}
+              />
               <Route
                 path="/settings/reservations"
                 element={<Reservations user={user} />}
