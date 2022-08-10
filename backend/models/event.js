@@ -36,8 +36,20 @@ class Event {
         `,
       [event.host_id, event.title, event.description, event.start_date, event.end_date, event.address, event.event_category, event.image_url]
     );
-    //return the exercise
+
     const eventRow = result.rows[0];
+
+    const create_section = await db.query(
+      `
+        INSERT INTO comment_section(
+            event_id
+        )
+        VALUES ($1);
+        `,
+      [eventRow.event_id]
+    );
+
+    //return the exercise
     return eventRow;
   }
 
