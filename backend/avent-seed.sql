@@ -1,7 +1,7 @@
 -- First I need users in a seed
 -- 2nd, I need to make these conform to the new data form I need
 
-INSERT INTO users (password, account_type, first_name, last_name, email, location, company, bio)
+INSERT INTO users (password, account_type, first_name, last_name, email, location, company, biography)
 VALUES
 ('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','intern','Irem','Komurcu','i@sf.com','San Francisco', 'Salesforce', 'I love problems and solving puzzles, its how I derive my meaning in life!'),
 ('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','business','Sales','Force','marc@sf.com','San Francisco', 'Apple', 'I love empowering others through creative solutions and creating value and social change through my buisness.'),
