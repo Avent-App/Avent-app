@@ -66,6 +66,57 @@ class ApiClient {
     });
   }
 
+  async getUpcomingReservations(point) {
+    return await this.request({
+      endpoint: `reservations/upcoming/${point}`,
+      method: `GET`,
+    });
+  }
+
+  async getPastReservations(point) {
+    return await this.request({
+      endpoint: `reservations/pastEvents/${point}`,
+      method: `GET`,
+    });
+  }
+
+  async createRSVP(data) {
+    return await this.request({
+      endpoint: "reservations/create",
+      method: `POST`,
+      data: data,
+    });
+  }
+
+  async checkReserved(eventId, userId) {
+    return await this.request({
+      endpoint: `reservations/checkReserved/${userId}/${eventId}`,
+      method: `GET`,
+    });
+  }
+
+  async postComment(data) {
+    return await this.request({
+      endpoint: "comment/create",
+      method: `POST`,
+      data: data,
+    });
+  }
+
+  async getComments(commentSectionId) {
+    return await this.request({
+      endpoint: `comment/section/${commentSectionId}`,
+      method: `GET`,
+    });
+  }
+
+  async getUserFromComment(comment_id) {
+    return await this.request({
+      endpoint: `comment/user/${comment_id}`,
+      method: `GET`,
+    });
+  }
+
   async getEvent(point) {
     return await this.request({
       endpoint: `event/${point}`,

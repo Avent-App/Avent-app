@@ -39,9 +39,7 @@ export default function GlobalNavbar({ isLoggedIn, setIsLoggedIn, setUser }) {
    * Function that handles when the user logs out
    */
   const handleOnLogout = () => {
-    // setIsLoggedIn(false);
     apiClient.deleteToken();
-    // setUser({});
     navigate("/");
   };
 

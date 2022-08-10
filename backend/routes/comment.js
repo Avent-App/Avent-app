@@ -24,6 +24,19 @@ router.get(
 );
 
 router.get(
+  "/user/:commentId",
+  security.requireAuthenticatedUser,
+  async (req, res, next) => {
+    try {
+      const user = await Comment.getUserFromComment(req.params.commentId);
+      return res.status(200).json({ user });
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.get(
   "/section/:commentSectionId",
   security.requireAuthenticatedUser,
   async (req, res, next) => {

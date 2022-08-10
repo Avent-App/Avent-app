@@ -22,13 +22,82 @@ import apiClient from "../services/apiClient";
 
 // This page GETS information from the events table using the eventsId param in the URL and displays it to the user.
 
-export default function EventDetails({isLoggedIn, setIsLoggedIn}) {
+export default function EventDetails({isLoggedIn, setIsLoggedIn, user}) {
   const { eventId } = useParams();
   const [eventData, setEventData] = useState({});
   const [userData, setUserData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [reserved, setReserved] = useState(false);
+  const [commentData, setCommentData] = useState([]);
+
+  console.log(user);
 
   let navigate = useNavigate();
+
+  const handleOnSubmit = async (comment) => {
+    comment.preventDefault();
+    setErrors((e) => ({ ...e, form: null }));
+    const data = new FormData(comment.currentTarget);
+
+    /**
+     * Printing out the data retreived from the createEvent page
+     */
+    const sendComment = data.get("sendComment");
+    const sendCommentSection = eventId;
+    const sendUser = user.id;
+    const eventsInfo = {
+      title: eventName,
+      address: eventAddress,
+      start_date: eventDate,
+      end_date: eventDate,
+      image_url: eventImageUrl,
+      description: eventDescription,
+      // host_id has to be replaced with the logged in user
+      host_id: 1,
+      event_category: eventType,
+    };
+
+    /**
+     * this checks for user to fill out the entire form, if not returns an alert
+     */
+    if (
+      eventsInfo.title === "" ||
+      eventsInfo.address === "" ||
+      eventsInfo.start_date === "" ||
+      eventsInfo.end_dateime === "" ||
+      eventsInfo.image_url === "" ||
+      eventsInfo.description === "" ||
+      eventsInfo.event_category === ""
+    ) {
+      return alert("Please fill out the entire form.");
+    }
+
+    try {
+      const res = await apiClient.createEvent(eventsInfo, `event/create`);
+      if (res?.data) {
+        console.log("Successfully posted into the database!");
+        alert("Congratulations, your event has been successfully created!");
+        navigate("/feed");
+      }
+    } catch (err) {
+      console.log(err);
+      const message = err?.response?.data?.error?.message;
+      setErrors((e) => ({
+        ...e,
+        form: message ? String(message) : String(err),
+      }));
+    }
+  };
+
+  const getComments = async () => {
+    try {
+      const res = await apiClient.getComments(eventId);
+      console.log("res data:", res.data.comments);
+      setCommentData(res.data.comments);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const getData = async () => {
     try {
@@ -38,6 +107,8 @@ export default function EventDetails({isLoggedIn, setIsLoggedIn}) {
       const res2 = await apiClient.getUser(res.data.event[0].host_id);
       setUserData(res2.data);
       setIsLoading(false);
+      checkReserved();
+      getComments();
       setTimeout(() => setIsLoading(false), 400);
     } catch (e) {
       console.log(e);
@@ -45,9 +116,21 @@ export default function EventDetails({isLoggedIn, setIsLoggedIn}) {
     }
   };
 
+  const checkReserved = async () => {
+    try {
+      const res = await apiClient.checkReserved(eventId, user.id);
+      console.log(res.data.getReservation);
+      if (res.data.getReservation.length > 0) {
+        setReserved(true);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     getData();
-  }, []);
+  }, [user]);
 
   return (
     <div>
@@ -72,8 +155,7 @@ export default function EventDetails({isLoggedIn, setIsLoggedIn}) {
           />
           <EventInformation eventData={eventData} userData={userData} />
           <Stack>
-            <CommentSection />
-            <Comment />
+            <CommentSection commentData={commentData} user={user} />
           </Stack>
         </Container>
       )}
@@ -214,7 +296,8 @@ function HostInfo({ userData }) {
   );
 }
 
-function CommentSection() {
+function CommentSection({ commentData, user }) {
+  console.log(user);
   return (
     <Box>
       <Typography
@@ -230,6 +313,7 @@ function CommentSection() {
       >
         <Avatar sx={{ height: 58, width: 58 }} />
         <TextField
+          id="sendComment"
           multiline
           rows={3}
           label="Add a comment..."
@@ -251,11 +335,23 @@ function CommentSection() {
           Send
         </Button>
       </Stack>
+      {commentData.map((commentObj, idx) => (
+        <Comment key={idx} commentObj={commentObj} />
+      ))}
     </Box>
   );
 }
 
-function Comment() {
+function Comment({ commentObj }) {
+  const comment_text = commentObj.comment_text;
+  const comment_created_at = commentObj.created_at;
+  const comment_firstName_lastName = `${commentObj.first_name} ${commentObj.last_name}`
+
+  const comment_date = new Date(comment_created_at).toLocaleString("en-US", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
+
   return (
     <Box>
       <Stack
@@ -267,8 +363,8 @@ function Comment() {
       >
         <Stack spacing={2} direction="row" alignItems="center">
           <Avatar></Avatar>
-          <Typography fontWeight="bold">username</Typography>
-          <Typography>createdAt</Typography>
+          <Typography fontWeight="bold">{comment_firstName_lastName}</Typography>
+          <Typography>{comment_date}</Typography>
         </Stack>
         <Button
           variant="text"
@@ -289,9 +385,7 @@ function Comment() {
           mb: 8,
         }}
       >
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit ipsam ut
-        mollitia numquam fugiat modi repudiandae, in autem labore, quia ab
-        itaque, id odio iure sint at eum doloribus et!
+        {comment_text}
       </Typography>
     </Box>
   );
