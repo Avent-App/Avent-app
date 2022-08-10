@@ -13,12 +13,8 @@ import Listings from "./components/Listings";
 import Reservations from "./components/Reservations";
 import Profile from "./components/Profile";
 import Settings from "./components/Settings";
-<<<<<<< Updated upstream
 import apiClient from "./services/apiClient";
-=======
 import ProfileDetail from "./components/ProfileDetail";
->>>>>>> Stashed changes
-// import { SubHero } from "./components/Landing";
 
 function App() {
   const [user, setUser] = useState({});
@@ -49,28 +45,11 @@ function App() {
 
               {/*Event feed routes*/}
 
-<<<<<<< Updated upstream
-              <Route
-                path="/feed"
-                element={
-                  <EventFeed setUser={setUser} isLoggedIn={isLoggedIn.user} />
-                }
-              />
-              <Route
-                path="/details/:eventId"
-                element={<EventDetails user={user} />}
-              />
-
-              <Route
-                path="/createEvent"
-                element={<CreateEvent user={user} />}
-              />
-              
-=======
               <Route path="/feed" element={<EventFeed setUser={setUser} isLoggedIn={isLoggedIn.user} />} />
               <Route path="/details/:eventId" element={<EventDetails user={user} />} />
+
               <Route path="/createEvent" element={<CreateEvent user={user} />} />
->>>>>>> Stashed changes
+
               <Route path="/aboutUs" element={<AboutUs />} />
               <Route path="/settings/profile" element={<Profile />} />
               <Route path="/settings/reservations" element={<Reservations user={user} />} />
@@ -83,7 +62,6 @@ function App() {
 
               <Route path="*" element={<NotFound isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
               <Route path="/profiles/:userId" element={<ProfileDetail user={user} />} />
-              {/* <Route path="/profiles" element={<ProfileDetail user={user} />} /> */}
             </Routes>
           </main>
         </BrowserRouter>

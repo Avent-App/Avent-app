@@ -40,7 +40,7 @@ const ProfileDetail = ({ user }) => {
       const res2 = await apiClient.getUser(userId);
       setUserData(res2.data);
       console.log("res2----->", res2);
-      // setTimeout(() => setIsLoading(false), 400);
+      setTimeout(() => setIsLoading(false), 400);
     } catch (e) {
       console.log(e);
       navigate("/404");
@@ -54,7 +54,7 @@ const ProfileDetail = ({ user }) => {
   const renderReservations = () => {
     if (reservations.length > 0) {
       return (
-        <Grid container spacing={3} sx={{ mb: 5 }}>
+        <Grid spacing={3} sx={{ mb: 5 }}>
           {reservations.map((reservation, idx) => {
             return (
               <Grid key={idx} item xs={6}>
@@ -89,7 +89,7 @@ const ProfileDetail = ({ user }) => {
       <Stack className="MAIN" sx={{ flexDirection: "row", gap: "23rem" }}>
         <UserInformation user={user} userData={userData} />
 
-        <Stack className="cardSTack" container sx={{ flexDirection: "row", marginTop: "3.5rem", height: "32rem" }}>
+        <Stack className="cardSTack" sx={{ flexDirection: "row", marginTop: "3.5rem", height: "32rem" }}>
           <Grid>
             <Grid className="CardsGrid">
               <SmallEventCard />
@@ -154,10 +154,7 @@ function UserInformation({ userData, user }) {
                 <AccountBoxIcon />
                 <span>About</span>
               </Typography>
-              <Typography sx={{ fontWeight: 400, fontSize: 13, textAlign: "left", lineHeight: "21px", marginTop: "10px" }}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.
-                {/* {userData.Bio} */}
-              </Typography>
+              <Typography sx={{ fontWeight: 400, fontSize: 13, textAlign: "left", lineHeight: "21px", marginTop: "10px" }}>{`${userData.bio}`}</Typography>
             </Stack>
             <Divider />
             <Stack sx={{ m: 4, my: 3 }}>

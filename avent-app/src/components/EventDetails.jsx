@@ -26,7 +26,6 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
   const [reserved, setReserved] = useState(false);
   const [commentData, setCommentData] = useState([]);
 
-
   let navigate = useNavigate();
 
   const handleOnSubmit = async (comment) => {
@@ -124,12 +123,7 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
           <img style={{ width: "100%", height: "600px" }} src={eventData.image_url ? eventData.image_url : NoPhoto} />
           <EventInformation eventData={eventData} hostData={hostData} eventId={eventId} user={user} reserved={reserved} setReserved={setReserved} />
           <Stack>
-            <CommentSection
-              commentData={commentData}
-              handleOnSubmit={handleOnSubmit}
-              user={user}
-              userData={hostData}
-            />
+            <CommentSection commentData={commentData} handleOnSubmit={handleOnSubmit} user={user} userData={hostData} />
           </Stack>
         </Container>
       )}
@@ -284,32 +278,13 @@ function HostInfo({ hostData, eventId, user, reserved, setReserved }) {
 
 function CommentSection({ commentData, handleOnSubmit, userData }) {
   return (
-<<<<<<< Updated upstream
     <Box component="form" onSubmit={handleOnSubmit}>
-      <Typography
-        align="center"
-        sx={{ fontWeight: 700, fontSize: "36px", mb: 4 }}
-      >
-=======
-    <Box>
       <Typography align="center" sx={{ fontWeight: 700, fontSize: "36px", mb: 4 }}>
->>>>>>> Stashed changes
         Comments
       </Typography>
       <Stack sx={{ position: "relative", left: 185 }} direction="row" spacing={3.25}>
         <Avatar sx={{ height: 58, width: 58 }} />
-<<<<<<< Updated upstream
-        <TextField
-          id="sendComment"
-          name="sendComment"
-          multiline
-          rows={3}
-          label="Add a comment..."
-          sx={{ width: "838px" }}
-        />
-=======
-        <TextField multiline rows={3} label="Add a comment..." sx={{ width: "838px" }} />
->>>>>>> Stashed changes
+        <TextField id="sendComment" name="sendComment" multiline rows={3} label="Add a comment..." sx={{ width: "838px" }} />
         <Button
           color="secondary"
           variant="contained"
@@ -349,7 +324,7 @@ function Comment({ commentObj, hostId }) {
       <Stack spacing={2} direction="row" justifyContent="space-between" alignItems="center" sx={{ position: "relative", left: 185, mt: 4, mr: 54.5 }}>
         <Stack spacing={2} direction="row" alignItems="center">
           <Avatar></Avatar>
-          <Typography sx={{color: hostId == commentObj.user_id ? "red" : "black"}} fontWeight="bold">
+          <Typography sx={{ color: hostId == commentObj.user_id ? "red" : "black" }} fontWeight="bold">
             {comment_firstName_lastName} {hostId == commentObj.user_id ? "(Host)" : null}
           </Typography>
           <Typography>{comment_date}</Typography>
@@ -373,12 +348,9 @@ function Comment({ commentObj, hostId }) {
           mb: 8,
         }}
       >
-<<<<<<< Updated upstream
         {comment_text}
-=======
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit ipsam ut mollitia numquam fugiat modi repudiandae, in autem labore, quia ab itaque, id
         odio iure sint at eum doloribus et!
->>>>>>> Stashed changes
       </Typography>
     </Box>
   );
