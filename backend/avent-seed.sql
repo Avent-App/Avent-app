@@ -1,11 +1,11 @@
 -- First I need users in a seed
 -- 2nd, I need to make these conform to the new data form I need
 
-INSERT INTO users (password, account_type, first_name, last_name, email, location, company)
+INSERT INTO users (password, account_type, first_name, last_name, email, location, company, bio)
 VALUES
-('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','intern','Irem','Komurcu','i@sf.com','San Francisco', 'Salesforce'),
-('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','business','Sales','Force','marc@sf.com','San Francisco', 'Apple'),
-('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','intern','Enrique','Rico','e@sf.com','New York', 'Google');
+('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','intern','Irem','Komurcu','i@sf.com','San Francisco', 'Salesforce', 'I love problems and solving puzzles, its how I derive my meaning in life!'),
+('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','business','Sales','Force','marc@sf.com','San Francisco', 'Apple', 'I love empowering others through creative solutions and creating value and social change through my buisness.'),
+('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','intern','Enrique','Rico','e@sf.com','New York', 'Google', 'Hit me up if you are in New York! I love meeting new people and getting to know brilliant minds. Life is beautiful.');
 
 INSERT INTO events (host_id, title, description, start_date, end_date, address, event_category, image_url)
 VALUES
@@ -48,5 +48,11 @@ INSERT INTO comment (user_id, comment_section_id, comment_text)
 VALUES
 (1, 1, 'Excited to have you all come by!'),
 (2, 1, 'Will there be some cheese and bread as well? Asking for a friend!'),
-(3, 1, 'OMG I am so excited, its going to be AMAZING!!!!!!');
+(3, 1, 'OMG I am so excited, its going to be AMAZING!!!!!!'),
+(1, 2, 'Excited to have you all come by!'),
+(2, 3, 'Will there be some cheese and bread as well? Asking for a friend!'),
+(3, 4, 'OMG I am so excited, its going to be AMAZING!!!!!!'),
+(1, 5, 'Excited to have you all come by!'),
+(2, 6, 'Will there be some cheese and bread as well? Asking for a friend!'),
+(3, 7, 'OMG I am so excited, its going to be AMAZING!!!!!!');
 

@@ -12,7 +12,6 @@ import {
 import StarIcon from "@mui/icons-material/Star";
 import SendIcon from "@mui/icons-material/Send";
 import ReplyIcon from "@mui/icons-material/Reply";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -31,15 +30,61 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
   const [hostData, setHostData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [reserved, setReserved] = useState(false);
+  const [commentData, setCommentData] = useState([]);
+
 
   let navigate = useNavigate();
 
+  const handleOnSubmit = async (comment) => {
+    comment.preventDefault();
+    const data = new FormData(comment.currentTarget);
+
+    console.log(data.get("sendComment"));
+
+    /**
+     * Printing out the data retreived from the createEvent page
+     */
+    const sendComment = data.get("sendComment");
+    const sendCommentSection = eventId;
+    const sendUser = user.id;
+    const commentInfo = {
+      user_id: sendUser,
+      comment_section_id: sendCommentSection,
+      comment_text: sendComment,
+    };
+
+    console.log(commentInfo);
+
+    try {
+      const res = await apiClient.postComment(commentInfo);
+      getComments();
+      if (res?.data) {
+        console.log("Successfully posted into the database!");
+      }
+    } catch (err) {
+      console.log(err);
+      const message = err?.response?.data?.error?.message;
+    }
+  };
+
+  const getComments = async () => {
+    try {
+      const res = await apiClient.getComments(eventId);
+      console.log("res data:", res.data.comments);
+      setCommentData(res.data.comments);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const getData = async () => {
     try {
+      console.log("HERE IS THE USER DATA: ", user);
       setIsLoading(true);
       const res = await apiClient.getEvent(eventId);
       setEventData(res.data.event[0]);
       const res2 = await apiClient.getUser(res.data.event[0].host_id);
+      getComments();
       setHostData(res2.data);
       checkReserved();
       setTimeout(() => setIsLoading(false), 400);
@@ -95,8 +140,12 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
             setReserved={setReserved}
           />
           <Stack>
-            <CommentSection />
-            <Comment />
+            <CommentSection
+              commentData={commentData}
+              handleOnSubmit={handleOnSubmit}
+              user={user}
+              userData={hostData}
+            />
           </Stack>
         </Container>
       )}
@@ -283,9 +332,9 @@ function HostInfo({ hostData, eventId, user, reserved, setReserved }) {
   );
 }
 
-function CommentSection() {
+function CommentSection({ commentData, handleOnSubmit, userData }) {
   return (
-    <Box>
+    <Box component="form" onSubmit={handleOnSubmit}>
       <Typography
         align="center"
         sx={{ fontWeight: 700, fontSize: "36px", mb: 4 }}
@@ -299,6 +348,8 @@ function CommentSection() {
       >
         <Avatar sx={{ height: 58, width: 58 }} />
         <TextField
+          id="sendComment"
+          name="sendComment"
           multiline
           rows={3}
           label="Add a comment..."
@@ -307,6 +358,7 @@ function CommentSection() {
         <Button
           color="secondary"
           variant="contained"
+          type="submit"
           sx={{
             height: 45,
             width: 120,
@@ -320,11 +372,23 @@ function CommentSection() {
           Send
         </Button>
       </Stack>
+      {commentData.map((commentObj, idx) => (
+        <Comment key={idx} commentObj={commentObj} hostId={userData.id} />
+      ))}
     </Box>
   );
 }
 
-function Comment() {
+function Comment({ commentObj, hostId }) {
+  const comment_text = commentObj.comment_text;
+  const comment_created_at = commentObj.created_at;
+  const comment_firstName_lastName = `${commentObj.first_name} ${commentObj.last_name}`;
+
+  const comment_date = new Date(comment_created_at).toLocaleString("en-US", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
+
   return (
     <Box>
       <Stack
@@ -336,8 +400,10 @@ function Comment() {
       >
         <Stack spacing={2} direction="row" alignItems="center">
           <Avatar></Avatar>
-          <Typography fontWeight="bold">username</Typography>
-          <Typography>createdAt</Typography>
+          <Typography sx={{color: hostId == commentObj.user_id ? "red" : "black"}} fontWeight="bold">
+            {comment_firstName_lastName} {hostId == commentObj.user_id ? "(Host)" : null}
+          </Typography>
+          <Typography>{comment_date}</Typography>
         </Stack>
         <Button
           variant="text"
@@ -358,9 +424,7 @@ function Comment() {
           mb: 8,
         }}
       >
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit ipsam ut
-        mollitia numquam fugiat modi repudiandae, in autem labore, quia ab
-        itaque, id odio iure sint at eum doloribus et!
+        {comment_text}
       </Typography>
     </Box>
   );

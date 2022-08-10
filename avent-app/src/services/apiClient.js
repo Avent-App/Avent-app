@@ -95,6 +95,27 @@ class ApiClient {
     });
   }
 
+
+  async postComment(data) {
+    return await this.request({
+      endpoint: "comment/create",
+      method: `POST`,
+      data: data,
+    });
+  }
+
+  async getComments(commentSectionId) {
+    return await this.request({
+      endpoint: `comment/section/${commentSectionId}`,
+      method: `GET`,
+    });
+  }
+
+  async getUserFromComment(comment_id) {
+    return await this.request({
+      endpoint: `comment/user/${comment_id}`,
+      method: `GET`,
+
   async deleteReservation(reservationId) {
     return await this.request({
       endpoint: `reservations/delete/${reservationId}`,

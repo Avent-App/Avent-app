@@ -75,10 +75,12 @@ function App() {
                 path="/details/:eventId"
                 element={<EventDetails user={user} />}
               />
+
               <Route
                 path="/createEvent"
                 element={<CreateEvent user={user} />}
               />
+              
               <Route path="/aboutUs" element={<AboutUs />} />
               <Route path="/settings/profile" element={<Profile />} />
               <Route
