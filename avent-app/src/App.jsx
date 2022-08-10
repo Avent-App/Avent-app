@@ -14,6 +14,7 @@ import Reservations from "./components/Reservations";
 import Profile from "./components/Profile";
 import Settings from "./components/Settings";
 import apiClient from "./services/apiClient";
+import ProfileDetail from "./components/ProfileDetail";
 // import { SubHero } from "./components/Landing";
 
 function App() {
@@ -75,6 +76,7 @@ function App() {
                 path="/details/:eventId"
                 element={<EventDetails user={user} />}
               />
+
               <Route
                 path="/createEvent"
                 element={<CreateEvent user={user} />}
@@ -129,7 +131,6 @@ function App() {
                   />
                 }
               />
-
               <Route
                 path="*"
                 element={
@@ -139,6 +140,11 @@ function App() {
                   />
                 }
               />
+              <Route
+                path="/profiles/:userId"
+                element={<ProfileDetail user={user} />}
+              />
+              {/* <Route path="/profiles" element={<ProfileDetail user={user} />} /> */}
             </Routes>
           </main>
         </BrowserRouter>

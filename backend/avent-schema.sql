@@ -48,6 +48,7 @@ CREATE TABLE comment(
     user_id         INTEGER NOT NULL,
     comment_section_id INTEGER NOT NULL,
     comment_text    TEXT NOT NULL,
+    created_at      TIMESTAMP NOT NULL DEFAULT NOW(),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (comment_section_id) REFERENCES comment_section(comment_section_id) ON DELETE CASCADE
 );

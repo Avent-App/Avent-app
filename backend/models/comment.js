@@ -51,12 +51,16 @@ class Comment {
   static async getCommentSection(commentSectionId) {
     const result = await db.query(
       `
-      SELECT *
-      FROM comment
-      WHERE comment_section_id = $1;
+      SELECT comment.created_at, first_name, last_name, comment_text, users.id, comment.comment_id, comment.user_id
+      FROM comment, users
+      WHERE comment_section_id = $1 AND comment.user_id = users.id
+      ORDER BY comment.created_at ASC;
+
       `,
       [commentSectionId]
     );
+
+    console.log(result.rows);
 
     return result.rows;
   }
@@ -69,6 +73,19 @@ class Comment {
       WHERE comment_id = $1;
       `,
       [commentId]
+    );
+    console.log(result.rows);
+    return result.rows;
+  }
+
+  static async getUserFromComment(comment_id) {
+    const result = await db.query(
+      `      
+      SELECT first_name, last_name
+      FROM comment, users
+      WHERE comment.comment_id = $1 AND comment.user_id = users.id;
+      `,
+      [comment_id]
     );
     return result.rows;
   }
