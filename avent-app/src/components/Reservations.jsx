@@ -32,7 +32,7 @@ export default function Reservations({ user }) {
       <GlobalNavbar />
       <Container maxWidth="xl">
         <Stack direction="row" spacing={12}>
-          <Sidebar selected={"Reservations"} />
+          <Sidebar selected={"Reservations"} user={user} />
           {isLoading ? (
             <Container
               maxWidth={false}

@@ -19,6 +19,22 @@ router.get("/:id", security.requireAuthenticatedUser, async (req, res) => {
   res.send(getUser);
 });
 
+router.post(
+  "/updateInfo/:userId",
+  security.requireAuthenticatedUser,
+  async (req, res, next) => {
+    try {
+      const userId = req.params.userId;
+      const user = await User.updateUserFields(userId, req.body);
+      const token = await createUserJwt(user);
+      //Returns the updated user and the new user token.
+      res.status(201).json({ user, token });
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
 // router.get("/:email", async (req, res) => {
 //   email = req.params.email;
 

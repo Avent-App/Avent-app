@@ -232,7 +232,9 @@ function HostInfo({ hostData, eventId, user, reserved, setReserved }) {
       console.log(res);
       setAlertVisibility(true);
       setReserved(true);
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   return (

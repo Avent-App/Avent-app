@@ -8,6 +8,7 @@ CREATE TABLE users(
     created_at      TIMESTAMP NOT NULL DEFAULT NOW(),
     location        TEXT NOT NULL,
     company         TEXT NOT NULL,
+    biography       TEXT,
     verified        BOOLEAN,
     updated_at      TIMESTAMP DEFAULT NOW()
 );

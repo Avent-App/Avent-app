@@ -31,7 +31,7 @@ export default function Listings({ user }) {
       <GlobalNavbar />
       <Container maxWidth="xl">
         <Stack direction="row" spacing={12}>
-          <Sidebar selected={"Listings"} />
+          <Sidebar selected={"Listings"} user={user} />
           {isLoading ? (
             <Container
               maxWidth={false}

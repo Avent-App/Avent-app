@@ -66,6 +66,14 @@ class ApiClient {
     });
   }
 
+  async updateUserInfo(userId, data) {
+    return await this.request({
+      endpoint: `user/updateInfo/${userId}`,
+      method: `POST`,
+      data: data,
+    });
+  }
+
   async getUpcomingReservations(point) {
     return await this.request({
       endpoint: `reservations/upcoming/${point}`,
