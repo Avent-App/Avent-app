@@ -61,7 +61,10 @@ function App() {
                   <EventFeed setUser={setUser} isLoggedIn={isLoggedIn.user} />
                 }
               />
-              <Route path="/details/:eventId" element={<EventDetails user/>} />
+              <Route
+                path="/details/:eventId"
+                element={<EventDetails user={user} />}
+              />
               <Route path="/createEvent" element={<CreateEvent />} />
               <Route path="/aboutUs" element={<AboutUs />} />
               <Route path="/settings/profile" element={<Profile />} />
