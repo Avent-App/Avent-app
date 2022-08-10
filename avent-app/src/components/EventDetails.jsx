@@ -284,21 +284,15 @@ function HostInfo({ hostData, eventId, user, reserved, setReserved }) {
 
 function CommentSection({ commentData, handleOnSubmit, userData }) {
   return (
-<<<<<<< Updated upstream
     <Box component="form" onSubmit={handleOnSubmit}>
       <Typography
         align="center"
         sx={{ fontWeight: 700, fontSize: "36px", mb: 4 }}
       >
-=======
-    <Box>
-      <Typography align="center" sx={{ fontWeight: 700, fontSize: "36px", mb: 4 }}>
->>>>>>> Stashed changes
         Comments
       </Typography>
       <Stack sx={{ position: "relative", left: 185 }} direction="row" spacing={3.25}>
         <Avatar sx={{ height: 58, width: 58 }} />
-<<<<<<< Updated upstream
         <TextField
           id="sendComment"
           name="sendComment"
@@ -307,9 +301,6 @@ function CommentSection({ commentData, handleOnSubmit, userData }) {
           label="Add a comment..."
           sx={{ width: "838px" }}
         />
-=======
-        <TextField multiline rows={3} label="Add a comment..." sx={{ width: "838px" }} />
->>>>>>> Stashed changes
         <Button
           color="secondary"
           variant="contained"
@@ -373,12 +364,7 @@ function Comment({ commentObj, hostId }) {
           mb: 8,
         }}
       >
-<<<<<<< Updated upstream
         {comment_text}
-=======
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit ipsam ut mollitia numquam fugiat modi repudiandae, in autem labore, quia ab itaque, id
-        odio iure sint at eum doloribus et!
->>>>>>> Stashed changes
       </Typography>
     </Box>
   );
