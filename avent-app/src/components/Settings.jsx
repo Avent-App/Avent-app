@@ -444,112 +444,181 @@ export function MyProfile() {
   );
 }
 
-export function MyReservations() {
+export function MyReservations({
+  upcomingReservations,
+  pastReservations,
+  getData,
+  pageType,
+}) {
+  const renderUpcomingReservations = () => {
+    if (upcomingReservations.length > 0) {
+      return (
+        <Box>
+          {upcomingReservations.map((reservation, idx) => {
+            return (
+              <EventCardHorizontal
+                key={idx}
+                eventCategory={reservation.event_category}
+                eventHost={`${reservation.first_name} ${reservation.last_name}`}
+                eventDescription={reservation.description}
+                startDate={new Date(reservation.start_date).toLocaleString(
+                  "en-US",
+                  {
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                  }
+                )}
+                eventName={reservation.title}
+                eventImageUrl={reservation.image_url}
+                eventId={reservation.event_id}
+                reservationId={reservation.reservation_id}
+                getData={getData}
+                pageType={pageType}
+              />
+            );
+          })}
+        </Box>
+      );
+    } else {
+      return <Typography>Nothing to show!</Typography>;
+    }
+  };
+
+  const renderPastReservations = () => {
+    if (pastReservations.length > 0) {
+      return (
+        <Grid container spacing={3} sx={{ mb: 5 }}>
+          {pastReservations.map((reservation, idx) => {
+            return (
+              <Grid key={idx} item xs={6}>
+                <SmallEventCard
+                  eventCategory={reservation.event_category}
+                  eventHost={`${reservation.first_name} ${reservation.last_name}`}
+                  startDate={new Date(reservation.start_date).toLocaleString(
+                    "en-US",
+                    {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    }
+                  )}
+                  eventName={reservation.title}
+                  eventImageUrl={reservation.image_url}
+                  eventId={reservation.event_id}
+                  reservationId={reservation.reservation_id}
+                />
+              </Grid>
+            );
+          })}
+        </Grid>
+      );
+    } else {
+      return <Typography>Nothing to show!</Typography>;
+    }
+  };
+
   return (
     <Box sx={{ flex: 1 }}>
       <Typography sx={{ fontWeight: 700, fontSize: 45, mt: 3, mb: 1.5 }}>
         My Event Reservations
       </Typography>
       <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>
-        This Week
+        Upcoming
       </Typography>
-      <EventCardHorizontal
-        eventCategory={"FUN"}
-        eventHost={"david"}
-        eventDescription={
-          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sit hic praesentium nihil consequatur cupiditate ratione a dolorem voluptates eaque iusto, dolore sint temporibus maxime ipsa! Repellendus laboriosam excepturi velit error. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sit hic praesentium nihil consequatur cupiditate ratione a dolorem voluptates eaque iusto, dolore sint temporibus maxime ipsa! Repellendus laboriosam excepturi velit error."
-        }
-        startDate={"April 1st, 2022"}
-        eventName={"Pool Party"}
-        eventImageUrl={
-          "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F184375039%2F474927372937%2F1%2Foriginal.20211111-155142?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C236%2C4724%2C2362&s=ff52e826c551abbd9a90a39cccc5c303"
-        }
-        eventId={2}
-      />
+      {renderUpcomingReservations()}
       <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>
         Previous Events
       </Typography>
-      <Grid container spacing={3}>
-        <Grid item xs={6}>
-          <SmallEventCard
-            eventCategory={"FUN"}
-            eventHost={"david"}
-            startDate={"April 1st, 2022"}
-            eventName={"Pool Party"}
-            eventImageUrl={
-              "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F184375039%2F474927372937%2F1%2Foriginal.20211111-155142?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C236%2C4724%2C2362&s=ff52e826c551abbd9a90a39cccc5c303"
-            }
-            eventId={2}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <SmallEventCard
-            eventCategory={"FUN"}
-            eventHost={"david"}
-            startDate={"April 1st, 2022"}
-            eventName={"Pool Party"}
-            eventImageUrl={
-              "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F184375039%2F474927372937%2F1%2Foriginal.20211111-155142?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C236%2C4724%2C2362&s=ff52e826c551abbd9a90a39cccc5c303"
-            }
-            eventId={2}
-          />
-        </Grid>
-      </Grid>
+      {renderPastReservations()}
     </Box>
   );
 }
 
-export function MyEventListings() {
+export function MyEventListings({
+  user,
+  pastListings,
+  upcomingListings,
+  getData,
+  pageType,
+}) {
+  const renderUpcomingListings = () => {
+    if (upcomingListings.length > 0) {
+      return (
+        <Box>
+          {upcomingListings.map((listing, idx) => {
+            return (
+              <EventCardHorizontal
+                key={idx}
+                eventCategory={listing.event_category}
+                eventHost={`${listing.first_name} ${listing.last_name}`}
+                eventDescription={listing.description}
+                startDate={new Date(listing.start_date).toLocaleString(
+                  "en-US",
+                  {
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                  }
+                )}
+                eventName={listing.title}
+                eventImageUrl={listing.image_url}
+                eventId={listing.event_id}
+                reservationId={listing.reservation_id}
+                getData={getData}
+                pageType={pageType}
+              />
+            );
+          })}
+        </Box>
+      );
+    } else {
+      return <Typography>Nothing to show!</Typography>;
+    }
+  };
+
+  const renderPastListings = () => {
+    if (pastListings.length > 0) {
+      return (
+        <Grid container spacing={3} sx={{ mb: 5 }}>
+          {pastListings.map((listing, idx) => {
+            return (
+              <Grid key={idx} item xs={6}>
+                <SmallEventCard
+                  eventCategory={listing.event_category}
+                  eventHost={`${listing.first_name} ${listing.last_name}`}
+                  startDate={new Date(listing.start_date).toLocaleString(
+                    "en-US",
+                    {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    }
+                  )}
+                  eventName={listing.title}
+                  eventImageUrl={listing.image_url}
+                  eventId={listing.event_id}
+                  reservationId={listing.reservation_id}
+                />
+              </Grid>
+            );
+          })}
+        </Grid>
+      );
+    } else {
+      return <Typography>Nothing to show!</Typography>;
+    }
+  };
+
   return (
     <Box sx={{ flex: 1 }}>
       <Typography sx={{ fontWeight: 700, fontSize: 45, mt: 3, mb: 1.5 }}>
         My Event Listings
       </Typography>
       <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>
-        This Week
+        Upcoming
       </Typography>
-      <EventCardHorizontal
-        eventCategory={"FUN"}
-        eventHost={"david"}
-        eventDescription={
-          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sit hic praesentium nihil consequatur cupiditate ratione a dolorem voluptates eaque iusto, dolore sint temporibus maxime ipsa! Repellendus laboriosam excepturi velit error. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sit hic praesentium nihil consequatur cupiditate ratione a dolorem voluptates eaque iusto, dolore sint temporibus maxime ipsa! Repellendus laboriosam excepturi velit error."
-        }
-        startDate={"April 1st, 2022"}
-        eventName={"Pool Party"}
-        eventImageUrl={
-          "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F184375039%2F474927372937%2F1%2Foriginal.20211111-155142?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C236%2C4724%2C2362&s=ff52e826c551abbd9a90a39cccc5c303"
-        }
-        eventId={2}
-      />
+      {renderUpcomingListings()}
       <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>
         Previous Events
       </Typography>
-      <Grid container spacing={3}>
-        <Grid item xs={6}>
-          <SmallEventCard
-            eventCategory={"FUN"}
-            eventHost={"david"}
-            startDate={"April 1st, 2022"}
-            eventName={"Pool Party"}
-            eventImageUrl={
-              "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F184375039%2F474927372937%2F1%2Foriginal.20211111-155142?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C236%2C4724%2C2362&s=ff52e826c551abbd9a90a39cccc5c303"
-            }
-            eventId={2}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <SmallEventCard
-            eventCategory={"FUN"}
-            eventHost={"david"}
-            startDate={"April 1st, 2022"}
-            eventName={"Pool Party"}
-            eventImageUrl={
-              "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F184375039%2F474927372937%2F1%2Foriginal.20211111-155142?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C236%2C4724%2C2362&s=ff52e826c551abbd9a90a39cccc5c303"
-            }
-            eventId={2}
-          />
-        </Grid>
-      </Grid>
+      {renderPastListings()}
     </Box>
   );
 }

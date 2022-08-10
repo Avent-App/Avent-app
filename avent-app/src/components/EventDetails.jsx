@@ -18,16 +18,20 @@ import CircularProgress from "@mui/material/CircularProgress";
 import NoPhoto from "../assets/No-Photo-Available.jpeg";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../services/apiClient";
+import Zoom from "@mui/material/Zoom";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 
 // This page GETS information from the events table using the eventsId param in the URL and displays it to the user.
 
 export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
   const { eventId } = useParams();
   const [eventData, setEventData] = useState({});
-  const [userData, setUserData] = useState({});
+  const [hostData, setHostData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [reserved, setReserved] = useState(false);
   const [commentData, setCommentData] = useState([]);
+
 
   let navigate = useNavigate();
 
@@ -80,10 +84,9 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
       const res = await apiClient.getEvent(eventId);
       setEventData(res.data.event[0]);
       const res2 = await apiClient.getUser(res.data.event[0].host_id);
-      setUserData(res2.data);
-      setIsLoading(false);
-      checkReserved();
       getComments();
+      setHostData(res2.data);
+      checkReserved();
       setTimeout(() => setIsLoading(false), 400);
     } catch (e) {
       console.log(e);
@@ -128,13 +131,20 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
             style={{ width: "100%", height: "600px" }}
             src={eventData.image_url ? eventData.image_url : NoPhoto}
           />
-          <EventInformation eventData={eventData} userData={userData} />
+          <EventInformation
+            eventData={eventData}
+            hostData={hostData}
+            eventId={eventId}
+            user={user}
+            reserved={reserved}
+            setReserved={setReserved}
+          />
           <Stack>
             <CommentSection
               commentData={commentData}
               handleOnSubmit={handleOnSubmit}
               user={user}
-              userData={userData}
+              userData={hostData}
             />
           </Stack>
         </Container>
@@ -143,7 +153,14 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
   );
 }
 
-function EventInformation({ eventData, userData }) {
+function EventInformation({
+  eventData,
+  hostData,
+  eventId,
+  user,
+  reserved,
+  setReserved,
+}) {
   const startDate = new Date(eventData.start_date);
   const endDate = new Date(eventData.end_date);
 
@@ -238,14 +255,34 @@ function EventInformation({ eventData, userData }) {
             </Button>
           </Stack>
         </Stack>
-        <HostInfo userData={userData} />
+        <HostInfo
+          hostData={hostData}
+          eventId={eventId}
+          user={user}
+          reserved={reserved}
+          setReserved={setReserved}
+        />
       </Stack>
     </Box>
   );
 }
 
-function HostInfo({ userData }) {
+function HostInfo({ hostData, eventId, user, reserved, setReserved }) {
   //Use host id to GET host information.
+  const [alertVisibility, setAlertVisibility] = useState(false);
+
+  async function handleOnSubmit() {
+    const reservationObject = {
+      user_id: user.id,
+      event_id: parseInt(eventId),
+    };
+    try {
+      const res = await apiClient.createRSVP(reservationObject);
+      console.log(res);
+      setAlertVisibility(true);
+      setReserved(true);
+    } catch (e) {}
+  }
 
   return (
     <Stack
@@ -258,20 +295,39 @@ function HostInfo({ userData }) {
         style={{ border: "1.68724px solid #26235C" }}
       />
       <Typography align="center" sx={{ fontWeight: 700, fontSize: 30 }}>
-        {`${userData.first_name} ${userData.last_name}`}
+        {`${hostData.first_name} ${hostData.last_name}`}
       </Typography>
       <Typography align="center" sx={{ fontWeight: 400, fontSize: 19 }}>
-        {`${userData.company} ${userData.account_type}`}
+        {`${hostData.company} ${hostData.account_type}`}
       </Typography>
 
       <Button
         variant="contained"
         color="secondary"
+        disabled={reserved}
         disableElevation
-        sx={{ width: 158, height: 43.2, borderRadius: "5.6px" }}
+        onClick={() => handleOnSubmit()}
+        sx={{ width: 158, height: 43.2, borderRadius: "5.6px", mt: 1, mb: 1 }}
       >
         RSVP
       </Button>
+      {alertVisibility ? (
+        <Zoom
+          in={alertVisibility}
+          timeout={{ enter: 500, exit: 500 }}
+          addEndListener={() => {
+            setTimeout(() => {
+              setAlertVisibility(false);
+            }, 4000);
+          }}
+          sx={{ my: 1 }}
+        >
+          <Alert severity="success">
+            <AlertTitle>Success</AlertTitle>
+            You have successfully RSVPed for this event!
+          </Alert>
+        </Zoom>
+      ) : null}
     </Stack>
   );
 }

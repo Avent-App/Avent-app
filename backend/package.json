@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "jest -i",
+    "test:routes:event": "jest -i routes/event.test.js",
     "start": "nodemon server.js"
   },
   "author": "",

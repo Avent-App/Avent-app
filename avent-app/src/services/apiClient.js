@@ -95,6 +95,7 @@ class ApiClient {
     });
   }
 
+
   async postComment(data) {
     return await this.request({
       endpoint: "comment/create",
@@ -114,6 +115,11 @@ class ApiClient {
     return await this.request({
       endpoint: `comment/user/${comment_id}`,
       method: `GET`,
+
+  async deleteReservation(reservationId) {
+    return await this.request({
+      endpoint: `reservations/delete/${reservationId}`,
+      method: `DELETE`,
     });
   }
 
@@ -128,6 +134,27 @@ class ApiClient {
     return await this.request({
       endpoint: `event/`,
       method: `GET`,
+    });
+  }
+
+  async getUpcomingUserEventListings(userId) {
+    return await this.request({
+      endpoint: `event/getUpcomingListings/${userId}`,
+      method: `GET`,
+    });
+  }
+
+  async getPastUserEventListings(userId) {
+    return await this.request({
+      endpoint: `event/getPastListings/${userId}`,
+      method: `GET`,
+    });
+  }
+
+  async deleteEventListing(eventId) {
+    return await this.request({
+      endpoint: `event/deleteEventListing/${eventId}`,
+      method: `DELETE`,
     });
   }
 

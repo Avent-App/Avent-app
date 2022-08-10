@@ -7,7 +7,7 @@ const security = require("../middleware/security");
 
 // middleware that is specific to this router
 router.use((req, res, next) => {
-  console.log("Time: ", Date.now());
+  // console.log("Time: ", Date.now());
   next();
 });
 
@@ -21,7 +21,7 @@ router.post("/register", async (req, res, next) => {
     const user = await User.register(req.body);
     const token = createUserJwt(user);
 
-    console.log(req.body);
+    // console.log(req.body);
     return res.status(201).json({ user, token });
   } catch (e) {
     next(e);
@@ -33,7 +33,7 @@ router.post("/login", async (req, res, next) => {
     //take users email and password and attempting to authenticate them
     const user = await User.login(req.body);
     const token = createUserJwt(user);
-    console.log(token);
+    // console.log(token);
     return res.status(200).json({ user, token });
   } catch (e) {
     next(e);
