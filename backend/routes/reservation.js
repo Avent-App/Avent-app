@@ -109,4 +109,18 @@ router.get(
   }
 );
 
+router.get(
+  "/getReservationsByEventId/:eventId",
+  security.requireAuthenticatedUser,
+  async (req, res, next) => {
+    try {
+      const eventId = req.params.eventId;
+      const reservations = await Reservation.getReservationsByEventId(eventId);
+      res.status(201).json({ reservations });
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
 module.exports = router;
