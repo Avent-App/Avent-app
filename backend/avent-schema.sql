@@ -9,6 +9,7 @@ CREATE TABLE users(
     location        TEXT NOT NULL,
     company         TEXT NOT NULL,
     biography       TEXT,
+    image_url       TEXT,
     verified        BOOLEAN,
     updated_at      TIMESTAMP DEFAULT NOW()
 );

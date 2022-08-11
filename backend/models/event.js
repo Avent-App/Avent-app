@@ -32,12 +32,13 @@ class Event {
             image_url
         )
         VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
-        RETURNING host_id,title,description,start_date,end_date,address,event_category,image_url;
+        RETURNING event_id, host_id,title,description,start_date,end_date,address,event_category,image_url;
         `,
       [event.host_id, event.title, event.description, event.start_date, event.end_date, event.address, event.event_category, event.image_url]
     );
 
     const eventRow = result.rows[0];
+    console.log(eventRow);
 
     const create_section = await db.query(
       `
