@@ -39,7 +39,7 @@ CREATE TABLE reservations(
 
 CREATE TABLE comment_section(
     comment_section_id        SERIAL PRIMARY KEY,
-    event_id                   INTEGER NOT NULL,
+    event_id                  INTEGER,
     FOREIGN KEY (event_id) REFERENCES events(event_id) ON DELETE CASCADE 
 );
 

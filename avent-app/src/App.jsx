@@ -15,6 +15,7 @@ import Profile from "./components/Profile";
 import Settings from "./components/Settings";
 import apiClient from "./services/apiClient";
 import ProfileDetail from "./components/ProfileDetail";
+import PWGenerate from "./components/TESTPW/PWGenerate";
 
 function App() {
   const [user, setUser] = useState({});
@@ -61,7 +62,8 @@ function App() {
               <Route path="/aboutUs" element={<AboutUs isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
 
               <Route path="*" element={<NotFound isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/profiles/:userId" element={<ProfileDetail user={user} />} />
+              <Route path="/profile/:userId" element={<ProfileDetail user={user} />} />
+              <Route path="/pw" element={<PWGenerate />} />
             </Routes>
           </main>
         </BrowserRouter>
