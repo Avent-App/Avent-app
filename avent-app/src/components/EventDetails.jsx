@@ -229,7 +229,9 @@ function HostInfo({ hostData, eventId, user, reserved, setReserved }) {
       console.log(res);
       setAlertVisibility(true);
       setReserved(true);
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   return (
@@ -279,12 +281,26 @@ function HostInfo({ hostData, eventId, user, reserved, setReserved }) {
 function CommentSection({ commentData, handleOnSubmit, userData }) {
   return (
     <Box component="form" onSubmit={handleOnSubmit}>
-      <Typography align="center" sx={{ fontWeight: 700, fontSize: "36px", mb: 4 }}>
+
+      <Typography
+        align="center"
+        sx={{ fontWeight: 700, fontSize: "36px", mb: 4 }}
+      >
+
         Comments
       </Typography>
       <Stack sx={{ position: "relative", left: 185 }} direction="row" spacing={3.25}>
         <Avatar sx={{ height: 58, width: 58 }} />
-        <TextField id="sendComment" name="sendComment" multiline rows={3} label="Add a comment..." sx={{ width: "838px" }} />
+
+        <TextField
+          id="sendComment"
+          name="sendComment"
+          multiline
+          rows={3}
+          label="Add a comment..."
+          sx={{ width: "838px" }}
+        />
+
         <Button
           color="secondary"
           variant="contained"
@@ -349,8 +365,7 @@ function Comment({ commentObj, hostId }) {
         }}
       >
         {comment_text}
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit ipsam ut mollitia numquam fugiat modi repudiandae, in autem labore, quia ab itaque, id
-        odio iure sint at eum doloribus et!
+
       </Typography>
     </Box>
   );

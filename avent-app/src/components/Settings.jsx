@@ -17,6 +17,10 @@ import React from "react";
 import EventCardHorizontal from "./EventCardHorizontal";
 import SmallEventCard from "./SmallEventCard";
 import { Link as RouterLink } from "react-router-dom";
+import { useState } from "react";
+import apiClient from "../services/apiClient";
+import Zoom from "@mui/material/Zoom";
+import Alert from "@mui/material/Alert";
 
 // This file houses all of the views for the settings page.
 export default function Settings({ isLoggedIn, setIsLoggedIn }) {
@@ -33,7 +37,7 @@ export default function Settings({ isLoggedIn, setIsLoggedIn }) {
   );
 }
 
-export function Sidebar({ selected }) {
+export function Sidebar({ selected, user }) {
   return (
     <Box sx={{ width: 291, height: 744, mt: 3 }}>
       <Typography sx={{ fontWeight: 700, fontSize: 28, mb: 1.5 }}>
@@ -58,7 +62,9 @@ export function Sidebar({ selected }) {
             align="center"
             sx={{ fontSize: 28, fontWeight: 700, lineHeight: "32px" }}
           >
-            Marc <br /> Benioff
+            {user.first_name}
+            <br />
+            {user.last_name}
           </Typography>
           <Button
             to="/settings/profile"
@@ -78,7 +84,7 @@ export function Sidebar({ selected }) {
             Email
           </Typography>
           <Typography sx={{ fontWeight: 400, fontSize: 13 }}>
-            marcbenioff@salesforce.com
+            {user.email}
           </Typography>
           <Typography sx={{ fontWeight: 400, fontSize: 13, color: "red" }}>
             <Link
@@ -99,7 +105,7 @@ export function Sidebar({ selected }) {
             Location
           </Typography>
           <Typography sx={{ fontWeight: 400, fontSize: 13 }}>
-            San Francisco, CA
+            {user.location}
           </Typography>
           <Typography sx={{ fontWeight: 400, fontSize: 13, color: "red" }}>
             <Link
@@ -197,7 +203,83 @@ export function Sidebar({ selected }) {
   );
 }
 
-export function MyProfile() {
+export function MyProfile({ user, setUser }) {
+  const [errors, setErrors] = useState({});
+  const [location, setLocation] = useState("");
+  const [locationOpen, setLocationOpen] = React.useState(false);
+  const [alertVisibility, setAlertVisibility] = useState(false);
+
+  async function getUserFromToken() {
+    if (await apiClient.getToken()) {
+      const res = await apiClient.fetchUserFromToken();
+      setUser(res.data.user);
+    }
+  }
+
+  const handleOnSubmit = async (event) => {
+    event.preventDefault();
+    setErrors((e) => ({ ...e, form: null }));
+    const data = new FormData(event.currentTarget);
+    //If the field is filled out, use the data in the field. Otherwise, use the current user data.
+    const firstName = data.get("firstName");
+    const lastName = data.get("lastName");
+    const email = data.get("email");
+    const password = data.get("password");
+    const company = data.get("company");
+    const biography = data.get("biography");
+
+    if (location == "") {
+      setLocation(user.location);
+    }
+
+    const updatedInfo = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: password,
+      company: company,
+      biography: biography,
+      location: location,
+    };
+
+    try {
+      //Attempt to update the user info with the given object.
+      const res = await apiClient.updateUserInfo(user.id, updatedInfo);
+      if (res?.data?.user) {
+        //If the update goes through, create a new token using the new updated parameters.
+        //Set that token in local storage.
+        apiClient.setToken(res.data.token);
+        //Call getUserFromToken someway or app will trigger it byself because of state change idk
+        getUserFromToken();
+        setAlertVisibility(true);
+      } else {
+        setErrors((e) => ({
+          ...e,
+          form: "Something went wrong with the update",
+        }));
+      }
+    } catch (err) {
+      console.log(err);
+      const message = err?.response?.data?.error?.message;
+      setErrors((e) => ({
+        ...e,
+        form: message ? String(message) : String(err),
+      }));
+    }
+  };
+
+  const handleLocChange = (event) => {
+    setLocation(event.target.value);
+  };
+
+  const handleLocClose = () => {
+    setLocationOpen(false);
+  };
+
+  const handleLocOpen = () => {
+    setLocationOpen(true);
+  };
+
   return (
     <Box sx={{ flex: 1 }}>
       <Typography sx={{ fontWeight: 700, fontSize: 28, mt: 3, mb: 1.5 }}>
@@ -239,6 +321,8 @@ export function MyProfile() {
           </Button>
           <Button
             disableElevation
+            type="submit"
+            form="userForm"
             sx={{ width: 158, height: 48 }}
             variant="contained"
             color="secondary"
@@ -250,11 +334,31 @@ export function MyProfile() {
 
       {/* Form below */}
 
-      <Box component="form" noValidate>
+      <Box component="form" id="userForm" noValidate onSubmit={handleOnSubmit}>
         <Stack sx={{ position: "relative", bottom: 40 }} spacing={2}>
-          <Typography sx={{ fontWeight: 700, fontSize: 24 }}>
-            Edit Your Profile
-          </Typography>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Typography sx={{ fontWeight: 700, fontSize: 24 }}>
+              Edit Your Profile
+            </Typography>
+            <Zoom
+              in={alertVisibility}
+              timeout={{ enter: 300, exit: 300 }}
+              addEndListener={() => {
+                setTimeout(() => {
+                  setAlertVisibility(false);
+                }, 4000);
+              }}
+            >
+              <Alert severity="success" sx={{ height: 50 }}>
+                You have successfully updated your profile!
+              </Alert>
+            </Zoom>
+          </Stack>
+
           <Stack direction="row" alignItems="center" spacing={3}>
             <Typography
               sx={{
@@ -272,7 +376,7 @@ export function MyProfile() {
             <TextField
               fullWidth
               id="firstName"
-              placeholder="Marc"
+              placeholder={user.first_name}
               name="firstName"
             />
           </Stack>
@@ -293,7 +397,7 @@ export function MyProfile() {
             <TextField
               fullWidth
               id="lastName"
-              placeholder="Benioff"
+              placeholder={user.last_name}
               name="lastName"
             />
           </Stack>
@@ -314,7 +418,7 @@ export function MyProfile() {
             <TextField
               fullWidth
               id="email"
-              placeholder="marcbenioff@gmail.com"
+              placeholder={user.email}
               name="email"
               autoComplete="email"
             />
@@ -337,6 +441,7 @@ export function MyProfile() {
               fullWidth
               name="password"
               placeholder="**************"
+              autoComplete="password"
               type="password"
               id="password"
             />
@@ -381,7 +486,11 @@ export function MyProfile() {
               <Select
                 labelId="demo-controlled-open-select-label"
                 id="location"
+                open={locationOpen}
+                onClose={handleLocClose}
+                onOpen={handleLocOpen}
                 value={location}
+                onChange={handleLocChange}
               >
                 <MenuItem value="">
                   <em>None</em>
@@ -413,7 +522,7 @@ export function MyProfile() {
             <TextField
               fullWidth
               name="company"
-              placeholder="Salesforce"
+              placeholder={user.company}
               id="company"
             />
           </Stack>
@@ -436,6 +545,8 @@ export function MyProfile() {
               rows={3}
               fullWidth
               placeholder="Enter a short bio here"
+              id="biography"
+              name="biography"
             />
           </Stack>
         </Stack>
