@@ -39,9 +39,7 @@ export default function GlobalNavbar({ isLoggedIn, setIsLoggedIn, setUser }) {
    * Function that handles when the user logs out
    */
   const handleOnLogout = () => {
-    // setIsLoggedIn(false);
     apiClient.deleteToken();
-    // setUser({});
     navigate("/");
   };
 
@@ -116,7 +114,6 @@ export default function GlobalNavbar({ isLoggedIn, setIsLoggedIn, setUser }) {
                         color: "red",
                         backgroundColor: "white",
                       },
-
                     },
                     LogoutIcon && {
                       "&:hover": { backgroundColor: "grey" },

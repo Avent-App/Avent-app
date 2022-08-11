@@ -254,17 +254,15 @@ function Footer() {
             }}
           >
             <Box>
-              <Typography component="p">
-                <span style={{ marginTop: "10rem" }}>
-                  <CallIcon sx={{ color: "#D90429" }} />
-                </span>
-                (123) 456-7890
+              <Typography component="p" style={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}>
+                <CallIcon sx={{ color: "#D90429" }} />
+                <span>(123) 456-7890</span>
               </Typography>
             </Box>
             <Box>
-              <Typography component="p">
+              <Typography component="p" style={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}>
                 <PrintIcon sx={{ color: "#D90429" }} />
-                (123) 456-7890
+                <span>(123) 456-7890</span>
               </Typography>
             </Box>
           </Grid>

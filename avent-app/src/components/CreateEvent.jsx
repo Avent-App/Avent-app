@@ -16,8 +16,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import apiClient from "../services/apiClient";
 
-export default function CreateEvent({isLoggedIn, setIsLoggedIn}) {
-
+export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
   const [errors, setErrors] = useState({});
   const [value, setValue] = React.useState(new Date("2022-08-10T21:00:00"));
   const navigate = useNavigate();
@@ -57,7 +56,7 @@ export default function CreateEvent({isLoggedIn, setIsLoggedIn}) {
       image_url: eventImageUrl,
       description: eventDescription,
       // host_id has to be replaced with the logged in user
-      host_id: 1,
+      host_id: user.id,
       event_category: eventType,
     };
 
@@ -94,9 +93,12 @@ export default function CreateEvent({isLoggedIn, setIsLoggedIn}) {
   };
 
   return (
-
     <Container maxWidth="xl">
-      <GlobalNavbar disableGutters isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
+      <GlobalNavbar
+        disableGutters
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+      />
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid

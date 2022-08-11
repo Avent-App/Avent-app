@@ -9,11 +9,16 @@ import {
   CardActions,
   Stack,
   Avatar,
-  Link,
   Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { Link as RouterLink } from "react-router-dom";
+import { useState } from "react";
+import apiClient from "../services/apiClient";
 
 export default function EventCardHorizontal({
   eventImageUrl,
@@ -23,8 +28,21 @@ export default function EventCardHorizontal({
   eventDescription,
   eventHost,
   eventId,
+  reservationId,
+  getData,
+  pageType,
 }) {
   let navigate = useNavigate();
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Card
@@ -34,12 +52,13 @@ export default function EventCardHorizontal({
         height: 312,
         borderRadius: "17px",
         boxShadow: "0px 26.1132px 69.6352px rgba(0, 0, 0, 0.06)",
+        mb: 5,
       }}
     >
       <CardMedia
         component="img"
         sx={{ width: 312 }}
-        image={eventImageUrl}
+        image={eventImageUrl ? eventImageUrl : NoPhoto}
         alt="Event image"
       />
       <Box
@@ -106,17 +125,177 @@ export default function EventCardHorizontal({
             color="secondary"
             sx={{ fontWeight: 600, fontSize: 12 }}
           >
-            <Link
-              to={`/details/${eventId}`}
-              color="secondary"
-              component={RouterLink}
-              underline="none"
-            >
-              Learn more →
-            </Link>
+            <Button variant="text" onClick={handleClickOpen}>
+              {pageType == "reservations"
+                ? "Cancel your reservation"
+                : "Delete Listing"}
+            </Button>
           </Typography>
         </CardActions>
+        {
+          <DialogBoxes
+            pageType={pageType}
+            reservationId={reservationId}
+            getData={getData}
+            handleClickOpen={handleClickOpen}
+            handleClose={handleClose}
+            open={open}
+            setOpen={setOpen}
+            eventId={eventId}
+          />
+        }
       </Box>
     </Card>
   );
+}
+
+function DialogBoxes({
+  pageType,
+  reservationId,
+  getData,
+  handleClickOpen,
+  handleClose,
+  open,
+  setOpen,
+  eventId,
+}) {
+  const handleOnSubmitReservation = async () => {
+    try {
+      await apiClient.deleteReservation(reservationId);
+      setOpen(false);
+      getData();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleOnSubmitListing = async () => {
+    try {
+      await apiClient.deleteEventListing(eventId);
+      setOpen(false);
+      getData();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  if (pageType == "reservations") {
+    return (
+      <Dialog
+        maxWidth="md"
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          style: { borderRadius: "10px", width: 500 },
+        }}
+      >
+        <DialogTitle sx={{ mt: 1 }}>
+          <Typography sx={{ fontWeight: 500, fontSize: 30 }}>
+            Cancel your reservation?
+          </Typography>
+        </DialogTitle>
+        <DialogContent>
+          <Typography sx={{ fontWeight: 400, fontSize: 15 }}>
+            If you cancel your reservation, you may not be able to reserve
+            again.
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ mx: 1 }}>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+            sx={{ width: 500 }}
+          >
+            <Button
+              onClick={handleClose}
+              variant="outlined"
+              color="secondary"
+              disableElevation
+              sx={{
+                width: 175,
+                height: 43.2,
+                borderRadius: "5.6px",
+                mb: 1,
+              }}
+            >
+              Keep Reservation
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              disableElevation
+              onClick={() => handleOnSubmitReservation()}
+              sx={{
+                width: 175,
+                height: 43.2,
+                borderRadius: "5.6px",
+                mb: 1,
+              }}
+            >
+              Confirm
+            </Button>
+          </Stack>
+        </DialogActions>
+      </Dialog>
+    );
+  } else {
+    return (
+      <Dialog
+        maxWidth="md"
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          style: { borderRadius: "10px", width: 500 },
+        }}
+      >
+        <DialogTitle sx={{ mt: 1 }}>
+          <Typography sx={{ fontWeight: 500, fontSize: 30 }}>
+            Delete your event listing?
+          </Typography>
+        </DialogTitle>
+        <DialogContent>
+          <Typography sx={{ fontWeight: 400, fontSize: 15 }}>
+            If you delete your event listing, it will be gone forever.
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ mx: 1 }}>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+            sx={{ width: 500 }}
+          >
+            <Button
+              onClick={handleClose}
+              variant="outlined"
+              color="secondary"
+              disableElevation
+              sx={{
+                width: 175,
+                height: 43.2,
+                borderRadius: "5.6px",
+                mb: 1,
+              }}
+            >
+              Keep Listing
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              disableElevation
+              onClick={() => handleOnSubmitListing()}
+              sx={{
+                width: 175,
+                height: 43.2,
+                borderRadius: "5.6px",
+                mb: 1,
+              }}
+            >
+              Confirm
+            </Button>
+          </Stack>
+        </DialogActions>
+      </Dialog>
+    );
+  }
 }

@@ -21,7 +21,7 @@ class User {
   }
   static async login(credentials) {
     const requiredFields = ["email", "password"];
-    console.log(credentials);
+    // console.log(credentials);
 
     requiredFields.forEach((field) => {
       if (!credentials.hasOwnProperty(field)) {
@@ -121,6 +121,53 @@ class User {
     const result = await db.query(query, [id.toString()]);
     const user = result.rows[0];
     return user;
+  }
+
+  static async updateUserFields(id, fields) {
+    if (!id) {
+      throw new BadRequestError("No user id is provided");
+    }
+    if (!fields) {
+      throw new BadRequestError("Nothing was updated!");
+    }
+
+    var newHashedPassword = fields.password;
+
+    if (fields.password != "") {
+      newHashedPassword = await bcrypt.hash(
+        fields.password,
+        BCRYPT_WORK_FACTOR
+      );
+    }
+
+    //Fields will only update if they are filled...
+    //Coalesce takes in the first non-null paramater. NULLIF returns null if the two fields inside are equal.
+    const result = await db.query(
+      `
+      UPDATE users
+      SET first_name = COALESCE(NULLIF($2,''), first_name),
+          last_name = COALESCE(NULLIF($3,''), last_name),
+          email = COALESCE(NULLIF($4,''), email),
+          location = COALESCE(NULLIF($5,''), location),
+          password = COALESCE(NULLIF($6,''), password),
+          company = COALESCE(NULLIF($7,''), company),
+          biography = COALESCE(NULLIF($8,''), biography)
+      WHERE id = $1
+      RETURNING *;
+      `,
+      [
+        id,
+        fields.firstName,
+        fields.lastName,
+        fields.email,
+        fields.location,
+        newHashedPassword,
+        fields.company,
+        fields.biography,
+      ]
+    );
+
+    return result.rows[0];
   }
 }
 

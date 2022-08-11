@@ -13,11 +13,24 @@ import Listings from "./components/Listings";
 import Reservations from "./components/Reservations";
 import Profile from "./components/Profile";
 import Settings from "./components/Settings";
+import apiClient from "./services/apiClient";
+import ProfileDetail from "./components/ProfileDetail";
 // import { SubHero } from "./components/Landing";
 
 function App() {
   const [user, setUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  async function getUserFromToken() {
+    if (await apiClient.getToken()) {
+      const res = await apiClient.fetchUserFromToken();
+      setUser(res.data.user);
+    }
+  }
+
+  useEffect(() => {
+    getUserFromToken();
+  }, []);
 
   return (
     <>
@@ -59,12 +72,28 @@ function App() {
                   <EventFeed setUser={setUser} isLoggedIn={isLoggedIn.user} />
                 }
               />
-              <Route path="/details/:eventId" element={<EventDetails />} />
-              <Route path="/createEvent" element={<CreateEvent />} />
+              <Route
+                path="/details/:eventId"
+                element={<EventDetails user={user} />}
+              />
+
+              <Route
+                path="/createEvent"
+                element={<CreateEvent user={user} />}
+              />
               <Route path="/aboutUs" element={<AboutUs />} />
-              <Route path="/settings/profile" element={<Profile />} />
-              <Route path="/settings/reservations" element={<Reservations />} />
-              <Route path="/settings/listings" element={<Listings />} />
+              <Route
+                path="/settings/profile"
+                element={<Profile user={user} setUser={setUser} />}
+              />
+              <Route
+                path="/settings/reservations"
+                element={<Reservations user={user} />}
+              />
+              <Route
+                path="/settings/listings"
+                element={<Listings user={user} />}
+              />
               <Route path="*" element={<NotFound />} />
               <Route
                 path="/feed"
@@ -102,7 +131,6 @@ function App() {
                   />
                 }
               />
-
               <Route
                 path="*"
                 element={
@@ -112,6 +140,11 @@ function App() {
                   />
                 }
               />
+              <Route
+                path="/profiles/:userId"
+                element={<ProfileDetail user={user} />}
+              />
+              {/* <Route path="/profiles" element={<ProfileDetail user={user} />} /> */}
             </Routes>
           </main>
         </BrowserRouter>

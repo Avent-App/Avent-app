@@ -66,6 +66,72 @@ class ApiClient {
     });
   }
 
+  async updateUserInfo(userId, data) {
+    return await this.request({
+      endpoint: `user/updateInfo/${userId}`,
+      method: `POST`,
+      data: data,
+    });
+  }
+
+  async getUpcomingReservations(point) {
+    return await this.request({
+      endpoint: `reservations/upcoming/${point}`,
+      method: `GET`,
+    });
+  }
+
+  async getPastReservations(point) {
+    return await this.request({
+      endpoint: `reservations/pastEvents/${point}`,
+      method: `GET`,
+    });
+  }
+
+  async createRSVP(data) {
+    return await this.request({
+      endpoint: "reservations/create",
+      method: `POST`,
+      data: data,
+    });
+  }
+
+  async checkReserved(eventId, userId) {
+    return await this.request({
+      endpoint: `reservations/checkReserved/${userId}/${eventId}`,
+      method: `GET`,
+    });
+  }
+
+  async postComment(data) {
+    return await this.request({
+      endpoint: "comment/create",
+      method: `POST`,
+      data: data,
+    });
+  }
+
+  async getComments(commentSectionId) {
+    return await this.request({
+      endpoint: `comment/section/${commentSectionId}`,
+      method: `GET`,
+    });
+  }
+
+  async getUserFromComment(comment_id) {
+    return await this.request({
+      endpoint: `comment/user/${comment_id}`,
+      method: `GET`,
+    });
+  }
+
+  async deleteReservation(reservationId) {
+    return await this.request({
+      endpoint: `reservations/delete/${reservationId}`,
+      method: `DELETE`,
+    });
+  }
+
   async getEvent(point) {
     return await this.request({
       endpoint: `event/${point}`,
@@ -77,6 +143,27 @@ class ApiClient {
     return await this.request({
       endpoint: `event/`,
       method: `GET`,
+    });
+  }
+
+  async getUpcomingUserEventListings(userId) {
+    return await this.request({
+      endpoint: `event/getUpcomingListings/${userId}`,
+      method: `GET`,
+    });
+  }
+
+  async getPastUserEventListings(userId) {
+    return await this.request({
+      endpoint: `event/getPastListings/${userId}`,
+      method: `GET`,
+    });
+  }
+
+  async deleteEventListing(eventId) {
+    return await this.request({
+      endpoint: `event/deleteEventListing/${eventId}`,
+      method: `DELETE`,
     });
   }
 

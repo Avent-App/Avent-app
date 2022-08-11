@@ -7,9 +7,7 @@ import EventCard from "./EventCard";
 import CircularProgress from "@mui/material/CircularProgress";
 import apiClient from "../services/apiClient";
 
-
-export default function EventFeed({isLoggedIn, setIsLoggedIn, setUser}) {
-
+export default function EventFeed({ isLoggedIn, setIsLoggedIn, setUser }) {
   const [isLoading, setIsLoading] = useState(true);
   //state var to store array of events fetched from database
   const [eventsData, setEventsData] = useState([]);
@@ -24,7 +22,7 @@ export default function EventFeed({isLoggedIn, setIsLoggedIn, setUser}) {
     const res = await apiClient.getEvents();
     console.log(res.data.events);
     setEventsData(res.data.events);
-    setIsLoading(false);
+    setTimeout(() => setIsLoading(false), 500);
   };
 
   useEffect(() => {
@@ -33,12 +31,8 @@ export default function EventFeed({isLoggedIn, setIsLoggedIn, setUser}) {
 
   return (
     <div>
-      <GlobalNavbar setUser={setUser} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
-      <Hero
-        eventsData={eventsData}
-        setSearchItem={setSearchItem}
-        searchItem={searchItem}
-      />
+      <GlobalNavbar setUser={setUser} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <Hero eventsData={eventsData} setSearchItem={setSearchItem} searchItem={searchItem} />
 
       <Container maxWidth="xl" sx={{ mb: 5 }}>
         <Feed
@@ -138,7 +132,7 @@ function Feed({ eventsData, isLoading }) {
                   timeStyle: "short",
                 })}
                 eventDescription={event.description}
-                eventHost={event.host_id}
+                eventHost={`${event.first_name} ${event.last_name}`}
                 eventImageUrl={event.image_url}
                 eventId={event.event_id}
               />

@@ -1,11 +1,11 @@
 -- First I need users in a seed
 -- 2nd, I need to make these conform to the new data form I need
 
-INSERT INTO users (password, account_type, first_name, last_name, email, location, company)
+INSERT INTO users (password, account_type, first_name, last_name, email, location, company, biography)
 VALUES
-('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','intern','Irem','Komurcu','i@sf.com','San Francisco', 'Salesforce'),
-('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','business','Sales','Force','marc@sf.com','San Francisco', 'Apple'),
-('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','intern','Enrique','Rico','e@sf.com','New York', 'Google');
+('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','intern','Irem','Komurcu','i@sf.com','San Francisco', 'Salesforce', 'I love problems and solving puzzles, its how I derive my meaning in life!'),
+('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','business','Sales','Force','marc@sf.com','San Francisco', 'Apple', 'I love empowering others through creative solutions and creating value and social change through my buisness.'),
+('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','intern','Enrique','Rico','e@sf.com','New York', 'Google', 'Hit me up if you are in New York! I love meeting new people and getting to know brilliant minds. Life is beautiful.');
 
 INSERT INTO events (host_id, title, description, start_date, end_date, address, event_category, image_url)
 VALUES
@@ -16,3 +16,43 @@ VALUES
 (2, 'Cooking Class', 'Learn how to cook a 3-course meal', '2022-08-01 00:00:01', '2022-08-01 16:00:01', '180 Montgomery St, San Francisco, CA 94104', 'Class', 'https://cdn.pixabay.com/photo/2018/01/16/20/07/roulades-3086743_960_720.jpg'),
 (3, 'Gardening Class', 'Learn how to grow your own herbs and vegetables', '2022-08-02 00:00:01', '2022-08-02 16:00:01', ' 730 5th Ave, New York, NY 10019', 'Class', 'https://cdn.pixabay.com/photo/2017/05/09/13/31/spring-2298279_960_720.jpg'),
 (3, 'Ice Cream Social', 'Make your own ice cream sundaes', '2022-07-30 00:00:01', '2022-07-30 16:00:01', '789 Broad St, New York, NY 10002', 'Intern', 'https://cdn.pixabay.com/photo/2016/03/23/15/00/ice-cream-1274894_960_720.jpg');
+
+
+INSERT INTO reservations(user_id, event_id)
+VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(1,3),
+(2,3),
+(3,1),
+(1,4),
+(1,5),
+(2,6),
+(3,1),
+(3,5),
+(1,5),
+(2,1);
+
+INSERT INTO comment_section (event_id)
+VALUES
+(1),
+(2),
+(3),
+(4),
+(5),
+(6),
+(7);
+
+INSERT INTO comment (user_id, comment_section_id, comment_text)
+VALUES
+(1, 1, 'Excited to have you all come by!'),
+(2, 1, 'Will there be some cheese and bread as well? Asking for a friend!'),
+(3, 1, 'OMG I am so excited, its going to be AMAZING!!!!!!'),
+(1, 2, 'Excited to have you all come by!'),
+(2, 3, 'Will there be some cheese and bread as well? Asking for a friend!'),
+(3, 4, 'OMG I am so excited, its going to be AMAZING!!!!!!'),
+(1, 5, 'Excited to have you all come by!'),
+(2, 6, 'Will there be some cheese and bread as well? Asking for a friend!'),
+(3, 7, 'OMG I am so excited, its going to be AMAZING!!!!!!');
+
