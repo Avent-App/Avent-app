@@ -12,12 +12,13 @@ import { useEffect, useState } from "react";
 import SmallEventCard from "./SmallEventCard";
 import apiClient from "../services/apiClient";
 import { useNavigate, useParams } from "react-router-dom";
+import GlobalNavbar from "./GlobalNavbar";
 // import { Link as RouterLink } from "react-router-dom";
 
 /************************************************PROFILE DETAIL*/
 /**
  *
- * @param {*} param0 user
+ * @param {*} param0 gets the user's authentication. stateVar drilled down from app.jsx
  * @returns
  */
 const ProfileDetail = ({ user }) => {
@@ -32,15 +33,18 @@ const ProfileDetail = ({ user }) => {
     try {
       setIsLoading(true);
       //fetching upcomingReservations by user id
-      const res = await apiClient.getUpcomingReservations(userId);
-      console.log("res:", res);
-      setReservations(res.data.reservations);
+      const res = await apiClient.getPastReservations(userId);
+      console.log("RESERVATIONS:res------>", res);
+      console.log("--->", reservations);
+      console.log("USER", user);
+
+      console.log(setReservations(res.data.reservations));
 
       //fetching user by id
       const res2 = await apiClient.getUser(userId);
       setUserData(res2.data);
-      console.log("res2----->", res2);
-      // setTimeout(() => setIsLoading(false), 400);
+      console.log("USER:res2----->", res2);
+      setTimeout(() => setIsLoading(false), 400);
     } catch (e) {
       console.log(e);
       navigate("/404");
@@ -49,12 +53,16 @@ const ProfileDetail = ({ user }) => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [user]);
 
+  /**
+   *
+   * @returns this func maps the array of reservations and creates a card for each one, if not returns "Nothing to show"
+   */
   const renderReservations = () => {
-    if (reservations.length > 0) {
+    if (reservations > 0) {
       return (
-        <Grid container spacing={3} sx={{ mb: 5 }}>
+        <Grid spacing={3} sx={{ mb: 5 }}>
           {reservations.map((reservation, idx) => {
             return (
               <Grid key={idx} item xs={6}>
@@ -81,7 +89,8 @@ const ProfileDetail = ({ user }) => {
   };
   return (
     <>
-      <img style={{ width: "115%", height: "300px" }} src={"https://www.jvs.org/wp-content/uploads/2020/03/SalesforceFellowship_banner.jpg)"} />
+      <GlobalNavbar />
+      <img style={{ width: "100%", height: "340px" }} src={"https://www.jvs.org/wp-content/uploads/2020/03/SalesforceFellowship_banner.jpg)"} />
 
       <Stack className="Title" sx={{ ml: 90 }}>
         <Typography sx={{ fontSize: 35, fontWeight: "bold", mt: 3 }}>Events Attending To</Typography>
@@ -89,11 +98,12 @@ const ProfileDetail = ({ user }) => {
       <Stack className="MAIN" sx={{ flexDirection: "row", gap: "23rem" }}>
         <UserInformation user={user} userData={userData} />
 
-        <Stack className="cardSTack" container sx={{ flexDirection: "row", marginTop: "3.5rem", height: "32rem" }}>
+        <Stack className="cardSTack" sx={{ flexDirection: "row", marginTop: "3.5rem", height: "32rem" }}>
           <Grid>
             <Grid className="CardsGrid">
-              <SmallEventCard />
-              <SmallEventCard />
+              {/* <SmallEventCard />
+              <SmallEventCard /> */}
+              {renderReservations()}
             </Grid>
           </Grid>
         </Stack>
@@ -109,7 +119,7 @@ const ProfileDetail = ({ user }) => {
  * @param {*} param0
  * @returns
  */
-function UserInformation({ userData, user }) {
+function UserInformation({ userData }) {
   return (
     <Box
       className="WhiteInfoBox"
@@ -154,10 +164,7 @@ function UserInformation({ userData, user }) {
                 <AccountBoxIcon />
                 <span>About</span>
               </Typography>
-              <Typography sx={{ fontWeight: 400, fontSize: 13, textAlign: "left", lineHeight: "21px", marginTop: "10px" }}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.
-                {/* {userData.Bio} */}
-              </Typography>
+              <Typography sx={{ fontWeight: 400, fontSize: 13, textAlign: "left", lineHeight: "21px", marginTop: "10px" }}>{userData.bio}</Typography>
             </Stack>
             <Divider />
             <Stack sx={{ m: 4, my: 3 }}>
@@ -168,7 +175,7 @@ function UserInformation({ userData, user }) {
                 <MailIcon />
                 <span>Email</span>
               </Typography>
-              <Typography sx={{ fontWeight: 400, fontSize: 13, marginTop: "10px" }}> {`${userData.email}`} </Typography>
+              <Typography sx={{ fontWeight: 400, fontSize: 13, marginTop: "10px" }}> {userData.email} </Typography>
             </Stack>
             <Divider />
             <Stack sx={{ ml: 4, my: 3 }}>

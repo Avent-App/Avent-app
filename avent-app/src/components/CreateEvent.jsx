@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { Container } from "@mui/material";
+import { Container, Zoom } from "@mui/material";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import GlobalNavbar from "./GlobalNavbar";
@@ -16,10 +16,15 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import apiClient from "../services/apiClient";
 
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+
 export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
   const [errors, setErrors] = useState({});
-  const [value, setValue] = React.useState(new Date("2022-08-10T21:00:00"));
+  const [value, setValue] = useState(new Date("2022-08-10T21:00:00"));
   const navigate = useNavigate();
+  const [successAlert, setSuccessAlert] = useState(false);
+  const [errorAlert, setErrorAlert] = useState(false);
 
   /**
    * function that checks for new values on date and time pickers textfields
@@ -37,11 +42,13 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
   const handleOnSubmit = async (event) => {
     event.preventDefault();
     setErrors((e) => ({ ...e, form: null }));
+    setErrorAlert(true);
     const data = new FormData(event.currentTarget);
 
     /**
      * Printing out the data retreived from the createEvent page
      */
+
     const eventName = data.get("eventName");
     const eventAddress = data.get("eventAddress");
     const eventDate = value;
@@ -61,7 +68,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
     };
 
     /**
-     * this checks for user to fill out the entire form, if not returns an alert
+     * checks for user to fill out the entire form, if not returns an alert
      */
     if (
       eventsInfo.title === "" ||
@@ -72,15 +79,28 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
       eventsInfo.description === "" ||
       eventsInfo.event_category === ""
     ) {
-      return alert("Please fill out the entire form.");
+      return errorAlert ? (
+        <Zoom
+          in={errorAlert}
+          timeout={{ enter: 500, exit: 500 }}
+          addEndListener={() => {
+            setTimeout(() => {
+              setErrorAlert(false);
+            }, 4000);
+          }}
+          sx={{ my: 1 }}
+        >
+          <Alert severity="error">Please fill out the entire form</Alert>
+        </Zoom>
+      ) : null;
     }
 
     try {
       const res = await apiClient.createEvent(eventsInfo, `event/create`);
+      console.log("res->", res);
       if (res?.data) {
-        console.log("Successfully posted into the database!");
-        alert("Congratulations, your event has been successfully created!");
-        navigate("/feed");
+        setSuccessAlert(true);
+        setTimeout(() => navigate("/feed"), 1700);
       }
     } catch (err) {
       console.log(err);
@@ -94,11 +114,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
 
   return (
     <Container maxWidth="xl">
-      <GlobalNavbar
-        disableGutters
-        isLoggedIn={isLoggedIn}
-        setIsLoggedIn={setIsLoggedIn}
-      />
+      <GlobalNavbar disableGutters isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
@@ -137,6 +153,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
               alignItems: "center",
               justifyContent: "center",
               marginLeft: "8rem",
+              marginBottom: "13rem",
               width: "450px",
               height: "900px",
             }}
@@ -148,17 +165,26 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                 fontFamily: "Inter",
                 fontWeight: "700",
                 fontSize: "32px",
-                marginBottom: "2rem",
+                marginBottom: "1rem",
               }}
             >
               Create an Event
             </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleOnSubmit}
-              sx={{ mt: 1 }}
-            >
+            {successAlert && (
+              <Zoom
+                in={successAlert}
+                timeout={{ enter: 500, exit: 500 }}
+                addEndListener={() => {
+                  setTimeout(() => {
+                    setSuccessAlert(false);
+                  }, 4000);
+                }}
+                sx={{ my: 1 }}
+              >
+                <Alert severity="success">You have succesfuly created an event!</Alert>
+              </Zoom>
+            )}
+            <Box component="form" noValidate onSubmit={handleOnSubmit} sx={{ mt: 1 }}>
               <label
                 style={{
                   fontFamily: "Inter",
@@ -220,10 +246,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                 </label>
               </Box>
 
-              <Box
-                className="namesInput"
-                sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}
-              >
+              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DesktopDatePicker
                     inputFormat="MM/dd/yyyy"
@@ -231,19 +254,11 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                     id="date"
                     name="date"
                     onChange={handleChangeDateTime}
-                    renderInput={(params) => (
-                      <TextField {...params} sx={{ marginBottom: ".5rem" }} />
-                    )}
+                    renderInput={(params) => <TextField {...params} sx={{ marginBottom: ".5rem" }} />}
                   />
                 </LocalizationProvider>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <TimePicker
-                    id="time"
-                    name="time"
-                    value={value}
-                    onChange={handleChangeDateTime}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
+                  <TimePicker id="time" name="time" value={value} onChange={handleChangeDateTime} renderInput={(params) => <TextField {...params} />} />
                 </LocalizationProvider>
               </Box>
               <label
@@ -312,7 +327,6 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                 fullWidth
                 variant="contained"
                 color="secondary"
-                // onClick={handleOnSubmit}
                 sx={{
                   padding: "13px 10px 12px",
                   fontFamily: "Inter",
@@ -321,7 +335,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                   fontSize: "16px",
                   background: "#EF233C",
                   borderRadius: "6px",
-                  marginTop: "32px",
+                  marginTop: "12px",
                   textTransform: "none",
                 }}
               >

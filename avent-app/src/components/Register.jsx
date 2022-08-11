@@ -16,6 +16,14 @@ import login from "../assets/login.jpg";
 import { validEmail, validPassword } from "../Regex";
 import apiClient from "../services/apiClient";
 
+import PWGenerate from "./TESTPW/PWGenerate";
+import styled from "@emotion/styled";
+
+import { OutlinedInput, IconButton, FormHelperText } from "@mui/material";
+import InputAdornment from "@mui/material/InputAdornment";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+
 /**
  *
  * @param {*} param0 props drilled down from app.js
@@ -26,13 +34,50 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
   const [account, setAccount] = React.useState("");
   const [location, setLocation] = React.useState("");
   const [errors, setErrors] = React.useState({});
+  const [pwErrors, setPwErrors] = React.useState({ value: "", error: "" });
   const [form, setForm] = React.useState({
     first_name: "",
     last_name: "",
     email: "",
     password: "",
+    showPassword: false,
     confirmPassword: "",
+    passwordLength: false,
+    containsNumbers: false,
+    isUpperCase: false,
+    containsSymbols: false,
   });
+
+  const handleOnInputPW = (prop) => (event) => {
+    setForm({ ...form, [prop]: event.target.value });
+    setPwErrors({
+      value: event.target.value,
+      error: event.target.value ? <PWGenerate /> : null,
+    });
+    let targetValue = event.target.value.replace(/\s/g, "");
+    setForm({
+      [prop]: targetValue,
+      //check for chars numbers > 7
+      passwordLength: targetValue.length > 7 ? true : false,
+      //check for numbers
+      containsNumbers: targetValue.match(/\d+/g) ? true : false,
+      // check for upper case
+      isUpperCase: targetValue.match(/[A-Z]/) ? true : false,
+      // check for symbols
+      containsSymbols: targetValue.match(/[^A-Z a-z0-9]/) ? true : false,
+    });
+  };
+
+  const handleClickShowPassword = () => {
+    setForm({
+      ...form,
+      showPassword: !form.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   /**
    *
@@ -58,8 +103,8 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
     if (event.target.name === "email") {
       if (!validEmail.test(event.target.value)) {
         setErrors((e) => ({ ...e, email: "Your email is invalid" }));
-      } else if (signupInfo.email === "") {
-        setErrors((e) => ({ ...e, email: "Please enter an email" }));
+        // } else if (signupInfo.email === "") {
+        //   setErrors((e) => ({ ...e, email: "Please enter an email" }));
       } else {
         setErrors((e) => ({ ...e, email: null }));
       }
@@ -72,7 +117,7 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
           ...e,
           password: (
             <ul>
-              <li>Must Contain:</li>
+              <l>Must Contain:</l>
               <li>8 characters</li>
               <li>An Upper Case Letter</li>
               <li>A Special Character (!@#$&*)</li>
@@ -150,7 +195,7 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
       }));
     }
   };
-
+  let { password, passwordLength, containsNumbers, isUpperCase, containsSymbols } = form;
   return (
     <Container maxWidth="xl" disableGutters>
       <Navbar />
@@ -286,7 +331,10 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                 error={errors.email != null}
                 onChange={handleOnInputChange}
               />
-              <label
+
+              {/* ==================================================== */}
+
+              {/* <label
                 style={{
                   fontFamily: "Inter",
                   color: "#828282",
@@ -296,7 +344,6 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                 Password
               </label>
               <TextField
-                margin="normal"
                 fullWidth
                 name="password"
                 placeholder="**************"
@@ -307,7 +354,51 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                 helperText={errors.password}
                 error={errors.password != null}
                 onChange={handleOnInputChange}
-              />
+                }
+              /> */}
+              <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
+                <label
+                  style={{
+                    fontFamily: "Inter",
+                    color: "#828282",
+                    fontWeight: 600,
+                  }}
+                >
+                  Password
+                </label>
+                <OutlinedInput
+                  sx={{ width: "28.5rem", ml: -0.9 }}
+                  name="password"
+                  placeholder="********"
+                  id="password"
+                  autoComplete="current-password"
+                  style={{ marginTop: "8px" }}
+                  variant="outlined"
+                  fullWidth
+                  type={form.showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={handleOnInputPW("password")}
+                  helpertext={errors.password}
+                  // error={errors.password != null}
+
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword} edge="end">
+                        {form.showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  error={!!pwErrors.error}
+                />
+                {!!pwErrors.error && (
+                  <FormHelperText error id="pwErrors-error">
+                    {pwErrors.error}
+                  </FormHelperText>
+                )}
+              </FormControl>
+
+              {/* ==================================================== */}
+              <br></br>
               <label
                 style={{
                   fontFamily: "Inter",
@@ -317,11 +408,12 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
               >
                 Confirm Password
               </label>
+
               <TextField
                 margin="normal"
                 fullWidth
                 name="confirmPassword"
-                placeholder="**************"
+                placeholder="********"
                 type="password"
                 id="confirmPassword"
                 autoComplete="current-password"
@@ -504,3 +596,12 @@ function ControlledOpenSelect({ location, account, setLocation, setAccount }) {
     </div>
   );
 }
+
+//emotions styled components for settings errors on password criteria
+const GreenDiv = styled.div`
+  color: green;
+`;
+
+const RedDiv = styled.div`
+  color: red;
+`;
