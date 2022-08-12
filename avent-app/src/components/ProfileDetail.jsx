@@ -78,7 +78,7 @@ const ProfileDetail = ({ user }) => {
   const renderReservations = () => {
     if (reservations.length > 0) {
       return (
-        <Grid spacing={3} sx={{ mb: 5 }}>
+        <Grid container spacing={3} sx={{ mb: 5 }}>
           {reservations.map((reservation, idx) => {
             return (
               <Grid key={idx} item xs={6}>

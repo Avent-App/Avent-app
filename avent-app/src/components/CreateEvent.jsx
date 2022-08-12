@@ -21,7 +21,11 @@ import AlertTitle from "@mui/material/AlertTitle";
 
 export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
   const [errors, setErrors] = useState({});
-  const [value, setValue] = useState(new Date("2022-08-10T21:00:00"));
+  const [startDateValue, setStartDateValue] = useState(new Date("2022-08-19T18:00:00"));
+  const [endDateValue, setEndDateValue] = useState(new Date("2022-08-20T18:00:00"));
+  const [startTimeValue, setStartTimeValue] = useState(new Date("2022-08-22T16:00:00"));
+  const [endTimeValue, setEndTimeValue] = useState(new Date("2022-08-22T18:00:00"));
+  const [timeValue, setTimeValue] = useState(new Date("2022-08-20T21:00:00"));
   const navigate = useNavigate();
   const [successAlert, setSuccessAlert] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
@@ -30,8 +34,20 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
    * function that checks for new values on date and time pickers textfields
    * @param {*} newValue it's the event target value inputted by users
    */
-  const handleChangeDateTime = (newValue) => {
-    setValue(newValue);
+  const handleChangeStartDate = (newValue) => {
+    setStartDateValue(newValue);
+  };
+
+  const handleChangeEndDate = (newValue) => {
+    setEndDateValue(newValue);
+  };
+
+  const handleChangeStartTime = (newValue) => {
+    setStartTimeValue(newValue);
+  };
+
+  const handleChangeEndTime = (newValue) => {
+    setEndTimeValue(newValue);
   };
 
   /**
@@ -51,30 +67,55 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
 
     const eventName = data.get("eventName");
     const eventAddress = data.get("eventAddress");
-    const eventDate = value;
+    const startDate = startDateValue;
+    const endDate = endDateValue;
+    const startTime = startTimeValue;
+    const endTime = endTimeValue;
     const eventImageUrl = data.get("image_url");
     const eventType = data.get("eventType");
     const eventDescription = data.get("eventDescription");
     const eventsInfo = {
       title: eventName,
       address: eventAddress,
-      start_date: eventDate,
-      end_date: eventDate,
+      start_date: createDateTimestamp(startDate, startTime),
+      end_date: createDateTimestamp(endDate, endTime),
       image_url: eventImageUrl,
       description: eventDescription,
       // host_id has to be replaced with the logged in user
       host_id: user.id,
       event_category: eventType,
     };
-
+    console.log("eeeveentINFOOOOOOOOOOOO", eventsInfo);
+    console.log("START", eventsInfo.start_date);
     /**
      * checks for user to fill out the entire form, if not returns an alert
      */
+
+    function createDateTimestamp(date, time) {
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+      let timezone = String(time).split(" ");
+      timezone = timezone.slice(5);
+
+      let timestamp =
+        dayNames[date.getDay().toLocaleString()] +
+        " " +
+        monthNames[date.getMonth() - 1] +
+        " " +
+        date.getDate() +
+        " " +
+        date.getFullYear() +
+        " " +
+        time.toLocaleTimeString() +
+        " ";
+
+      return timestamp;
+    }
     if (
       eventsInfo.title === "" ||
       eventsInfo.address === "" ||
       eventsInfo.start_date === "" ||
-      eventsInfo.end_dateime === "" ||
+      eventsInfo.end_date === "" ||
       eventsInfo.image_url === "" ||
       eventsInfo.description === "" ||
       eventsInfo.event_category === ""
@@ -223,6 +264,53 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                 autoFocus
                 style={{ marginTop: "8px" }}
               />
+              {/* ========================================================================== */}
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <label
+                  style={{
+                    fontFamily: "Inter",
+                    color: "#828282",
+                    fontWeight: 600,
+                  }}
+                >
+                  Start Date
+                </label>
+                <label
+                  style={{
+                    fontFamily: "Inter",
+                    color: "#828282",
+                    fontWeight: 600,
+                    marginRight: "9rem",
+                  }}
+                >
+                  End Date
+                </label>
+              </Box>
+
+              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DesktopDatePicker
+                    inputFormat="MM/dd/yyyy"
+                    value={startDateValue}
+                    id="date"
+                    name="date"
+                    onChange={handleChangeStartDate}
+                    renderInput={(params) => <TextField {...params} sx={{ marginBottom: ".5rem" }} />}
+                  />
+                </LocalizationProvider>
+
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DesktopDatePicker
+                    inputFormat="MM/dd/yyyy"
+                    value={endDateValue}
+                    id="date"
+                    name="date"
+                    onChange={handleChangeEndDate}
+                    renderInput={(params) => <TextField {...params} sx={{ marginBottom: ".5rem" }} />}
+                  />
+                </LocalizationProvider>
+              </Box>
+              {/* ========================================================================== */}
 
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <label
@@ -232,35 +320,37 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                     fontWeight: 600,
                   }}
                 >
-                  Date
+                  Start Time
                 </label>
                 <label
                   style={{
                     fontFamily: "Inter",
                     color: "#828282",
                     fontWeight: 600,
-                    marginRight: "11rem",
+                    marginRight: "9rem",
                   }}
                 >
-                  Time
+                  End Time
                 </label>
               </Box>
 
               <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DesktopDatePicker
-                    inputFormat="MM/dd/yyyy"
-                    value={value}
-                    id="date"
-                    name="date"
-                    onChange={handleChangeDateTime}
-                    renderInput={(params) => <TextField {...params} sx={{ marginBottom: ".5rem" }} />}
+                  <TimePicker
+                    id="time"
+                    name="time"
+                    value={startTimeValue}
+                    onChange={handleChangeStartTime}
+                    renderInput={(params) => <TextField {...params} />}
                   />
                 </LocalizationProvider>
+
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <TimePicker id="time" name="time" value={value} onChange={handleChangeDateTime} renderInput={(params) => <TextField {...params} />} />
+                  <TimePicker id="time" name="time" value={endTimeValue} onChange={handleChangeEndTime} renderInput={(params) => <TextField {...params} />} />
                 </LocalizationProvider>
               </Box>
+              {/* ======================================================================================= */}
+
               <label
                 style={{
                   fontFamily: "Inter",
