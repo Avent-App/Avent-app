@@ -247,7 +247,7 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
               mx: 4,
               marginLeft: "8rem",
               width: "450px",
-              height: "980px",
+              height: "940px",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
