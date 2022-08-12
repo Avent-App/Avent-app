@@ -37,10 +37,10 @@ const ProfileDetail = ({ user }) => {
   const [userData, setUserData] = useState({});
   let navigate = useNavigate();
 
+  //fetching user by id
   const getUserData = async () => {
     try {
       setIsLoading(true);
-      //fetching user by id
       const res2 = await apiClient.getUser(userId);
       setUserData(res2.data);
       console.log("USER:res2----->", res2);
@@ -104,14 +104,16 @@ const ProfileDetail = ({ user }) => {
     }
   };
   return (
-    <div>
+    <div className="DIVV">
       <GlobalNavbar />
+
       <img
         style={{ width: "100%", height: "340px" }}
         src={
           "https://www.jvs.org/wp-content/uploads/2020/03/SalesforceFellowship_banner.jpg)"
         }
       />
+
       <Stack>
         {isLoading ? (
           <Container
@@ -127,6 +129,7 @@ const ProfileDetail = ({ user }) => {
           </Container>
         ) : (
           <>
+
             <Stack
               className="mainCardStack"
               sx={{ flexDirection: "row", gap: "12rem" }}
@@ -137,8 +140,10 @@ const ProfileDetail = ({ user }) => {
                 <Typography sx={{ fontSize: 35, fontWeight: "bold", my: 2 }}>
                   Events Attending
                 </Typography>
+
                 {renderReservations()}
               </Stack>
+              {/* </Box> */}
             </Stack>
           </>
         )}
@@ -167,7 +172,7 @@ function UserInformation({ userData }) {
         borderRadius: "22px",
         position: "relative",
         bottom: 240,
-        right: -130,
+        right: -110,
         display: "flex",
         justifyContent: "center",
         alignItems: "start",
@@ -226,6 +231,7 @@ function UserInformation({ userData }) {
                 <AccountBoxIcon />
                 <span>About</span>
               </Typography>
+
               <Typography
                 sx={{
                   fontWeight: 400,
@@ -237,6 +243,7 @@ function UserInformation({ userData }) {
               >
                 {userData.biography}
               </Typography>
+
             </Stack>
             <Divider />
             <Stack sx={{ m: 4, my: 3 }}>
