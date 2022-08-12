@@ -85,8 +85,6 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
       host_id: user.id,
       event_category: eventType,
     };
-    console.log("eeeveentINFOOOOOOOOOOOO", eventsInfo);
-    console.log("START", eventsInfo.start_date);
     /**
      * checks for user to fill out the entire form, if not returns an alert
      */

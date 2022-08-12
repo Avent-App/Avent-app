@@ -13,7 +13,7 @@ import SmallEventCard from "./SmallEventCard";
 import apiClient from "../services/apiClient";
 import { useNavigate, useParams } from "react-router-dom";
 import GlobalNavbar from "./GlobalNavbar";
-// import { Link as RouterLink } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
 
 /************************************************PROFILE DETAIL*/
 /**
@@ -23,7 +23,6 @@ import GlobalNavbar from "./GlobalNavbar";
  */
 const ProfileDetail = ({ user }) => {
   const { userId } = useParams();
-  // fetching reservations by user's id
   const [reservations, setReservations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState({});
@@ -32,14 +31,6 @@ const ProfileDetail = ({ user }) => {
   const getUserData = async () => {
     try {
       setIsLoading(true);
-      //fetching upcomingReservations by user id
-      // const res = await apiClient.getPastReservations(userId);
-      // console.log("RESERVATIONS:res------>", res);
-      // console.log("--->", reservations);
-      // console.log("USER", user);
-
-      // console.log(setReservations(res.data.reservations));
-
       //fetching user by id
       const res2 = await apiClient.getUser(userId);
       setUserData(res2.data);
@@ -51,24 +42,20 @@ const ProfileDetail = ({ user }) => {
     }
   };
 
-  // useEffect(() => {
-  //   getData();
-  // }, [user]);
-
-  const getData = async () => {
+  const getReservationsData = async () => {
     setIsLoading(true);
     //get upcoming reservations
     const res = await apiClient.getUpcomingReservations(userId);
     console.log("res:", res.data.upcomingReservations);
     setReservations(res.data.upcomingReservations);
-    // const res2 = await apiClient.getPastReservations(user.id);
+    // const res2 = await apiClient.getPastReservations(userId);
     // setPastReservations(res2.data.getPastReservations);
     // setTimeout(() => setIsLoading(false), 700);
   };
 
   useEffect(() => {
-    getData();
     getUserData();
+    getReservationsData();
   }, [user]);
 
   /**
@@ -78,7 +65,7 @@ const ProfileDetail = ({ user }) => {
   const renderReservations = () => {
     if (reservations.length > 0) {
       return (
-        <Grid container spacing={3} sx={{ mb: 5 }}>
+        <Grid container spacing={3} sx={{ mb: 5, width: "70rem" }}>
           {reservations.map((reservation, idx) => {
             return (
               <Grid key={idx} item xs={6}>
@@ -104,24 +91,38 @@ const ProfileDetail = ({ user }) => {
     }
   };
   return (
-    <>
+    <div>
       <GlobalNavbar />
       <img style={{ width: "100%", height: "340px" }} src={"https://www.jvs.org/wp-content/uploads/2020/03/SalesforceFellowship_banner.jpg)"} />
+      <Stack>
+        {isLoading ? (
+          <Container
+            maxWidth={false}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              mt: 30,
+            }}
+          >
+            <CircularProgress color="secondary" size={120} />
+          </Container>
+        ) : (
+          <>
+            <Stack className="Title" sx={{ ml: 75 }}>
+              <Typography sx={{ fontSize: 35, fontWeight: "bold", mt: 2 }}>Events Attending To</Typography>
+            </Stack>
+            <Stack className="mainCardStack" sx={{ flexDirection: "row", gap: "16rem" }}>
+              <UserInformation user={user} userData={userData} />
 
-      <Stack className="Title" sx={{ ml: 90 }}>
-        <Typography sx={{ fontSize: 35, fontWeight: "bold", mt: 3 }}>Events Attending To</Typography>
+              <Stack className="cardStack" sx={{ flexDirection: "row", marginTop: "2rem", height: "28rem" }}>
+                {renderReservations()}
+              </Stack>
+            </Stack>
+          </>
+        )}
       </Stack>
-      <Stack className="MAIN" sx={{ flexDirection: "row", gap: "23rem" }}>
-        <UserInformation user={user} userData={userData} />
-
-        <Stack className="cardSTack" sx={{ flexDirection: "row", marginTop: "3.5rem", height: "32rem" }}>
-          <Grid>
-            <Grid className="CardsGrid">{renderReservations()}</Grid>
-          </Grid>
-        </Stack>
-      </Stack>
-      {/* {renderReservations()} */}
-    </>
+    </div>
   );
 };
 
@@ -144,7 +145,7 @@ function UserInformation({ userData }) {
         borderRadius: "22px",
         position: "relative",
         bottom: 240,
-        right: -200,
+        right: -130,
         display: "flex",
         justifyContent: "center",
         alignItems: "start",
