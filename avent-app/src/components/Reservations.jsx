@@ -18,6 +18,7 @@ export default function Reservations({ user }) {
     const res = await apiClient.getUpcomingReservations(user.id);
     console.log("res:", res);
     setUpcomingReservations(res.data.upcomingReservations);
+    console.log("UPcomiing RESservatIOOOns", upcomingReservations);
     const res2 = await apiClient.getPastReservations(user.id);
     setPastReservations(res2.data.getPastReservations);
     setTimeout(() => setIsLoading(false), 700);
