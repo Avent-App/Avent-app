@@ -166,6 +166,7 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
             user={user}
             userData={hostData}
           />
+
         </Container>
       )}
     </div>
@@ -487,10 +488,12 @@ function HostInfo({ hostData, eventId, user, reserved, setReserved }) {
 function CommentSection({ commentData, handleOnSubmit, userData }) {
   return (
     <Box component="form" onSubmit={handleOnSubmit}>
+
       <Typography
         align="center"
         sx={{ fontWeight: 700, fontSize: "36px", mb: 4 }}
       >
+
         Comments
       </Typography>
       <Stack
@@ -499,6 +502,7 @@ function CommentSection({ commentData, handleOnSubmit, userData }) {
         spacing={3.25}
       >
         <Avatar sx={{ height: 58, width: 58 }} />
+
         <TextField
           id="sendComment"
           name="sendComment"
@@ -507,6 +511,7 @@ function CommentSection({ commentData, handleOnSubmit, userData }) {
           label="Add a comment..."
           sx={{ width: "838px" }}
         />
+
         <Button
           color="secondary"
           variant="contained"
@@ -558,6 +563,7 @@ function Comment({ commentObj, hostId }) {
           >
             {comment_firstName_lastName}{" "}
             {hostId == commentObj.user_id ? "(Host)" : null}
+
           </Typography>
           <Typography>{comment_date}</Typography>
         </Stack>
@@ -581,6 +587,7 @@ function Comment({ commentObj, hostId }) {
         }}
       >
         {comment_text}
+
       </Typography>
     </Box>
   );

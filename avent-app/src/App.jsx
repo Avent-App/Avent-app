@@ -15,7 +15,9 @@ import Profile from "./components/Profile";
 import Settings from "./components/Settings";
 import apiClient from "./services/apiClient";
 import ProfileDetail from "./components/ProfileDetail";
-// import { SubHero } from "./components/Landing";
+
+import PWGenerate from "./components/TESTPW/PWGenerate";
+
 
 function App() {
   const [user, setUser] = useState({});
@@ -66,6 +68,7 @@ function App() {
 
               {/*Event feed routes*/}
 
+
               <Route
                 path="/feed"
                 element={
@@ -81,6 +84,7 @@ function App() {
                 path="/createEvent"
                 element={<CreateEvent user={user} />}
               />
+
               <Route path="/aboutUs" element={<AboutUs />} />
               <Route
                 path="/settings/profile"
@@ -95,6 +99,7 @@ function App() {
                 element={<Listings user={user} />}
               />
               <Route path="*" element={<NotFound />} />
+
               <Route
                 path="/feed"
                 element={
@@ -144,7 +149,8 @@ function App() {
                 path="/profiles/:userId"
                 element={<ProfileDetail user={user} />}
               />
-              {/* <Route path="/profiles" element={<ProfileDetail user={user} />} /> */}
+              <Route path="/profile/:userId" element={<ProfileDetail user={user} />} />
+              <Route path="/pw" element={<PWGenerate />} />
             </Routes>
           </main>
         </BrowserRouter>
