@@ -74,7 +74,14 @@ export default function SmallEventCard({
               gutterBottom
               variant="h6"
               component="div"
-              sx={{ fontWeight: 600 }}
+              sx={{
+                fontWeight: 600,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                display: "-webkit-box",
+                WebkitLineClamp: "1",
+                WebkitBoxOrient: "vertical",
+              }}
             >
               {eventName}
             </Typography>
