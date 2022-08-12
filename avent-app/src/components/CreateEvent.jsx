@@ -15,9 +15,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import apiClient from "../services/apiClient";
-
 import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
 
 export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
   const [errors, setErrors] = useState({});
@@ -25,15 +23,13 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
   const [endDateValue, setEndDateValue] = useState(new Date("2022-08-20T18:00:00"));
   const [startTimeValue, setStartTimeValue] = useState(new Date("2022-08-22T16:00:00"));
   const [endTimeValue, setEndTimeValue] = useState(new Date("2022-08-22T18:00:00"));
-  const [timeValue, setTimeValue] = useState(new Date("2022-08-20T21:00:00"));
   const navigate = useNavigate();
   const [successAlert, setSuccessAlert] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
 
-  /**
-   * function that checks for new values on date and time pickers textfields
-   * @param {*} newValue it's the event target value inputted by users
-   */
+  /** function that checks for new values on date and time pickers textfields
+   * @param {*} newValue it's the event target value inputted by userr*/
+
   const handleChangeStartDate = (newValue) => {
     setStartDateValue(newValue);
   };
@@ -50,20 +46,14 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
     setEndTimeValue(newValue);
   };
 
-  /**
-   *
-   * @param {*} event
-   * input entered by user in create event form
-   */
+  /*** @param {*} event input entered by user in create event form*/
   const handleOnSubmit = async (event) => {
     event.preventDefault();
     setErrors((e) => ({ ...e, form: null }));
     setErrorAlert(true);
     const data = new FormData(event.currentTarget);
 
-    /**
-     * Printing out the data retreived from the createEvent page
-     */
+    /**  Printing out the data retreived from the createEvent page */
 
     const eventName = data.get("eventName");
     const eventAddress = data.get("eventAddress");
@@ -85,9 +75,6 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
       host_id: user.id,
       event_category: eventType,
     };
-    /**
-     * checks for user to fill out the entire form, if not returns an alert
-     */
 
     function createDateTimestamp(date, time) {
       const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -109,6 +96,8 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
 
       return timestamp;
     }
+
+    /**checks for user to fill out the entire form, if not returns an alert*/
     if (
       eventsInfo.title === "" ||
       eventsInfo.address === "" ||
@@ -118,7 +107,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
       eventsInfo.description === "" ||
       eventsInfo.event_category === ""
     ) {
-      return errorAlert ? (
+      return (
         <Zoom
           in={errorAlert}
           timeout={{ enter: 500, exit: 500 }}
@@ -131,7 +120,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
         >
           <Alert severity="error">Please fill out the entire form</Alert>
         </Zoom>
-      ) : null;
+      );
     }
 
     try {
@@ -209,7 +198,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
             >
               Create an Event
             </Typography>
-            {successAlert && (
+            {successAlert ? (
               <Zoom
                 in={successAlert}
                 timeout={{ enter: 500, exit: 500 }}
@@ -222,6 +211,21 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
               >
                 <Alert severity="success">You have succesfuly created an event!</Alert>
               </Zoom>
+            ) : (
+              errorAlert && (
+                <Zoom
+                  in={errorAlert}
+                  timeout={{ enter: 500, exit: 500 }}
+                  addEndListener={() => {
+                    setTimeout(() => {
+                      setErrorAlert(false);
+                    }, 4000);
+                  }}
+                  sx={{ my: 1 }}
+                >
+                  <Alert severity="error">Please fill out the entire form</Alert>
+                </Zoom>
+              )
             )}
             <Box component="form" noValidate onSubmit={handleOnSubmit} sx={{ mt: 1 }}>
               <label
