@@ -17,7 +17,12 @@ import EventCard from "./EventCard";
 import CircularProgress from "@mui/material/CircularProgress";
 import apiClient from "../services/apiClient";
 
-export default function EventFeed({ isLoggedIn, setIsLoggedIn, setUser }) {
+export default function EventFeed({
+  isLoggedIn,
+  setIsLoggedIn,
+  setUser,
+  user,
+}) {
   const [isLoading, setIsLoading] = useState(true);
   //state var to store array of events fetched from database
   const [eventsData, setEventsData] = useState([]);
@@ -50,6 +55,7 @@ export default function EventFeed({ isLoggedIn, setIsLoggedIn, setUser }) {
         eventsData={eventsData}
         setSearchItem={setSearchItem}
         searchItem={searchItem}
+        user={user}
       />
 
       <Container maxWidth="xl" sx={{ mb: 5 }}>
@@ -65,13 +71,13 @@ export default function EventFeed({ isLoggedIn, setIsLoggedIn, setUser }) {
   );
 }
 
-function Hero({ eventsData, setSearchItem, searchItem }) {
+function Hero({ setSearchItem, searchItem, user }) {
   return (
     <Box
       alignContent="center"
       justifyContent="center"
       sx={{
-        backgroundColor: "#F4F6FB",
+        background: "#F4F6FB",
         height: "372px",
       }}
     >
@@ -85,7 +91,7 @@ function Hero({ eventsData, setSearchItem, searchItem }) {
             lineHeight: "56px",
           }}
         >
-          Upcoming Events in San Francisco
+          Upcoming Events in {user.location}
         </Typography>
         {/* Eventually, San Francisco will be replaced with the city that a user has chosen */}
         <Typography
@@ -162,6 +168,7 @@ function Feed({ eventsData, isLoading }) {
                 eventHost={`${event.first_name} ${event.last_name}`}
                 eventImageUrl={event.image_url}
                 eventId={event.event_id}
+                hostId={event.host_id}
               />
             </Grid>
           ))}
