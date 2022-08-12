@@ -15,51 +15,60 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import apiClient from "../services/apiClient";
-
 import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
 
 export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
   const [errors, setErrors] = useState({});
-  const [value, setValue] = useState(new Date("2022-08-10T21:00:00"));
+  const [startDateValue, setStartDateValue] = useState(new Date("2022-08-19T18:00:00"));
+  const [endDateValue, setEndDateValue] = useState(new Date("2022-08-20T18:00:00"));
+  const [startTimeValue, setStartTimeValue] = useState(new Date("2022-08-22T16:00:00"));
+  const [endTimeValue, setEndTimeValue] = useState(new Date("2022-08-22T18:00:00"));
   const navigate = useNavigate();
   const [successAlert, setSuccessAlert] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
 
-  /**
-   * function that checks for new values on date and time pickers textfields
-   * @param {*} newValue it's the event target value inputted by users
-   */
-  const handleChangeDateTime = (newValue) => {
-    setValue(newValue);
+  /** function that checks for new values on date and time pickers textfields
+   * @param {*} newValue it's the event target value inputted by userr*/
+
+  const handleChangeStartDate = (newValue) => {
+    setStartDateValue(newValue);
   };
 
-  /**
-   *
-   * @param {*} event
-   * input entered by user in create event form
-   */
+  const handleChangeEndDate = (newValue) => {
+    setEndDateValue(newValue);
+  };
+
+  const handleChangeStartTime = (newValue) => {
+    setStartTimeValue(newValue);
+  };
+
+  const handleChangeEndTime = (newValue) => {
+    setEndTimeValue(newValue);
+  };
+
+  /*** @param {*} event input entered by user in create event form*/
   const handleOnSubmit = async (event) => {
     event.preventDefault();
     setErrors((e) => ({ ...e, form: null }));
     setErrorAlert(true);
     const data = new FormData(event.currentTarget);
 
-    /**
-     * Printing out the data retreived from the createEvent page
-     */
+    /**  Printing out the data retreived from the createEvent page */
 
     const eventName = data.get("eventName");
     const eventAddress = data.get("eventAddress");
-    const eventDate = value;
+    const startDate = startDateValue;
+    const endDate = endDateValue;
+    const startTime = startTimeValue;
+    const endTime = endTimeValue;
     const eventImageUrl = data.get("image_url");
     const eventType = data.get("eventType");
     const eventDescription = data.get("eventDescription");
     const eventsInfo = {
       title: eventName,
       address: eventAddress,
-      start_date: eventDate,
-      end_date: eventDate,
+      start_date: createDateTimestamp(startDate, startTime),
+      end_date: createDateTimestamp(endDate, endTime),
       image_url: eventImageUrl,
       description: eventDescription,
       // host_id has to be replaced with the logged in user
@@ -67,19 +76,38 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
       event_category: eventType,
     };
 
-    /**
-     * checks for user to fill out the entire form, if not returns an alert
-     */
+    function createDateTimestamp(date, time) {
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+      let timezone = String(time).split(" ");
+      timezone = timezone.slice(5);
+
+      let timestamp =
+        dayNames[date.getDay().toLocaleString()] +
+        " " +
+        monthNames[date.getMonth() - 1] +
+        " " +
+        date.getDate() +
+        " " +
+        date.getFullYear() +
+        " " +
+        time.toLocaleTimeString() +
+        " ";
+
+      return timestamp;
+    }
+
+    /**checks for user to fill out the entire form, if not returns an alert*/
     if (
       eventsInfo.title === "" ||
       eventsInfo.address === "" ||
       eventsInfo.start_date === "" ||
-      eventsInfo.end_dateime === "" ||
+      eventsInfo.end_date === "" ||
       eventsInfo.image_url === "" ||
       eventsInfo.description === "" ||
       eventsInfo.event_category === ""
     ) {
-      return errorAlert ? (
+      return (
         <Zoom
           in={errorAlert}
           timeout={{ enter: 500, exit: 500 }}
@@ -92,7 +120,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
         >
           <Alert severity="error">Please fill out the entire form</Alert>
         </Zoom>
-      ) : null;
+      );
     }
 
     try {
@@ -170,7 +198,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
             >
               Create an Event
             </Typography>
-            {successAlert && (
+            {successAlert ? (
               <Zoom
                 in={successAlert}
                 timeout={{ enter: 500, exit: 500 }}
@@ -183,6 +211,21 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
               >
                 <Alert severity="success">You have succesfuly created an event!</Alert>
               </Zoom>
+            ) : (
+              errorAlert && (
+                <Zoom
+                  in={errorAlert}
+                  timeout={{ enter: 500, exit: 500 }}
+                  addEndListener={() => {
+                    setTimeout(() => {
+                      setErrorAlert(false);
+                    }, 4000);
+                  }}
+                  sx={{ my: 1 }}
+                >
+                  <Alert severity="error">Please fill out the entire form</Alert>
+                </Zoom>
+              )
             )}
             <Box component="form" noValidate onSubmit={handleOnSubmit} sx={{ mt: 1 }}>
               <label
@@ -223,6 +266,53 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                 autoFocus
                 style={{ marginTop: "8px" }}
               />
+              {/* ========================================================================== */}
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <label
+                  style={{
+                    fontFamily: "Inter",
+                    color: "#828282",
+                    fontWeight: 600,
+                  }}
+                >
+                  Start Date
+                </label>
+                <label
+                  style={{
+                    fontFamily: "Inter",
+                    color: "#828282",
+                    fontWeight: 600,
+                    marginRight: "9rem",
+                  }}
+                >
+                  End Date
+                </label>
+              </Box>
+
+              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DesktopDatePicker
+                    inputFormat="MM/dd/yyyy"
+                    value={startDateValue}
+                    id="date"
+                    name="date"
+                    onChange={handleChangeStartDate}
+                    renderInput={(params) => <TextField {...params} sx={{ marginBottom: ".5rem" }} />}
+                  />
+                </LocalizationProvider>
+
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DesktopDatePicker
+                    inputFormat="MM/dd/yyyy"
+                    value={endDateValue}
+                    id="date"
+                    name="date"
+                    onChange={handleChangeEndDate}
+                    renderInput={(params) => <TextField {...params} sx={{ marginBottom: ".5rem" }} />}
+                  />
+                </LocalizationProvider>
+              </Box>
+              {/* ========================================================================== */}
 
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <label
@@ -232,35 +322,37 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                     fontWeight: 600,
                   }}
                 >
-                  Date
+                  Start Time
                 </label>
                 <label
                   style={{
                     fontFamily: "Inter",
                     color: "#828282",
                     fontWeight: 600,
-                    marginRight: "11rem",
+                    marginRight: "9rem",
                   }}
                 >
-                  Time
+                  End Time
                 </label>
               </Box>
 
               <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DesktopDatePicker
-                    inputFormat="MM/dd/yyyy"
-                    value={value}
-                    id="date"
-                    name="date"
-                    onChange={handleChangeDateTime}
-                    renderInput={(params) => <TextField {...params} sx={{ marginBottom: ".5rem" }} />}
+                  <TimePicker
+                    id="time"
+                    name="time"
+                    value={startTimeValue}
+                    onChange={handleChangeStartTime}
+                    renderInput={(params) => <TextField {...params} />}
                   />
                 </LocalizationProvider>
+
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <TimePicker id="time" name="time" value={value} onChange={handleChangeDateTime} renderInput={(params) => <TextField {...params} />} />
+                  <TimePicker id="time" name="time" value={endTimeValue} onChange={handleChangeEndTime} renderInput={(params) => <TextField {...params} />} />
                 </LocalizationProvider>
               </Box>
+              {/* ======================================================================================= */}
+
               <label
                 style={{
                   fontFamily: "Inter",
