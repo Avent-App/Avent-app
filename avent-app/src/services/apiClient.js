@@ -110,6 +110,13 @@ class ApiClient {
     });
   }
 
+  async getReservationsByEventId(eventId) {
+    return await this.request({
+      endpoint: `reservations/getReservationsByEventId/${eventId}`,
+      method: `GET`,
+    });
+  }
+
   async getEvent(point) {
     return await this.request({
       endpoint: `event/${point}`,
