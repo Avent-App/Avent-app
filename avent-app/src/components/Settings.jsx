@@ -1,4 +1,17 @@
-import { Button, Divider, Paper, Typography, Stack, Avatar, TextField, MenuItem, FormControl, Select, Grid, Link } from "@mui/material";
+import {
+  Button,
+  Divider,
+  Paper,
+  Typography,
+  Stack,
+  Avatar,
+  TextField,
+  MenuItem,
+  FormControl,
+  Select,
+  Grid,
+  Link,
+} from "@mui/material";
 import { Box, Container } from "@mui/system";
 import React from "react";
 import EventCardHorizontal from "./EventCardHorizontal";
@@ -27,7 +40,9 @@ export default function Settings({ isLoggedIn, setIsLoggedIn }) {
 export function Sidebar({ selected, user }) {
   return (
     <Box sx={{ width: 291, height: 744, mt: 3 }}>
-      <Typography sx={{ fontWeight: 700, fontSize: 28, mb: 1.5 }}>Settings</Typography>
+      <Typography sx={{ fontWeight: 700, fontSize: 28, mb: 1.5 }}>
+        Settings
+      </Typography>
       {/* TOP HALF OF THE SIDEBAR */}
       <Paper
         elevation={0}
@@ -37,32 +52,68 @@ export function Sidebar({ selected, user }) {
           borderRadius: "10.11px",
         }}
       >
-        <Stack alignItems="center" justifyContent="center" spacing={3} sx={{ my: 3.5 }}>
-          <Typography align="center" sx={{ fontSize: 28, fontWeight: 700, lineHeight: "32px" }}>
+        <Stack
+          alignItems="center"
+          justifyContent="center"
+          spacing={3}
+          sx={{ my: 3.5 }}
+        >
+          <Typography
+            align="center"
+            sx={{ fontSize: 28, fontWeight: 700, lineHeight: "32px" }}
+          >
             {user.first_name}
             <br />
             {user.last_name}
           </Typography>
-          <Button to="/settings/profile" component={RouterLink} color="secondary" variant="outlined" sx={{ width: 118 }}>
+          <Button
+            to="/settings/profile"
+            component={RouterLink}
+            color="secondary"
+            variant="outlined"
+            sx={{ width: 118 }}
+          >
             Edit Profile
           </Button>
         </Stack>
         <Divider />
         <Stack sx={{ ml: 4, my: 1.3 }}>
-          <Typography sx={{ fontWeight: 400, fontSize: 13, color: "rgba(0, 0, 0, 0.29)" }}>Email</Typography>
-          <Typography sx={{ fontWeight: 400, fontSize: 13 }}>{user.email}</Typography>
+          <Typography
+            sx={{ fontWeight: 400, fontSize: 13, color: "rgba(0, 0, 0, 0.29)" }}
+          >
+            Email
+          </Typography>
+          <Typography sx={{ fontWeight: 400, fontSize: 13 }}>
+            {user.email}
+          </Typography>
           <Typography sx={{ fontWeight: 400, fontSize: 13, color: "red" }}>
-            <Link to="/settings/profile" color="secondary" component={RouterLink} underline="none">
+            <Link
+              to="/settings/profile"
+              color="secondary"
+              component={RouterLink}
+              underline="none"
+            >
               Edit
             </Link>
           </Typography>
         </Stack>
         <Divider />
         <Stack sx={{ ml: 4, my: 1.3 }}>
-          <Typography sx={{ fontWeight: 400, fontSize: 13, color: "rgba(0, 0, 0, 0.29)" }}>Location</Typography>
-          <Typography sx={{ fontWeight: 400, fontSize: 13 }}>{user.location}</Typography>
+          <Typography
+            sx={{ fontWeight: 400, fontSize: 13, color: "rgba(0, 0, 0, 0.29)" }}
+          >
+            Location
+          </Typography>
+          <Typography sx={{ fontWeight: 400, fontSize: 13 }}>
+            {user.location}
+          </Typography>
           <Typography sx={{ fontWeight: 400, fontSize: 13, color: "red" }}>
-            <Link to="/settings/profile" color="secondary" component={RouterLink} underline="none">
+            <Link
+              to="/settings/profile"
+              color="secondary"
+              component={RouterLink}
+              underline="none"
+            >
               Edit Location
             </Link>
           </Typography>
@@ -87,7 +138,12 @@ export function Sidebar({ selected, user }) {
             my: 3.9,
           }}
         >
-          <Link to="/settings/profile" color="secondary" component={RouterLink} underline="none">
+          <Link
+            to="/settings/profile"
+            color="secondary"
+            component={RouterLink}
+            underline="none"
+          >
             My Profile
           </Link>
         </Typography>
@@ -101,7 +157,12 @@ export function Sidebar({ selected, user }) {
             my: 3.9,
           }}
         >
-          <Link to="/settings/reservations" color="secondary" component={RouterLink} underline="none">
+          <Link
+            to="/settings/reservations"
+            color="secondary"
+            component={RouterLink}
+            underline="none"
+          >
             My Reservations
           </Link>
         </Typography>
@@ -115,7 +176,12 @@ export function Sidebar({ selected, user }) {
             my: 3.9,
           }}
         >
-          <Link to="/settings/listings" color="secondary" component={RouterLink} underline="none">
+          <Link
+            to="/settings/listings"
+            color="secondary"
+            component={RouterLink}
+            underline="none"
+          >
             My Event Listings
           </Link>
         </Typography>
@@ -216,7 +282,9 @@ export function MyProfile({ user, setUser }) {
 
   return (
     <Box sx={{ flex: 1 }}>
-      <Typography sx={{ fontWeight: 700, fontSize: 28, mt: 3, mb: 1.5 }}>My Profile</Typography>
+      <Typography sx={{ fontWeight: 700, fontSize: 28, mt: 3, mb: 1.5 }}>
+        My Profile
+      </Typography>
 
       {/* Banner below */}
 
@@ -238,11 +306,27 @@ export function MyProfile({ user, setUser }) {
             left: 10,
           }}
         />
-        <Stack direction="row" spacing={2} sx={{ position: "relative", bottom: 30 }}>
-          <Button sx={{ width: 158, height: 48 }} variant="outlined" color="secondary" disabled>
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{ position: "relative", bottom: 30 }}
+        >
+          <Button
+            sx={{ width: 158, height: 48 }}
+            variant="outlined"
+            color="secondary"
+            disabled
+          >
             Cancel
           </Button>
-          <Button disableElevation type="submit" form="userForm" sx={{ width: 158, height: 48 }} variant="contained" color="secondary">
+          <Button
+            disableElevation
+            type="submit"
+            form="userForm"
+            sx={{ width: 158, height: 48 }}
+            variant="contained"
+            color="secondary"
+          >
             Save Changes
           </Button>
         </Stack>
@@ -252,8 +336,14 @@ export function MyProfile({ user, setUser }) {
 
       <Box component="form" id="userForm" noValidate onSubmit={handleOnSubmit}>
         <Stack sx={{ position: "relative", bottom: 40 }} spacing={2}>
-          <Stack direction="row" alignItems="center" justifyContent="space-between">
-            <Typography sx={{ fontWeight: 700, fontSize: 24 }}>Edit Your Profile</Typography>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Typography sx={{ fontWeight: 700, fontSize: 24 }}>
+              Edit Your Profile
+            </Typography>
             <Zoom
               in={alertVisibility}
               timeout={{ enter: 300, exit: 300 }}
@@ -283,7 +373,12 @@ export function MyProfile({ user, setUser }) {
             >
               First Name:
             </Typography>
-            <TextField fullWidth id="firstName" placeholder={user.first_name} name="firstName" />
+            <TextField
+              fullWidth
+              id="firstName"
+              placeholder={user.first_name}
+              name="firstName"
+            />
           </Stack>
           <Stack direction="row" alignItems="center" spacing={3}>
             <Typography
@@ -299,7 +394,12 @@ export function MyProfile({ user, setUser }) {
             >
               Last Name:
             </Typography>
-            <TextField fullWidth id="lastName" placeholder={user.last_name} name="lastName" />
+            <TextField
+              fullWidth
+              id="lastName"
+              placeholder={user.last_name}
+              name="lastName"
+            />
           </Stack>
           <Stack direction="row" alignItems="center" spacing={3}>
             <Typography
@@ -315,7 +415,13 @@ export function MyProfile({ user, setUser }) {
             >
               Email Address:
             </Typography>
-            <TextField fullWidth id="email" placeholder={user.email} name="email" autoComplete="email" />
+            <TextField
+              fullWidth
+              id="email"
+              placeholder={user.email}
+              name="email"
+              autoComplete="email"
+            />
           </Stack>
           <Stack direction="row" alignItems="center" spacing={3}>
             <Typography
@@ -331,7 +437,14 @@ export function MyProfile({ user, setUser }) {
             >
               Password:
             </Typography>
-            <TextField fullWidth name="password" placeholder="**************" autoComplete="password" type="password" id="password" />
+            <TextField
+              fullWidth
+              name="password"
+              placeholder="**************"
+              autoComplete="password"
+              type="password"
+              id="password"
+            />
           </Stack>
           <Stack direction="row" alignItems="center" spacing={3}>
             <Typography
@@ -347,7 +460,13 @@ export function MyProfile({ user, setUser }) {
             >
               Confirm Password:
             </Typography>
-            <TextField fullWidth name="confirmPassword" placeholder="**************" type="password" id="confirmPassword" />
+            <TextField
+              fullWidth
+              name="confirmPassword"
+              placeholder="**************"
+              type="password"
+              id="confirmPassword"
+            />
           </Stack>
           <Stack direction="row" alignItems="center" spacing={3}>
             <Typography
@@ -376,7 +495,9 @@ export function MyProfile({ user, setUser }) {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value={"San Francisco, CA"}>San Francisco, CA</MenuItem>
+                <MenuItem value={"San Francisco, CA"}>
+                  San Francisco, CA
+                </MenuItem>
                 <MenuItem value={"New York, NY"}>New York, NY</MenuItem>
                 <MenuItem value={"Austin, TX"}>Austin, TX</MenuItem>
                 <MenuItem value={"Seattle, WA"}>Seattle, WA</MenuItem>
@@ -398,7 +519,12 @@ export function MyProfile({ user, setUser }) {
             >
               Company:
             </Typography>
-            <TextField fullWidth name="company" placeholder={user.company} id="company" />
+            <TextField
+              fullWidth
+              name="company"
+              placeholder={user.company}
+              id="company"
+            />
           </Stack>
           <Stack direction="row" spacing={3}>
             <Typography
@@ -414,7 +540,14 @@ export function MyProfile({ user, setUser }) {
             >
               Bio:
             </Typography>
-            <TextField multiline rows={3} fullWidth placeholder="Enter a short bio here" id="biography" name="biography" />
+            <TextField
+              multiline
+              rows={3}
+              fullWidth
+              placeholder="Enter a short bio here"
+              id="biography"
+              name="biography"
+            />
           </Stack>
         </Stack>
       </Box>
@@ -422,7 +555,12 @@ export function MyProfile({ user, setUser }) {
   );
 }
 
-export function MyReservations({ upcomingReservations, pastReservations, getData, pageType }) {
+export function MyReservations({
+  upcomingReservations,
+  pastReservations,
+  getData,
+  pageType,
+}) {
   const renderUpcomingReservations = () => {
     if (upcomingReservations.length > 0) {
       return (
@@ -434,16 +572,20 @@ export function MyReservations({ upcomingReservations, pastReservations, getData
                 eventCategory={reservation.event_category}
                 eventHost={`${reservation.first_name} ${reservation.last_name}`}
                 eventDescription={reservation.description}
-                startDate={new Date(reservation.start_date).toLocaleString("en-US", {
-                  dateStyle: "medium",
-                  timeStyle: "short",
-                })}
+                startDate={new Date(reservation.start_date).toLocaleString(
+                  "en-US",
+                  {
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                  }
+                )}
                 eventName={reservation.title}
                 eventImageUrl={reservation.image_url}
                 eventId={reservation.event_id}
                 reservationId={reservation.reservation_id}
                 getData={getData}
                 pageType={pageType}
+                hostId={reservation.host_id}
               />
             );
           })}
@@ -464,14 +606,18 @@ export function MyReservations({ upcomingReservations, pastReservations, getData
                 <SmallEventCard
                   eventCategory={reservation.event_category}
                   eventHost={`${reservation.first_name} ${reservation.last_name}`}
-                  startDate={new Date(reservation.start_date).toLocaleString("en-US", {
-                    dateStyle: "medium",
-                    timeStyle: "short",
-                  })}
+                  startDate={new Date(reservation.start_date).toLocaleString(
+                    "en-US",
+                    {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    }
+                  )}
                   eventName={reservation.title}
                   eventImageUrl={reservation.image_url}
                   eventId={reservation.event_id}
                   reservationId={reservation.reservation_id}
+                  hostId={reservation.host_id}
                 />
               </Grid>
             );
@@ -485,16 +631,28 @@ export function MyReservations({ upcomingReservations, pastReservations, getData
 
   return (
     <Box sx={{ flex: 1 }}>
-      <Typography sx={{ fontWeight: 700, fontSize: 45, mt: 3, mb: 1.5 }}>My Event Reservations</Typography>
-      <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>Upcoming</Typography>
+      <Typography sx={{ fontWeight: 700, fontSize: 45, mt: 3, mb: 1.5 }}>
+        My Event Reservations
+      </Typography>
+      <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>
+        Upcoming
+      </Typography>
       {renderUpcomingReservations()}
-      <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>Previous Events</Typography>
+      <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>
+        Previous Events
+      </Typography>
       {renderPastReservations()}
     </Box>
   );
 }
 
-export function MyEventListings({ user, pastListings, upcomingListings, getData, pageType }) {
+export function MyEventListings({
+  user,
+  pastListings,
+  upcomingListings,
+  getData,
+  pageType,
+}) {
   const renderUpcomingListings = () => {
     if (upcomingListings.length > 0) {
       return (
@@ -506,16 +664,20 @@ export function MyEventListings({ user, pastListings, upcomingListings, getData,
                 eventCategory={listing.event_category}
                 eventHost={`${listing.first_name} ${listing.last_name}`}
                 eventDescription={listing.description}
-                startDate={new Date(listing.start_date).toLocaleString("en-US", {
-                  dateStyle: "medium",
-                  timeStyle: "short",
-                })}
+                startDate={new Date(listing.start_date).toLocaleString(
+                  "en-US",
+                  {
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                  }
+                )}
                 eventName={listing.title}
                 eventImageUrl={listing.image_url}
                 eventId={listing.event_id}
                 reservationId={listing.reservation_id}
                 getData={getData}
                 pageType={pageType}
+                hostId={listing.host_id}
               />
             );
           })}
@@ -536,14 +698,18 @@ export function MyEventListings({ user, pastListings, upcomingListings, getData,
                 <SmallEventCard
                   eventCategory={listing.event_category}
                   eventHost={`${listing.first_name} ${listing.last_name}`}
-                  startDate={new Date(listing.start_date).toLocaleString("en-US", {
-                    dateStyle: "medium",
-                    timeStyle: "short",
-                  })}
+                  startDate={new Date(listing.start_date).toLocaleString(
+                    "en-US",
+                    {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    }
+                  )}
                   eventName={listing.title}
                   eventImageUrl={listing.image_url}
                   eventId={listing.event_id}
                   reservationId={listing.reservation_id}
+                  hostId={listing.host_id}
                 />
               </Grid>
             );
@@ -557,10 +723,16 @@ export function MyEventListings({ user, pastListings, upcomingListings, getData,
 
   return (
     <Box sx={{ flex: 1 }}>
-      <Typography sx={{ fontWeight: 700, fontSize: 45, mt: 3, mb: 1.5 }}>My Event Listings</Typography>
-      <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>Upcoming</Typography>
+      <Typography sx={{ fontWeight: 700, fontSize: 45, mt: 3, mb: 1.5 }}>
+        My Event Listings
+      </Typography>
+      <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>
+        Upcoming
+      </Typography>
       {renderUpcomingListings()}
-      <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>Previous Events</Typography>
+      <Typography sx={{ fontWeight: 500, fontSize: 30, mt: 4, mb: 2 }}>
+        Previous Events
+      </Typography>
       {renderPastListings()}
     </Box>
   );
