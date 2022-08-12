@@ -9,6 +9,12 @@ import {
   TextField,
   Card,
   AvatarGroup,
+  Tooltip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import SendIcon from "@mui/icons-material/Send";
@@ -33,6 +39,7 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
   const [isLoading, setIsLoading] = useState(true);
   const [reserved, setReserved] = useState(false);
   const [commentData, setCommentData] = useState([]);
+  const [reservationData, setReservationData] = useState([]);
 
   let navigate = useNavigate();
 
@@ -71,16 +78,23 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
   const getComments = async () => {
     try {
       const res = await apiClient.getComments(eventId);
-      console.log("res data:", res.data.comments);
       setCommentData(res.data.comments);
     } catch (e) {
       console.log(e);
     }
   };
 
+  const getReservations = async () => {
+    try {
+      const res = await apiClient.getReservationsByEventId(eventId);
+      setReservationData(res.data.reservations);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const getData = async () => {
     try {
-      console.log("HERE IS THE USER DATA: ", user);
       setIsLoading(true);
       const res = await apiClient.getEvent(eventId);
       setEventData(res.data.event[0]);
@@ -88,6 +102,7 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
       getComments();
       setHostData(res2.data);
       checkReserved();
+      getReservations();
       setTimeout(() => setIsLoading(false), 400);
     } catch (e) {
       console.log(e);
@@ -128,10 +143,13 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
         </Container>
       ) : (
         <Container maxWidth="xl">
-          <img
-            style={{ width: "100%", height: "600px" }}
-            src={eventData.image_url ? eventData.image_url : NoPhoto}
-          />
+          <Box style={{ width: "100%", overflow: "hidden", height: 600 }}>
+            <img
+              style={{ width: "100%" }}
+              src={eventData.image_url ? eventData.image_url : NoPhoto}
+            />
+          </Box>
+
           <EventInformation
             eventData={eventData}
             hostData={hostData}
@@ -139,6 +157,7 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
             user={user}
             reserved={reserved}
             setReserved={setReserved}
+            reservationData={reservationData}
           />
 
           <CommentSection
@@ -160,9 +179,20 @@ function EventInformation({
   user,
   reserved,
   setReserved,
+  reservationData,
 }) {
   const startDate = new Date(eventData.start_date);
   const endDate = new Date(eventData.end_date);
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Box
@@ -254,34 +284,57 @@ function EventInformation({
               Share
             </Button>
           </Stack>
-          <Stack
-            direction="row"
-            alignItems="center"
-            spacing={1}
-            sx={{ height: 70 }} //Height here changes thespacing between the top button and the avatar group
-          >
-            <AvatarGroup max={4} spacing={5}>
-              <Avatar />
-              <Avatar />
-              <Avatar />
-              <Avatar />
-              <Avatar />
-              <Avatar />
-              <Avatar />
-              <Avatar />
-            </AvatarGroup>
-            <Typography
-              sx={{
-                fontWeight: 500,
-                fontSize: 15,
-                color: "#828282",
-                lineHeight: "23.82px",
-                display: "flex",
-              }}
+          {reservationData.length > 0 && (
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={1}
+              sx={{ height: 70 }} //Height here changes thespacing between the top button and the avatar group
             >
-              Avatar Avatar and a few others are going
-            </Typography>
-          </Stack>
+              <AvatarGroup max={3}>
+                {reservationData.map((user, idx) => {
+                  return (
+                    <Tooltip
+                      title={`${user.first_name} ${user.last_name}`}
+                      arrow
+                      enterDelay={10}
+                      key={idx}
+                    >
+                      <Avatar>{user.first_name.charAt(0)}</Avatar>
+                    </Tooltip>
+                  );
+                })}
+              </AvatarGroup>
+              <Button variant="text" sx={{ height: 15 }}>
+                <Typography
+                  onClick={handleClickOpen}
+                  sx={{
+                    fontWeight: 500,
+                    fontSize: 15,
+                    color: "#828282",
+                    lineHeight: "23.82px",
+                    display: "flex",
+                  }}
+                >
+                  {reservationData.length == 1 &&
+                    `RSVPed by ${reservationData[0].first_name} ${reservationData[0].last_name}`}
+
+                  {reservationData.length == 2 &&
+                    `RSVPed by ${reservationData[0].first_name} ${reservationData[0].last_name} and ${reservationData[1].first_name} ${reservationData[1].last_name}`}
+
+                  {reservationData.length == 3 &&
+                    `RSVPed by ${reservationData[0].first_name} ${reservationData[0].last_name} and 2 others`}
+
+                  {reservationData.length > 3 &&
+                    `RSVPed by ${reservationData[0].first_name} ${
+                      reservationData[0].last_name
+                    }, ${reservationData[1].first_name} ${
+                      reservationData[1].last_name
+                    } and ${reservationData.length - 2} others`}
+                </Typography>
+              </Button>
+            </Stack>
+          )}
         </Stack>
         <HostInfo
           hostData={hostData}
@@ -290,8 +343,71 @@ function EventInformation({
           reserved={reserved}
           setReserved={setReserved}
         />
+        <DialogBox
+          open={open}
+          handleClickOpen={handleClickOpen}
+          handleClose={handleClose}
+          reservationData={reservationData}
+        />
       </Stack>
     </Box>
+  );
+}
+
+function DialogBox({ open, handleClose, reservationData }) {
+  return (
+    <Dialog
+      maxWidth="md"
+      open={open}
+      onClose={handleClose}
+      PaperProps={{
+        style: { borderRadius: "10px", width: 700 },
+      }}
+    >
+      <DialogTitle sx={{ mt: 1 }}>
+        <Typography sx={{ fontWeight: 700, fontSize: 28 }}>
+          People Attending This Event
+        </Typography>
+      </DialogTitle>
+      <DialogContent>
+        <Grid container justifyContent="space-between" spacing={4}>
+          {reservationData.map((user, idx) => {
+            return (
+              <Grid item xs={4} key={idx}>
+                <Stack direction="row" alignItems="center">
+                  <Avatar sx={{ height: 56, width: 56 }}>
+                    {user.first_name.charAt(0)}
+                  </Avatar>
+
+                  <Typography
+                    color="secondary"
+                    sx={{ fontWeight: 600, fontSize: 15, ml: 1 }}
+                  >
+                    {`${user.first_name} ${user.last_name}`}
+                  </Typography>
+                </Stack>
+              </Grid>
+            );
+          })}
+        </Grid>
+      </DialogContent>
+      <DialogActions sx={{ mx: 1 }}>
+        <Button
+          variant="contained"
+          color="secondary"
+          disableElevation
+          onClick={handleClose}
+          sx={{
+            width: 175,
+            height: 43.2,
+            borderRadius: "5.6px",
+            mb: 1,
+          }}
+        >
+          Close
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }
 
