@@ -70,7 +70,11 @@ function App() {
               <Route
                 path="/feed"
                 element={
-                  <EventFeed setUser={setUser} isLoggedIn={isLoggedIn.user} />
+                  <EventFeed
+                    setUser={setUser}
+                    isLoggedIn={isLoggedIn.user}
+                    user={user}
+                  />
                 }
               />
               <Route
