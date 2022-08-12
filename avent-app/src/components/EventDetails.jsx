@@ -7,7 +7,6 @@ import {
   Button,
   Avatar,
   TextField,
-  Card,
   AvatarGroup,
   Tooltip,
   Dialog,
@@ -29,6 +28,7 @@ import Zoom from "@mui/material/Zoom";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import ellipse from "../assets/Ellipse.png";
+import { Link as RouterLink } from "react-router-dom";
 
 // This page GETS information from the events table using the eventsId param in the URL and displays it to the user.
 
@@ -142,7 +142,7 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
           <CircularProgress color="secondary" size={100} />
         </Container>
       ) : (
-        <Container maxWidth="xl">
+        <Container disableGutters maxWidth="xl">
           <Box style={{ width: "100%", overflow: "hidden", height: 600 }}>
             <img
               style={{ width: "100%" }}
@@ -166,7 +166,6 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
             user={user}
             userData={hostData}
           />
-
         </Container>
       )}
     </div>
@@ -376,16 +375,23 @@ function DialogBox({ open, handleClose, reservationData }) {
             return (
               <Grid item xs={4} key={idx}>
                 <Stack direction="row" alignItems="center">
-                  <Avatar sx={{ height: 56, width: 56 }}>
-                    {user.first_name.charAt(0)}
-                  </Avatar>
-
-                  <Typography
+                  <Button
+                    disableRipple
+                    to={`/profile/${user.id}`}
                     color="secondary"
-                    sx={{ fontWeight: 600, fontSize: 15, ml: 1 }}
+                    component={RouterLink}
                   >
-                    {`${user.first_name} ${user.last_name}`}
-                  </Typography>
+                    <Avatar sx={{ height: 56, width: 56 }}>
+                      {user.first_name.charAt(0)}
+                    </Avatar>
+
+                    <Typography
+                      color="secondary"
+                      sx={{ fontWeight: 600, fontSize: 15, ml: 1 }}
+                    >
+                      {`${user.first_name} ${user.last_name}`}
+                    </Typography>
+                  </Button>
                 </Stack>
               </Grid>
             );
@@ -488,12 +494,10 @@ function HostInfo({ hostData, eventId, user, reserved, setReserved }) {
 function CommentSection({ commentData, handleOnSubmit, userData }) {
   return (
     <Box component="form" onSubmit={handleOnSubmit}>
-
       <Typography
         align="center"
         sx={{ fontWeight: 700, fontSize: "36px", mb: 4 }}
       >
-
         Comments
       </Typography>
       <Stack
@@ -556,15 +560,24 @@ function Comment({ commentObj, hostId }) {
         sx={{ position: "relative", left: 185, mt: 4, mr: 54.5 }}
       >
         <Stack spacing={2} direction="row" alignItems="center">
-          <Avatar></Avatar>
-          <Typography
-            sx={{ color: hostId == commentObj.user_id ? "red" : "black" }}
-            fontWeight="bold"
+          <Button
+            disableRipple
+            to={`/profile/${commentObj.user_id}`}
+            color="secondary"
+            component={RouterLink}
           >
-            {comment_firstName_lastName}{" "}
-            {hostId == commentObj.user_id ? "(Host)" : null}
-
-          </Typography>
+            <Avatar>{commentObj.first_name.charAt(0)}</Avatar>
+            <Typography
+              sx={{
+                color: hostId == commentObj.user_id ? "red" : "black",
+                ml: 1,
+              }}
+              fontWeight="bold"
+            >
+              {comment_firstName_lastName}{" "}
+              {hostId == commentObj.user_id ? "(Host)" : null}
+            </Typography>
+          </Button>
           <Typography>{comment_date}</Typography>
         </Stack>
         <Button
@@ -587,7 +600,6 @@ function Comment({ commentObj, hostId }) {
         }}
       >
         {comment_text}
-
       </Typography>
     </Box>
   );

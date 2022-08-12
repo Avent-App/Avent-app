@@ -11,6 +11,7 @@ import {
   Avatar,
   Link,
   Box,
+  Button,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
@@ -22,6 +23,7 @@ export default function SmallEventCard({
   eventName,
   eventHost,
   eventId,
+  hostId,
 }) {
   let navigate = useNavigate();
 
@@ -79,13 +81,20 @@ export default function SmallEventCard({
           </CardContent>
         </CardActionArea>
         <CardActions sx={{ mb: 1, mr: 1, ml: 1, mt: "auto" }}>
-          <Avatar sx={{ height: 27, width: 27 }} alt="profile picture" />
-          <Typography
+          <Button
+            disableRipple
+            to={`/profile/${hostId}`}
             color="secondary"
-            sx={{ fontWeight: 600, fontSize: 12, ml: 1 }}
+            component={RouterLink}
           >
-            {eventHost}
-          </Typography>
+            <Avatar sx={{ height: 27, width: 27 }} alt="profile picture" />
+            <Typography
+              color="secondary"
+              sx={{ fontWeight: 600, fontSize: 12, ml: 1 }}
+            >
+              {eventHost}
+            </Typography>
+          </Button>
           <Typography
             style={{ marginLeft: "auto" }}
             color="secondary"

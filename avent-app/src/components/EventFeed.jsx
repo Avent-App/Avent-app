@@ -162,6 +162,7 @@ function Feed({ eventsData, isLoading }) {
                 eventHost={`${event.first_name} ${event.last_name}`}
                 eventImageUrl={event.image_url}
                 eventId={event.event_id}
+                hostId={event.host_id}
               />
             </Grid>
           ))}
