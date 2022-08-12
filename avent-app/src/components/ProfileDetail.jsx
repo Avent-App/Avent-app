@@ -28,10 +28,10 @@ const ProfileDetail = ({ user }) => {
   const [userData, setUserData] = useState({});
   let navigate = useNavigate();
 
+  //fetching user by id
   const getUserData = async () => {
     try {
       setIsLoading(true);
-      //fetching user by id
       const res2 = await apiClient.getUser(userId);
       setUserData(res2.data);
       console.log("USER:res2----->", res2);
@@ -91,9 +91,13 @@ const ProfileDetail = ({ user }) => {
     }
   };
   return (
-    <div>
+    <div className="DIVV">
       <GlobalNavbar />
+<<<<<<< Updated upstream
       <img style={{ width: "100%", height: "340px" }} src={"https://www.jvs.org/wp-content/uploads/2020/03/SalesforceFellowship_banner.jpg"} />
+=======
+      <img style={{ width: "100%", height: "340px" }} src={"https://www.jvs.org/wp-content/uploads/2020/03/SalesforceFellowship_banner.jpg)"} />
+>>>>>>> Stashed changes
       <Stack>
         {isLoading ? (
           <Container
@@ -109,6 +113,7 @@ const ProfileDetail = ({ user }) => {
           </Container>
         ) : (
           <>
+<<<<<<< Updated upstream
             <Stack className="Title" sx={{ ml: 75 }}>
               <Typography sx={{ fontSize: 35, fontWeight: "bold", mt: 2 }}>Events Attending To</Typography>
             </Stack>
@@ -117,7 +122,15 @@ const ProfileDetail = ({ user }) => {
 
               <Stack className="cardStack" sx={{ flexDirection: "row", marginTop: "2rem", height: "28rem" }}>
                 {renderReservations()}
+=======
+            <Typography sx={{ fontSize: 35, fontWeight: "bold", my: 2, mx: 62 }}>Events Attending</Typography>
+            <Stack className="MAIN" sx={{ flexDirection: "row" }}>
+              <Stack className="USERstack">
+                <UserInformation user={user} userData={userData} />
+>>>>>>> Stashed changes
               </Stack>
+
+              <Stack className="cardStack">{renderReservations()}</Stack>
             </Stack>
           </>
         )}
@@ -156,7 +169,19 @@ function UserInformation({ userData }) {
           <Avatar sx={{ position: "absolute", height: 169, width: 169, mx: 7, my: 5 }} style={{ border: "1.68724px solid #26235C" }} />
           <img style={{ position: "relative", top: "1.9rem", left: "5.8rem" }} src={ellipse} />
           <Stack alignItems="center" justifyContent="center" spacing={2} sx={{ my: 3 }}>
+<<<<<<< Updated upstream
             <Typography align="center" sx={{ fontSize: 28, fontWeight: 700, lineHeight: "35px", marginTop: "1rem" }}>
+=======
+            <Typography
+              align="center"
+              sx={{
+                fontSize: 28,
+                fontWeight: 700,
+                lineHeight: "35px",
+                marginTop: "1rem",
+              }}
+            >
+>>>>>>> Stashed changes
               {`${userData.first_name} ${userData.last_name}`}
             </Typography>
             <Typography variant="outlined"> {`${userData.company} ${userData.account_type}`}</Typography>
@@ -177,7 +202,21 @@ function UserInformation({ userData }) {
                 <AccountBoxIcon />
                 <span>About</span>
               </Typography>
+<<<<<<< Updated upstream
               <Typography sx={{ fontWeight: 400, fontSize: 13, textAlign: "left", lineHeight: "21px", marginTop: "10px" }}>{userData.bio}</Typography>
+=======
+              <Typography
+                sx={{
+                  fontWeight: 400,
+                  fontSize: 13,
+                  textAlign: "left",
+                  lineHeight: "21px",
+                  marginTop: "10px",
+                }}
+              >
+                {userData.bio}
+              </Typography>
+>>>>>>> Stashed changes
             </Stack>
             <Divider />
             <Stack sx={{ m: 4, my: 3 }}>
