@@ -85,7 +85,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
       let timestamp =
         dayNames[date.getDay().toLocaleString()] +
         " " +
-        monthNames[date.getMonth() - 1] +
+        monthNames[date.getMonth()] +
         " " +
         date.getDate() +
         " " +

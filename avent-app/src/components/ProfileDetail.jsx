@@ -93,7 +93,7 @@ const ProfileDetail = ({ user }) => {
   return (
     <div>
       <GlobalNavbar />
-      <img style={{ width: "100%", height: "340px" }} src={"https://source.unsplash.com/random"} />
+      <img style={{ width: "100%", height: "340px" }} src={"https://www.jvs.org/wp-content/uploads/2020/03/SalesforceFellowship_banner.jpg"} />
       <Stack>
         {isLoading ? (
           <Container
