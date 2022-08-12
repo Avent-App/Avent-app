@@ -29,16 +29,16 @@ const ProfileDetail = ({ user }) => {
   const [userData, setUserData] = useState({});
   let navigate = useNavigate();
 
-  const getData = async () => {
+  const getUserData = async () => {
     try {
       setIsLoading(true);
       //fetching upcomingReservations by user id
-      const res = await apiClient.getPastReservations(userId);
-      console.log("RESERVATIONS:res------>", res);
-      console.log("--->", reservations);
-      console.log("USER", user);
+      // const res = await apiClient.getPastReservations(userId);
+      // console.log("RESERVATIONS:res------>", res);
+      // console.log("--->", reservations);
+      // console.log("USER", user);
 
-      console.log(setReservations(res.data.reservations));
+      // console.log(setReservations(res.data.reservations));
 
       //fetching user by id
       const res2 = await apiClient.getUser(userId);
@@ -51,8 +51,24 @@ const ProfileDetail = ({ user }) => {
     }
   };
 
+  // useEffect(() => {
+  //   getData();
+  // }, [user]);
+
+  const getData = async () => {
+    setIsLoading(true);
+    //get upcoming reservations
+    const res = await apiClient.getUpcomingReservations(userId);
+    console.log("res:", res.data.upcomingReservations);
+    setReservations(res.data.upcomingReservations);
+    // const res2 = await apiClient.getPastReservations(user.id);
+    // setPastReservations(res2.data.getPastReservations);
+    // setTimeout(() => setIsLoading(false), 700);
+  };
+
   useEffect(() => {
     getData();
+    getUserData();
   }, [user]);
 
   /**
@@ -60,7 +76,7 @@ const ProfileDetail = ({ user }) => {
    * @returns this func maps the array of reservations and creates a card for each one, if not returns "Nothing to show"
    */
   const renderReservations = () => {
-    if (reservations > 0) {
+    if (reservations.length > 0) {
       return (
         <Grid spacing={3} sx={{ mb: 5 }}>
           {reservations.map((reservation, idx) => {
@@ -100,11 +116,7 @@ const ProfileDetail = ({ user }) => {
 
         <Stack className="cardSTack" sx={{ flexDirection: "row", marginTop: "3.5rem", height: "32rem" }}>
           <Grid>
-            <Grid className="CardsGrid">
-              {/* <SmallEventCard />
-              <SmallEventCard /> */}
-              {renderReservations()}
-            </Grid>
+            <Grid className="CardsGrid">{renderReservations()}</Grid>
           </Grid>
         </Stack>
       </Stack>
@@ -131,7 +143,7 @@ function UserInformation({ userData }) {
         boxShadow: "7.03774px 7.91745px 65px rgba(66, 66, 66, 0.21)",
         borderRadius: "22px",
         position: "relative",
-        bottom: 190,
+        bottom: 240,
         right: -200,
         display: "flex",
         justifyContent: "center",
