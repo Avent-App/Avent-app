@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { Container } from "@mui/material";
+import { Container, Alert, Zoom } from "@mui/material";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import login from "../assets/login.jpg";
@@ -34,6 +34,7 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
   const [account, setAccount] = React.useState("");
   const [location, setLocation] = React.useState("");
   const [errors, setErrors] = React.useState({});
+  const [errorAlert, setErrorAlert] = React.useState(false);
   const [pwErrors, setPwErrors] = React.useState({ value: "", error: "" });
   const [form, setForm] = React.useState({
     first_name: "",
@@ -141,6 +142,7 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrors((e) => ({ ...e, form: null }));
+    setErrorAlert(true);
     const data = new FormData(event.currentTarget);
     //Printing out the data retreived from the signup sheet
     const email = data.get("email");
@@ -166,12 +168,25 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
       signupInfo.last_name === "" ||
       signupInfo.password === "" ||
       signupInfo.email === "" ||
-      signupInfo.confirmPassword === "" ||
+      // signupInfo.confirmPassword === "" ||
       signupInfo.location === "" ||
-      signupInfo.account_type === "" ||
+      // signupInfo.account_type === "" ||
       signupInfo.company === ""
     ) {
-      return alert("Please fill out the entire form.");
+      return (
+        <Zoom
+          in={errorAlert}
+          timeout={{ enter: 500, exit: 500 }}
+          addEndListener={() => {
+            setTimeout(() => {
+              setErrorAlert(false);
+            }, 4000);
+          }}
+          sx={{ my: 1 }}
+        >
+          <Alert severity="error">Please fill out the entire form</Alert>
+        </Zoom>
+      );
     }
     try {
       const res = await apiClient.signupUser(signupInfo);
@@ -232,7 +247,7 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
               mx: 4,
               marginLeft: "8rem",
               width: "450px",
-              height: "800px",
+              height: "980px",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -246,7 +261,7 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                 fontFamily: "Inter",
                 fontWeight: "700",
                 fontSize: "32px",
-                marginBottom: "2rem",
+                marginBottom: "1.5rem",
               }}
             >
               Create a new account
@@ -265,6 +280,21 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                 </span>
               )}
             </Typography>
+            {errorAlert ? (
+              <Zoom
+                in={errorAlert}
+                timeout={{ enter: 500, exit: 500 }}
+                addEndListener={() => {
+                  setTimeout(() => {
+                    setErrorAlert(false);
+                  }, 4000);
+                }}
+                sx={{ my: 1 }}
+              >
+                <Alert severity="error">Please fill out the entire form</Alert>
+              </Zoom>
+            ) : null}
+
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <label
@@ -334,28 +364,6 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
 
               {/* ==================================================== */}
 
-              {/* <label
-                style={{
-                  fontFamily: "Inter",
-                  color: "#828282",
-                  fontWeight: 600,
-                }}
-              >
-                Password
-              </label>
-              <TextField
-                fullWidth
-                name="password"
-                placeholder="**************"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                style={{ marginTop: "8px" }}
-                helperText={errors.password}
-                error={errors.password != null}
-                onChange={handleOnInputChange}
-                }
-              /> */}
               <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
                 <label
                   style={{
@@ -457,14 +465,14 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                   fontSize: "16px",
                   background: "#D90429",
                   borderRadius: "6px",
-                  marginTop: "32px",
+                  marginTop: "1rem",
                   textTransform: "none",
                 }}
               >
                 Register
               </Button>
               <Grid container>
-                <Grid item sx={{ marginTop: "50px", marginLeft: "7.5rem" }}>
+                <Grid item sx={{ marginTop: "1rem", marginLeft: "7.5rem" }}>
                   <Link href="/login" variant="body2" sx={{ textDecoration: "none" }}>
                     <span
                       style={{
