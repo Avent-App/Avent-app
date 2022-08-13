@@ -19,18 +19,10 @@ import Alert from "@mui/material/Alert";
 
 export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
   const [errors, setErrors] = useState({});
-  const [startDateValue, setStartDateValue] = useState(
-    new Date("2022-08-19T18:00:00")
-  );
-  const [endDateValue, setEndDateValue] = useState(
-    new Date("2022-08-20T18:00:00")
-  );
-  const [startTimeValue, setStartTimeValue] = useState(
-    new Date("2022-08-22T16:00:00")
-  );
-  const [endTimeValue, setEndTimeValue] = useState(
-    new Date("2022-08-22T18:00:00")
-  );
+  const [startDateValue, setStartDateValue] = useState(new Date("2022-08-19T18:00:00"));
+  const [endDateValue, setEndDateValue] = useState(new Date("2022-08-20T18:00:00"));
+  const [startTimeValue, setStartTimeValue] = useState(new Date("2022-08-22T16:00:00"));
+  const [endTimeValue, setEndTimeValue] = useState(new Date("2022-08-22T18:00:00"));
   const navigate = useNavigate();
   const [successAlert, setSuccessAlert] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
@@ -85,20 +77,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
     };
 
     function createDateTimestamp(date, time) {
-      const monthNames = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
       const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
       let timezone = String(time).split(" ");
       timezone = timezone.slice(5);
@@ -163,11 +142,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
 
   return (
     <Container maxWidth="xl">
-      <GlobalNavbar
-        disableGutters
-        isLoggedIn={isLoggedIn}
-        setIsLoggedIn={setIsLoggedIn}
-      />
+      <GlobalNavbar disableGutters isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
@@ -234,9 +209,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                 }}
                 sx={{ my: 1 }}
               >
-                <Alert severity="success">
-                  You have succesfuly created an event!
-                </Alert>
+                <Alert severity="success">You have successfully created an event!</Alert>
               </Zoom>
             ) : (
               errorAlert && (
@@ -250,18 +223,11 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                   }}
                   sx={{ my: 1 }}
                 >
-                  <Alert severity="error">
-                    Please fill out the entire form
-                  </Alert>
+                  <Alert severity="error">Please fill out the entire form</Alert>
                 </Zoom>
               )
             )}
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleOnSubmit}
-              sx={{ mt: 1 }}
-            >
+            <Box component="form" noValidate onSubmit={handleOnSubmit} sx={{ mt: 1 }}>
               <label
                 style={{
                   fontFamily: "Inter",
@@ -323,10 +289,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                 </label>
               </Box>
 
-              <Box
-                className="namesInput"
-                sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}
-              >
+              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DesktopDatePicker
                     inputFormat="MM/dd/yyyy"
@@ -334,9 +297,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                     id="date"
                     name="date"
                     onChange={handleChangeStartDate}
-                    renderInput={(params) => (
-                      <TextField {...params} sx={{ marginBottom: ".5rem" }} />
-                    )}
+                    renderInput={(params) => <TextField {...params} sx={{ marginBottom: ".5rem" }} />}
                   />
                 </LocalizationProvider>
 
@@ -347,9 +308,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                     id="date"
                     name="date"
                     onChange={handleChangeEndDate}
-                    renderInput={(params) => (
-                      <TextField {...params} sx={{ marginBottom: ".5rem" }} />
-                    )}
+                    renderInput={(params) => <TextField {...params} sx={{ marginBottom: ".5rem" }} />}
                   />
                 </LocalizationProvider>
               </Box>
@@ -377,10 +336,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                 </label>
               </Box>
 
-              <Box
-                className="namesInput"
-                sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}
-              >
+              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <TimePicker
                     id="time"
@@ -392,13 +348,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                 </LocalizationProvider>
 
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <TimePicker
-                    id="time"
-                    name="time"
-                    value={endTimeValue}
-                    onChange={handleChangeEndTime}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
+                  <TimePicker id="time" name="time" value={endTimeValue} onChange={handleChangeEndTime} renderInput={(params) => <TextField {...params} />} />
                 </LocalizationProvider>
               </Box>
               {/* ======================================================================================= */}

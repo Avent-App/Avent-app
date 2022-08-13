@@ -15,8 +15,6 @@ import { useNavigate } from "react-router-dom";
 import login from "../assets/login.jpg";
 import { validEmail, validPassword } from "../Regex";
 import apiClient from "../services/apiClient";
-
-import PWGenerate from "./TESTPW/PWGenerate";
 import styled from "@emotion/styled";
 
 import { OutlinedInput, IconButton, FormHelperText } from "@mui/material";
@@ -35,7 +33,7 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
   const [location, setLocation] = React.useState("");
   const [errors, setErrors] = React.useState({});
   const [errorAlert, setErrorAlert] = React.useState(false);
-  const [pwErrors, setPwErrors] = React.useState({ value: "", error: "" });
+  const [successAlert, setSuccessAlert] = React.useState(false);
   const [form, setForm] = React.useState({
     first_name: "",
     last_name: "",
@@ -43,94 +41,21 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
     password: "",
     showPassword: false,
     confirmPassword: "",
-    passwordLength: false,
-    containsNumbers: false,
-    isUpperCase: false,
-    containsSymbols: false,
   });
-
-  const handleOnInputPW = (prop) => (event) => {
-    setForm({ ...form, [prop]: event.target.value });
-    setPwErrors({
-      value: event.target.value,
-      error: event.target.value ? <PWGenerate /> : null,
-    });
-    let targetValue = event.target.value.replace(/\s/g, "");
-    setForm({
-      [prop]: targetValue,
-      //check for chars numbers > 7
-      passwordLength: targetValue.length > 7 ? true : false,
-      //check for numbers
-      containsNumbers: targetValue.match(/\d+/g) ? true : false,
-      // check for upper case
-      isUpperCase: targetValue.match(/[A-Z]/) ? true : false,
-      // check for symbols
-      containsSymbols: targetValue.match(/[^A-Z a-z0-9]/) ? true : false,
-    });
-  };
-
-  const handleClickShowPassword = () => {
-    setForm({
-      ...form,
-      showPassword: !form.showPassword,
-    });
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
 
   /**
    *
    * @param {*} event to target the user input value and set errors for password, confirm password, and email textFields
    */
   const handleOnInputChange = (event) => {
-    if (event.target.name === "password") {
-      if (form.confirmPassword && form.confirmPassword !== event.target.value) {
-        setErrors((e) => ({ ...e, confirmPassword: "Passwords do not match" }));
-      } else {
-        setErrors((e) => ({ ...e, confirmPassword: null }));
-      }
-    }
-    if (event.target.name === "confirmPassword") {
-      if (form.password && form.password !== event.target.value) {
-        setErrors((e) => ({ ...e, confirmPassword: "Passwords do not match" }));
-      } else {
-        setErrors((e) => ({ ...e, confirmPassword: null }));
-      }
-    }
-
     //** Regex for validating emails */
     if (event.target.name === "email") {
       if (!validEmail.test(event.target.value)) {
         setErrors((e) => ({ ...e, email: "Your email is invalid" }));
-        // } else if (signupInfo.email === "") {
-        //   setErrors((e) => ({ ...e, email: "Please enter an email" }));
       } else {
         setErrors((e) => ({ ...e, email: null }));
       }
     }
-
-    //** Regex for validating passwords */
-    if (event.target.name === "password") {
-      if (!validPassword.test(event.target.value)) {
-        setErrors((e) => ({
-          ...e,
-          password: (
-            <ul>
-              <l>Must Contain:</l>
-              <li>8 characters</li>
-              <li>An Upper Case Letter</li>
-              <li>A Special Character (!@#$&*)</li>
-              <li>2 numerals (0-9)</li>
-            </ul>
-          ),
-        }));
-      } else {
-        setErrors((e) => ({ ...e, password: null }));
-      }
-    }
-
     setForm((f) => ({ ...f, [event.target.name]: event.target.value }));
   };
 
@@ -144,9 +69,10 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
     setErrors((e) => ({ ...e, form: null }));
     setErrorAlert(true);
     const data = new FormData(event.currentTarget);
+
     //Printing out the data retreived from the signup sheet
     const email = data.get("email");
-    const password = data.get("password");
+    const password = form.password;
     const firstName = data.get("firstName");
     const lastName = data.get("lastName");
     const company = data.get("company");
@@ -160,6 +86,7 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
       company: company,
     };
 
+    console.log("SIGNup--------->", signupInfo);
     /**
      * checks user has filled out whole form, if not returns an alert
      */
@@ -168,9 +95,7 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
       signupInfo.last_name === "" ||
       signupInfo.password === "" ||
       signupInfo.email === "" ||
-      // signupInfo.confirmPassword === "" ||
       signupInfo.location === "" ||
-      // signupInfo.account_type === "" ||
       signupInfo.company === ""
     ) {
       return (
@@ -191,10 +116,11 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
     try {
       const res = await apiClient.signupUser(signupInfo);
       if (res?.data?.user) {
+        setSuccessAlert(true);
         setUser(res.data.user);
         setIsLoggedIn(true);
         apiClient.setToken(res.data.token);
-        navigate("/feed");
+        setTimeout(() => navigate("/feed"), 1700);
       } else {
         setErrors((e) => ({
           ...e,
@@ -210,7 +136,7 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
       }));
     }
   };
-  let { password, passwordLength, containsNumbers, isUpperCase, containsSymbols } = form;
+
   return (
     <Container maxWidth="xl" disableGutters>
       <Navbar />
@@ -280,7 +206,7 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                 </span>
               )}
             </Typography>
-            {errorAlert ? (
+            {/* {errorAlert ? (
               <Zoom
                 in={errorAlert}
                 timeout={{ enter: 500, exit: 500 }}
@@ -293,7 +219,36 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
               >
                 <Alert severity="error">Please fill out the entire form</Alert>
               </Zoom>
-            ) : null}
+            ) : null} */}
+            {successAlert ? (
+              <Zoom
+                in={successAlert}
+                timeout={{ enter: 500, exit: 500 }}
+                addEndListener={() => {
+                  setTimeout(() => {
+                    setSuccessAlert(false);
+                  }, 4000);
+                }}
+                sx={{ my: 1 }}
+              >
+                <Alert severity="success">You have successfully created an account!</Alert>
+              </Zoom>
+            ) : (
+              errorAlert && (
+                <Zoom
+                  in={errorAlert}
+                  timeout={{ enter: 500, exit: 500 }}
+                  addEndListener={() => {
+                    setTimeout(() => {
+                      setErrorAlert(false);
+                    }, 4000);
+                  }}
+                  sx={{ my: 1 }}
+                >
+                  <Alert severity="error">Please fill out the entire form</Alert>
+                </Zoom>
+              )
+            )}
 
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -362,51 +317,6 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                 onChange={handleOnInputChange}
               />
 
-              {/* ==================================================== */}
-
-              <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
-                <label
-                  style={{
-                    fontFamily: "Inter",
-                    color: "#828282",
-                    fontWeight: 600,
-                  }}
-                >
-                  Password
-                </label>
-                <OutlinedInput
-                  sx={{ width: "28.5rem", ml: -0.9 }}
-                  name="password"
-                  placeholder="********"
-                  id="password"
-                  autoComplete="current-password"
-                  style={{ marginTop: "8px" }}
-                  variant="outlined"
-                  fullWidth
-                  type={form.showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={handleOnInputPW("password")}
-                  helpertext={errors.password}
-                  // error={errors.password != null}
-
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword} edge="end">
-                        {form.showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  error={!!pwErrors.error}
-                />
-                {!!pwErrors.error && (
-                  <FormHelperText error id="pwErrors-error">
-                    {pwErrors.error}
-                  </FormHelperText>
-                )}
-              </FormControl>
-
-              {/* ==================================================== */}
-              <br></br>
               <label
                 style={{
                   fontFamily: "Inter",
@@ -414,23 +324,12 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                   fontWeight: 600,
                 }}
               >
-                Confirm Password
+                Password
               </label>
 
-              <TextField
-                margin="normal"
-                fullWidth
-                name="confirmPassword"
-                placeholder="********"
-                type="password"
-                id="confirmPassword"
-                autoComplete="current-password"
-                style={{ marginTop: "8px" }}
-                value={form.confirmPassword}
-                helperText={errors.confirmPassword}
-                error={errors.confirmPassword != null}
-                onChange={handleOnInputChange}
-              />
+              {/* component for passwords*/}
+              <PWGenerate form={form} setForm={setForm} setErrors={setErrors} errors={errors} handleSubmit={handleSubmit} />
+
               <label
                 style={{
                   fontFamily: "Inter",
@@ -605,11 +504,133 @@ function ControlledOpenSelect({ location, account, setLocation, setAccount }) {
   );
 }
 
+function PWGenerate({ form, setForm, handleSubmit }) {
+  const [errorspw, setErrorspw] = React.useState({});
+  const [state, setState] = React.useState({
+    passwordLength: false,
+    containsNumbers: false,
+    isUpperCase: false,
+    containsSymbols: false,
+    showPassword: false,
+    confirmPassword: "",
+  });
+
+  const handleClickShowPassword = () => {
+    setForm({
+      ...form,
+      showPassword: !form.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  // handle password
+  const handleChange = (input) => (e) => {
+    let targetValue = e.target.value.replace(/\s/g, "");
+    setState({
+      [input]: targetValue,
+      passwordLength: targetValue.length > 7 ? true : false,
+      containsNumbers: targetValue.match(/\d+/g) ? true : false,
+      isUpperCase: targetValue.match(/[A-Z]/) ? true : false,
+      containsSymbols: targetValue.match(/[^A-Z a-z0-9]/) ? true : false,
+    });
+    if (e.target.name === "password") {
+      if (form.confirmPassword && form.confirmPassword !== e.target.value) {
+        setErrorspw((e) => ({ ...e, confirmPassword: "Passwords do not match" }));
+      } else {
+        setErrorspw((e) => ({ ...e, confirmPassword: null }));
+      }
+    }
+    if (e.target.name === "confirmPassword") {
+      if (form.password && form.password !== e.target.value) {
+        setErrorspw((e) => ({ ...e, confirmPassword: "Passwords do not match" }));
+      } else {
+        setErrorspw((e) => ({ ...e, confirmPassword: null }));
+      }
+    }
+    setForm((f) => ({ ...f, [event.target.name]: event.target.value }));
+  };
+
+  let { password, passwordLength, containsNumbers, isUpperCase, containsSymbols, showPassword, confirmPassword } = state;
+
+  return (
+    <div className="content">
+      <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+        <OutlinedInput
+          sx={{ width: "28.5rem", ml: -0.4 }}
+          name="password"
+          placeholder="********"
+          id="password"
+          autoComplete="current-password"
+          value={form.password}
+          variant="outlined"
+          fullWidth
+          type={form.showPassword ? "text" : "password"}
+          onChange={handleChange("password")}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword} edge="end">
+                {form.showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          }
+          error={errorspw.password != null}
+        />
+        {!!errorspw.password && (
+          <FormHelperText error id="errorspw-error">
+            {errorspw.password}
+          </FormHelperText>
+        )}
+
+        {password ? (
+          <Box style={{ marginBottom: ".5rem" }}>
+            <div>{passwordLength ? <GreenDiv>Contains 8 characters</GreenDiv> : <RedDiv>Contains 8 characters</RedDiv>}</div>
+
+            <div>{containsNumbers ? <GreenDiv>Contains numbers</GreenDiv> : <RedDiv>Contains numbers</RedDiv>}</div>
+
+            <div>{isUpperCase ? <GreenDiv>Contains UpperCase</GreenDiv> : <RedDiv>Contains UpperCase</RedDiv>}</div>
+
+            <div>{containsSymbols ? <GreenDiv>Contains Symbols</GreenDiv> : <RedDiv>Contains Symbols</RedDiv>}</div>
+          </Box>
+        ) : null}
+
+        <label
+          style={{
+            fontFamily: "Inter",
+            color: "#828282",
+            fontWeight: 600,
+            marginBottom: "10rem",
+          }}
+        >
+          Confirm Password
+        </label>
+
+        <TextField
+          margin="normal"
+          fullWidth
+          name="confirmPassword"
+          placeholder="********"
+          type="password"
+          id="confirmPassword"
+          autoComplete="current-password"
+          style={{ marginTop: "8px" }}
+          value={confirmPassword}
+          helperText={errorspw.confirmPassword}
+          error={errorspw.confirmPassword != null}
+          onChange={handleChange("confirmPassword")}
+        />
+      </Box>
+    </div>
+  );
+}
+
 //emotions styled components for settings errors on password criteria
 const GreenDiv = styled.div`
   color: green;
 `;
 
 const RedDiv = styled.div`
-  color: red;
+  color: #d90429;
 `;
