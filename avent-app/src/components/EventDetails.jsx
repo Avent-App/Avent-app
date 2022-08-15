@@ -15,7 +15,6 @@ import {
   DialogTitle,
   Grid,
 } from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
 import SendIcon from "@mui/icons-material/Send";
 import ReplyIcon from "@mui/icons-material/Reply";
 import { useEffect, useState } from "react";
@@ -29,6 +28,18 @@ import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import ellipse from "../assets/Ellipse.png";
 import { Link as RouterLink } from "react-router-dom";
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  RedditShareButton,
+  RedditIcon,
+  WhatsappShareButton,
+  WhatsappIcon,
+  LinkedinShareButton,
+  LinkedinIcon,
+} from "next-share";
 
 // This page GETS information from the events table using the eventsId param in the URL and displays it to the user.
 
@@ -184,14 +195,23 @@ function EventInformation({
   const startDate = new Date(eventData.start_date);
   const endDate = new Date(eventData.end_date);
 
-  const [open, setOpen] = useState(false);
+  const [openRSVP, setOpenRSVP] = useState(false);
+  const [openShare, setOpenShare] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClickOpenRSVP = () => {
+    setOpenRSVP(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseRSVP = () => {
+    setOpenRSVP(false);
+  };
+
+  const handleClickOpenShare = () => {
+    setOpenShare(true);
+  };
+
+  const handleCloseShare = () => {
+    setOpenShare(false);
   };
 
   return (
@@ -279,6 +299,7 @@ function EventInformation({
             <Button
               color="secondary"
               variant="outlined"
+              onClick={handleClickOpenShare}
               sx={{ height: 38, width: 176 }}
             >
               Share
@@ -307,7 +328,7 @@ function EventInformation({
               </AvatarGroup>
               <Button variant="text" sx={{ height: 15 }}>
                 <Typography
-                  onClick={handleClickOpen}
+                  onClick={handleClickOpenRSVP}
                   sx={{
                     fontWeight: 500,
                     fontSize: 15,
@@ -343,18 +364,24 @@ function EventInformation({
           reserved={reserved}
           setReserved={setReserved}
         />
-        <DialogBox
-          open={open}
-          handleClickOpen={handleClickOpen}
-          handleClose={handleClose}
+        <DialogBoxRSVP
+          open={openRSVP}
+          handleClickOpen={handleClickOpenRSVP}
+          handleClose={handleCloseRSVP}
           reservationData={reservationData}
+        />
+        <DialogBoxShare
+          open={openShare}
+          handleClickOpen={handleClickOpenShare}
+          handleClose={handleCloseShare}
+          eventId={eventId}
         />
       </Stack>
     </Box>
   );
 }
 
-function DialogBox({ open, handleClose, reservationData }) {
+function DialogBoxRSVP({ open, handleClose, reservationData }) {
   return (
     <Dialog
       maxWidth="md"
@@ -396,6 +423,89 @@ function DialogBox({ open, handleClose, reservationData }) {
               </Grid>
             );
           })}
+        </Grid>
+      </DialogContent>
+      <DialogActions sx={{ mx: 1 }}>
+        <Button
+          variant="contained"
+          color="secondary"
+          disableElevation
+          onClick={handleClose}
+          sx={{
+            width: 175,
+            height: 43.2,
+            borderRadius: "5.6px",
+            mb: 1,
+          }}
+        >
+          Close
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
+
+function DialogBoxShare({ open, handleClose, eventId }) {
+  return (
+    <Dialog
+      maxWidth="md"
+      open={open}
+      onClose={handleClose}
+      PaperProps={{
+        style: { borderRadius: "10px", width: 700 },
+      }}
+    >
+      <DialogTitle sx={{ mt: 1 }}>
+        <Typography sx={{ fontWeight: 700, fontSize: 28 }}>
+          Share Event
+        </Typography>
+      </DialogTitle>
+      <DialogContent>
+        <Grid container justifyContent="space-evenly" spacing={4}>
+          <Grid item>
+            <FacebookShareButton
+              url={`http://localhost:3001/details/${eventId}`}
+            >
+              <FacebookIcon round />
+              <Typography>Facebook</Typography>
+            </FacebookShareButton>
+          </Grid>
+          <Grid item>
+            <WhatsappShareButton
+              url={`http://localhost:3001/details/${eventId}`}
+              title={"Check out this event!"}
+            >
+              <WhatsappIcon round />
+              <Typography>Whatsapp</Typography>
+            </WhatsappShareButton>
+          </Grid>
+          <Grid item>
+            <TwitterShareButton
+              url={`http://localhost:3001/details/${eventId}`}
+              title={"Check out this event!"}
+            >
+              <TwitterIcon round />
+              <Typography>Twitter</Typography>
+            </TwitterShareButton>
+          </Grid>
+          <Grid item>
+            <RedditShareButton
+              url={`http://localhost:3001/details/${eventId}`}
+              title={"Check out this event!"}
+            >
+              <RedditIcon round />
+              <Typography>Reddit</Typography>
+            </RedditShareButton>
+          </Grid>
+          <Grid item>
+            <LinkedinShareButton
+              url={`http://localhost:3001/details/${eventId}`}
+              title={"Check out this event!"}
+            >
+              <LinkedinIcon round />
+              <Typography>Linkedin</Typography>
+            </LinkedinShareButton>
+          </Grid>
         </Grid>
       </DialogContent>
       <DialogActions sx={{ mx: 1 }}>
