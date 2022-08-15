@@ -6,7 +6,9 @@ import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { Container, FormControlLabel, Checkbox } from "@mui/material";
+import { Container, OutlinedInput, InputAdornment, IconButton } from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Navbar from "./Navbar";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -22,14 +24,33 @@ import { validEmail } from "../Regex";
 export default function Login({ user, setUser, isLoggedIn, setIsLoggedIn }) {
   const navigate = useNavigate();
   const [errors, setErrors] = React.useState("");
+  const [pwErrors, setPwErrors] = React.useState({ value: "", error: "" });
   const [form, setForm] = useState({
     email: "",
     password: "",
+    showPassword: "",
   });
-  /**
-   * t
-   * @param {*} event targets the change inputted by user in textfield to check email validation using regex
-   */
+
+  const handleClickShowPassword = () => {
+    setForm({
+      ...form,
+      showPassword: !form.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleOnInputPW = (prop) => (event) => {
+    setForm({ ...form, [prop]: event.target.value });
+    setPwErrors({
+      value: event.target.value,
+      error: event.target.value ? "" : null,
+    });
+  };
+
+  /** @param {*} event targets the change inputted by user in textfield to check email validation using regex*/
   const handleOnInputChange = (event) => {
     //** Regex for validating emails */
     if (event.target.name === "email") {
@@ -185,15 +206,24 @@ export default function Login({ user, setUser, isLoggedIn, setIsLoggedIn }) {
               >
                 Password
               </label>
-              <TextField
-                margin="normal"
-                fullWidth
+              <OutlinedInput
+                sx={{ width: "28.5rem" }}
                 name="password"
                 placeholder="********"
-                type="password"
                 id="password"
                 autoComplete="current-password"
                 style={{ marginTop: "8px" }}
+                variant="outlined"
+                fullWidth
+                type={form.showPassword ? "text" : "password"}
+                onChange={handleOnInputPW("password")}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword} edge="end">
+                      {form.showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
               />
 
               <Button

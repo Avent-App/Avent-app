@@ -13,7 +13,7 @@ import { Container, Alert, Zoom } from "@mui/material";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import login from "../assets/login.jpg";
-import { validEmail, validPassword } from "../Regex";
+import { validEmail } from "../Regex";
 import apiClient from "../services/apiClient";
 import styled from "@emotion/styled";
 
@@ -22,11 +22,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-/**
- *
- * @param {*} param0 props drilled down from app.js
- * @returns registration form
- */
+/**@param {*} param0 props drilled down from app.js  @returns registration form */
+
 export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
   const navigate = useNavigate();
   const [account, setAccount] = React.useState("");
@@ -43,10 +40,8 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
     confirmPassword: "",
   });
 
-  /**
-   *
-   * @param {*} event to target the user input value and set errors for password, confirm password, and email textFields
-   */
+  /**@param {*} event to target the user input value and set errors for password, confirm password, and email textFields*/
+
   const handleOnInputChange = (event) => {
     //** Regex for validating emails */
     if (event.target.name === "email") {
@@ -59,15 +54,11 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
     setForm((f) => ({ ...f, [event.target.name]: event.target.value }));
   };
 
-  /**
-   *
-   * @param {*} event to target the event value by user
-   * @returns an alert if user has not inputted the whole form
-   */
+  /**@param {*} event to target the event value by user @returns an alert if user has not inputted the whole form*/
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrors((e) => ({ ...e, form: null }));
-    setErrorAlert(true);
     const data = new FormData(event.currentTarget);
 
     //Printing out the data retreived from the signup sheet
@@ -87,9 +78,8 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
     };
 
     console.log("SIGNup--------->", signupInfo);
-    /**
-     * checks user has filled out whole form, if not returns an alert
-     */
+
+    /** checks user has filled out whole form, if not returns an alert*/
     if (
       signupInfo.first_name === "" ||
       signupInfo.last_name === "" ||
@@ -98,7 +88,7 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
       signupInfo.location === "" ||
       signupInfo.company === ""
     ) {
-      return (
+      return setErrorAlert(true)(
         <Zoom
           in={errorAlert}
           timeout={{ enter: 500, exit: 500 }}
@@ -404,10 +394,8 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
 }
 
 /**
- *
- * @param {*} param0 props passed from register component
- * @returns dropdown textfields for "location" and "type of account" textields
- */
+ *@param {*} param0 props passed from register component @returns dropdown textfields for "location" and "type of account" textfield*/
+
 function ControlledOpenSelect({ location, account, setLocation, setAccount }) {
   const [accountOpen, setAccountOpen] = React.useState(false);
   const [locationOpen, setLocationOpen] = React.useState(false);
@@ -504,6 +492,8 @@ function ControlledOpenSelect({ location, account, setLocation, setAccount }) {
   );
 }
 
+/** @param {*} param0 state vars to set passwords input values  @returns password and confirm password textfields*/
+
 function PWGenerate({ form, setForm, handleSubmit }) {
   const [errorspw, setErrorspw] = React.useState({});
   const [state, setState] = React.useState({
@@ -526,7 +516,7 @@ function PWGenerate({ form, setForm, handleSubmit }) {
     event.preventDefault();
   };
 
-  // handle password
+  // handle password on change
   const handleChange = (input) => (e) => {
     let targetValue = e.target.value.replace(/\s/g, "");
     setState({
