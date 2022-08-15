@@ -31,6 +31,7 @@ export default function EventCardHorizontal({
   reservationId,
   getData,
   pageType,
+  listingHostImg,
 }) {
   let navigate = useNavigate();
 
@@ -113,7 +114,9 @@ export default function EventCardHorizontal({
           </CardContent>
         </CardActionArea>
         <CardActions sx={{ mb: 1, mr: 1, ml: 1, mt: "auto" }}>
-          <Avatar alt="profile picture" />
+          <Avatar alt="profile picture" src={listingHostImg}>
+            {eventHost.charAt(0)}
+          </Avatar>
           <Typography
             color="secondary"
             sx={{ fontWeight: 600, fontSize: 12, ml: 1 }}

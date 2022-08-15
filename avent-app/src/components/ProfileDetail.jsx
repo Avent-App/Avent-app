@@ -1,5 +1,14 @@
 import React from "react";
-import { Typography, Stack, Box, Grid, Divider, Paper, Avatar, Container } from "@mui/material";
+import {
+  Typography,
+  Stack,
+  Box,
+  Grid,
+  Divider,
+  Paper,
+  Avatar,
+  Container,
+} from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -61,12 +70,15 @@ const ProfileDetail = ({ user }) => {
                 <SmallEventCard
                   eventCategory={reservation.event_category}
                   eventHost={`${reservation.first_name} ${reservation.last_name}`}
-                  startDate={new Date(reservation.start_date).toLocaleString("en-US", {
-                    dateStyle: "medium",
-                    timeStyle: "short",
-                  })}
+                  startDate={new Date(reservation.start_date).toLocaleString(
+                    "en-US",
+                    {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    }
+                  )}
                   eventName={reservation.title}
-                  eventImageUrl={reservation.image_url}
+                  eventImageUrl={reservation.user_img}
                   eventId={reservation.event_id}
                   reservationId={reservation.reservation_id}
                 />
@@ -81,15 +93,26 @@ const ProfileDetail = ({ user }) => {
   };
   return (
     <>
-      <img style={{ width: "115%", height: "300px" }} src={"https://www.jvs.org/wp-content/uploads/2020/03/SalesforceFellowship_banner.jpg)"} />
+      <img
+        style={{ width: "115%", height: "300px" }}
+        src={
+          "https://www.jvs.org/wp-content/uploads/2020/03/SalesforceFellowship_banner.jpg)"
+        }
+      />
 
       <Stack className="Title" sx={{ ml: 90 }}>
-        <Typography sx={{ fontSize: 35, fontWeight: "bold", mt: 3 }}>Events Attending To</Typography>
+        <Typography sx={{ fontSize: 35, fontWeight: "bold", mt: 3 }}>
+          Events Attending To
+        </Typography>
       </Stack>
       <Stack className="MAIN" sx={{ flexDirection: "row", gap: "23rem" }}>
         <UserInformation user={user} userData={userData} />
 
-        <Stack className="cardSTack" container sx={{ flexDirection: "row", marginTop: "3.5rem", height: "32rem" }}>
+        <Stack
+          className="cardSTack"
+          container
+          sx={{ flexDirection: "row", marginTop: "3.5rem", height: "32rem" }}
+        >
           <Grid>
             <Grid className="CardsGrid">
               <SmallEventCard />
@@ -116,7 +139,8 @@ function UserInformation({ userData, user }) {
       sx={{
         height: 700,
         width: 345,
-        background: "linear-gradient(0deg, #FFFFFF, #FFFFFF), linear-gradient(247.52deg, rgba(255, 0, 0, 0.17) 1.52%, rgba(255, 255, 255, 0) 96.99%)",
+        background:
+          "linear-gradient(0deg, #FFFFFF, #FFFFFF), linear-gradient(247.52deg, rgba(255, 0, 0, 0.17) 1.52%, rgba(255, 255, 255, 0) 96.99%)",
         border: "border: 2.63915px solid rgba(155, 153, 153, 0.17)",
         boxShadow: "7.03774px 7.91745px 65px rgba(66, 66, 66, 0.21)",
         borderRadius: "22px",
@@ -130,13 +154,35 @@ function UserInformation({ userData, user }) {
     >
       <Stack direction="row" spacing={5.375} alignItems="right">
         <Box sx={{ width: 291, height: 710, mt: 1 }}>
-          <Avatar sx={{ position: "absolute", height: 169, width: 169, mx: 7, my: 5 }} style={{ border: "1.68724px solid #26235C" }} />
-          <img style={{ position: "relative", top: "1.9rem", left: "5.8rem" }} src={ellipse} />
-          <Stack alignItems="center" justifyContent="center" spacing={2} sx={{ my: 3 }}>
-            <Typography align="center" sx={{ fontSize: 28, fontWeight: 700, lineHeight: "35px", marginTop: "1rem" }}>
+          <Avatar
+            sx={{ position: "absolute", height: 169, width: 169, mx: 7, my: 5 }}
+            style={{ border: "1.68724px solid #26235C" }}
+          />
+          <img
+            style={{ position: "relative", top: "1.9rem", left: "5.8rem" }}
+            src={ellipse}
+          />
+          <Stack
+            alignItems="center"
+            justifyContent="center"
+            spacing={2}
+            sx={{ my: 3 }}
+          >
+            <Typography
+              align="center"
+              sx={{
+                fontSize: 28,
+                fontWeight: 700,
+                lineHeight: "35px",
+                marginTop: "1rem",
+              }}
+            >
               {`${userData.first_name} ${userData.last_name}`}
             </Typography>
-            <Typography variant="outlined"> {`${userData.company} ${userData.account_type}`}</Typography>
+            <Typography variant="outlined">
+              {" "}
+              {`${userData.company} ${userData.account_type}`}
+            </Typography>
           </Stack>
           <Paper
             elevation={0}
@@ -149,13 +195,27 @@ function UserInformation({ userData, user }) {
             <Stack sx={{ m: 4, my: 2 }}>
               <Typography
                 sx={{ fontWeight: 400, fontSize: 13, color: "#D90429" }}
-                style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: ".3rem" }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  gap: ".3rem",
+                }}
               >
                 <AccountBoxIcon />
                 <span>About</span>
               </Typography>
-              <Typography sx={{ fontWeight: 400, fontSize: 13, textAlign: "left", lineHeight: "21px", marginTop: "10px" }}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.
+              <Typography
+                sx={{
+                  fontWeight: 400,
+                  fontSize: 13,
+                  textAlign: "left",
+                  lineHeight: "21px",
+                  marginTop: "10px",
+                }}
+              >
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna.
                 {/* {userData.Bio} */}
               </Typography>
             </Stack>
@@ -163,16 +223,33 @@ function UserInformation({ userData, user }) {
             <Stack sx={{ m: 4, my: 3 }}>
               <Typography
                 sx={{ fontWeight: 400, fontSize: 13, color: "#D90429" }}
-                style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: ".3rem" }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  gap: ".3rem",
+                }}
               >
                 <MailIcon />
                 <span>Email</span>
               </Typography>
-              <Typography sx={{ fontWeight: 400, fontSize: 13, marginTop: "10px" }}> {`${userData.email}`} </Typography>
+              <Typography
+                sx={{ fontWeight: 400, fontSize: 13, marginTop: "10px" }}
+              >
+                {" "}
+                {`${userData.email}`}{" "}
+              </Typography>
             </Stack>
             <Divider />
             <Stack sx={{ ml: 4, my: 3 }}>
-              <Box sx={{ display: "flex", flexDirection: "row", gap: "1.5rem", marginTop: "1rem" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: "1.5rem",
+                  marginTop: "1rem",
+                }}
+              >
                 <FacebookIcon sx={{ color: "#D90429" }} />
                 <TwitterIcon sx={{ color: "#D90429" }} />
                 <LinkedInIcon sx={{ color: "#D90429" }} />

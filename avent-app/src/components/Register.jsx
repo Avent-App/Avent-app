@@ -220,7 +220,12 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                 </span>
               )}
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 1 }}
+            >
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <label
                   style={{
@@ -242,7 +247,10 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                   Last Name
                 </label>
               </Box>
-              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
+              <Box
+                className="namesInput"
+                sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}
+              >
                 <TextField
                   margin="normal"
                   fullWidth
@@ -351,7 +359,12 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                 style={{ marginTop: "8px" }}
                 onChange={handleOnInputChange}
               />
-              <ControlledOpenSelect account={account} location={location} setLocation={setLocation} setAccount={setAccount} />
+              <ControlledOpenSelect
+                account={account}
+                location={location}
+                setLocation={setLocation}
+                setAccount={setAccount}
+              />
               <Button
                 type="submit"
                 fullWidth
@@ -373,7 +386,11 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
               </Button>
               <Grid container>
                 <Grid item sx={{ marginTop: "50px", marginLeft: "7.5rem" }}>
-                  <Link href="/login" variant="body2" sx={{ textDecoration: "none" }}>
+                  <Link
+                    href="/login"
+                    variant="body2"
+                    sx={{ textDecoration: "none" }}
+                  >
                     <span
                       style={{
                         color: "#828282",

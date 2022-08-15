@@ -1,11 +1,11 @@
 -- First I need users in a seed
 -- 2nd, I need to make these conform to the new data form I need
 
-INSERT INTO users (password, account_type, first_name, last_name, email, location, company, biography)
+INSERT INTO users (password, account_type, first_name, last_name, email, location, company, biography, image_url)
 VALUES
-('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','intern','Irem','Komurcu','i@sf.com','San Francisco', 'Salesforce', 'I love problems and solving puzzles, its how I derive my meaning in life!'),
-('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','business','Chris','Martin','chris@coldplay.com','London', 'Coldplay', 'I love empowering others through creative solutions and creating value and social change through my buisness.'),
-('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','intern','Enrique','Rico','e@sf.com','New York', 'Salesforce', 'Hit me up if you are in New York! I love meeting new people and getting to know brilliant minds. Life is beautiful.');
+('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','intern','Irem','Komurcu','i@sf.com','San Francisco', 'Salesforce', 'I love problems and solving puzzles, its how I derive my meaning in life!','https://iremkomurcu.com/img/profile.jpg'),
+('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','business','Chris','Martin','chris@coldplay.com','London', 'Coldplay', 'I love empowering others through creative solutions and creating value and social change through my buisness.', 'https://www.hollywoodreporter.com/wp-content/uploads/2014/03/chris_martin_coldplay_the_voice_p_2014.jpg'),
+('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','intern','Enrique','Rico','e@sf.com','New York', 'Salesforce', 'Hit me up if you are in New York! I love meeting new people and getting to know brilliant minds. Life is beautiful.', 'https://cdns-images.dzcdn.net/images/artist/7c0f867fb50b6c9302f991521e42e764/500x500.jpg');
 
 INSERT INTO events (host_id, title, description, start_date, end_date, address, event_category, image_url)
 VALUES

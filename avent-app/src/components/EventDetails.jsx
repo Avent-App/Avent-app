@@ -1,7 +1,14 @@
 import React from "react";
 import GlobalNavbar from "./GlobalNavbar";
 import { Box, Container } from "@mui/system";
-import { Typography, Stack, Button, Avatar, TextField, Card } from "@mui/material";
+import {
+  Typography,
+  Stack,
+  Button,
+  Avatar,
+  TextField,
+  Card,
+} from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import SendIcon from "@mui/icons-material/Send";
 import ReplyIcon from "@mui/icons-material/Reply";
@@ -25,7 +32,6 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
   const [isLoading, setIsLoading] = useState(true);
   const [reserved, setReserved] = useState(false);
   const [commentData, setCommentData] = useState([]);
-
 
   let navigate = useNavigate();
 
@@ -106,7 +112,11 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
 
   return (
     <div>
-      <GlobalNavbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <GlobalNavbar
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+        user={user}
+      />
       {isLoading ? (
         <Container
           maxWidth={false}
@@ -121,8 +131,18 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
         </Container>
       ) : (
         <Container maxWidth="xl">
-          <img style={{ width: "100%", height: "600px" }} src={eventData.image_url ? eventData.image_url : NoPhoto} />
-          <EventInformation eventData={eventData} hostData={hostData} eventId={eventId} user={user} reserved={reserved} setReserved={setReserved} />
+          <img
+            style={{ width: "100%", height: "600px" }}
+            src={eventData.image_url ? eventData.image_url : NoPhoto}
+          />
+          <EventInformation
+            eventData={eventData}
+            hostData={hostData}
+            eventId={eventId}
+            user={user}
+            reserved={reserved}
+            setReserved={setReserved}
+          />
           <Stack>
             <CommentSection
               commentData={commentData}
@@ -137,7 +157,14 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
   );
 }
 
-function EventInformation({ eventData, hostData, eventId, user, reserved, setReserved }) {
+function EventInformation({
+  eventData,
+  hostData,
+  eventId,
+  user,
+  reserved,
+  setReserved,
+}) {
   const startDate = new Date(eventData.start_date);
   const endDate = new Date(eventData.end_date);
 
@@ -146,7 +173,8 @@ function EventInformation({ eventData, hostData, eventId, user, reserved, setRes
       sx={{
         height: 430,
         width: 1069,
-        background: "linear-gradient(0deg, #FFFFFF, #FFFFFF), linear-gradient(247.52deg, rgba(255, 0, 0, 0.17) 1.52%, rgba(255, 255, 255, 0) 96.99%)",
+        background:
+          "linear-gradient(0deg, #FFFFFF, #FFFFFF), linear-gradient(247.52deg, rgba(255, 0, 0, 0.17) 1.52%, rgba(255, 255, 255, 0) 96.99%)",
         border: "border: 2.63915px solid rgba(155, 153, 153, 0.17)",
         boxShadow: "7.03774px 7.91745px 65px rgba(66, 66, 66, 0.21)",
         borderRadius: "22px",
@@ -160,8 +188,12 @@ function EventInformation({ eventData, hostData, eventId, user, reserved, setRes
     >
       <Stack direction="row" spacing={5.375} alignItems="center">
         <Stack spacing={0.2} sx={{ ml: 9, display: "flex", width: 543 }}>
-          <Typography sx={{ fontWeight: 700, fontSize: 34 }}>{eventData.title}</Typography>
-          <Typography sx={{ fontWeight: 600, fontSize: 20 }}>Description:</Typography>
+          <Typography sx={{ fontWeight: 700, fontSize: 34 }}>
+            {eventData.title}
+          </Typography>
+          <Typography sx={{ fontWeight: 600, fontSize: 20 }}>
+            Description:
+          </Typography>
           <Typography
             sx={{
               fontWeight: 500,
@@ -173,7 +205,9 @@ function EventInformation({ eventData, hostData, eventId, user, reserved, setRes
           >
             {eventData.description}
           </Typography>
-          <Typography sx={{ fontWeight: 600, fontSize: 20 }}>Location:</Typography>
+          <Typography sx={{ fontWeight: 600, fontSize: 20 }}>
+            Location:
+          </Typography>
           <Typography
             gutterBottom
             sx={{
@@ -187,7 +221,9 @@ function EventInformation({ eventData, hostData, eventId, user, reserved, setRes
           >
             {eventData.address}
           </Typography>
-          <Typography sx={{ fontWeight: 600, fontSize: 20, display: "flex" }}>Date:</Typography>
+          <Typography sx={{ fontWeight: 600, fontSize: 20, display: "flex" }}>
+            Date:
+          </Typography>
           <Typography
             gutterBottom
             sx={{
@@ -207,15 +243,29 @@ function EventInformation({ eventData, hostData, eventId, user, reserved, setRes
           </Typography>
           <Stack direction="row" spacing={5}>
             {/* Figure out how to change the button outline colors */}
-            <Button color="secondary" variant="outlined" sx={{ height: 38, width: 176, fontWeight: 800 }}>
+            <Button
+              color="secondary"
+              variant="outlined"
+              sx={{ height: 38, width: 176, fontWeight: 800 }}
+            >
               Message Host
             </Button>
-            <Button color="secondary" variant="outlined" sx={{ height: 38, width: 176 }}>
+            <Button
+              color="secondary"
+              variant="outlined"
+              sx={{ height: 38, width: 176 }}
+            >
               Share
             </Button>
           </Stack>
         </Stack>
-        <HostInfo hostData={hostData} eventId={eventId} user={user} reserved={reserved} setReserved={setReserved} />
+        <HostInfo
+          hostData={hostData}
+          eventId={eventId}
+          user={user}
+          reserved={reserved}
+          setReserved={setReserved}
+        />
       </Stack>
     </Box>
   );
@@ -241,10 +291,21 @@ function HostInfo({ hostData, eventId, user, reserved, setReserved }) {
   }
 
   return (
-    <Stack alignItems="center" justifyContent="center" sx={{ display: "flex", width: 359 }}>
+    <Stack
+      alignItems="center"
+      justifyContent="center"
+      sx={{ display: "flex", width: 359 }}
+    >
       <Stack sx={{ mr: 6.4 }}>
-        <Avatar sx={{ position: "absolute", height: 169, width: 169 }} style={{ border: "1.68724px solid #26235C" }} />
-        <img style={{ position: "relative", top: "-.6rem", left: "2.3rem" }} src={ellipse} />
+        <Avatar
+          sx={{ position: "absolute", height: 169, width: 169 }}
+          style={{ border: "1.68724px solid #26235C" }}
+          src={hostData.image_url}
+        />
+        <img
+          style={{ position: "relative", top: "-.6rem", left: "2.3rem" }}
+          src={ellipse}
+        />
       </Stack>
       <Typography align="center" sx={{ fontWeight: 700, fontSize: 30 }}>
         {`${hostData.first_name} ${hostData.last_name}`}
@@ -284,7 +345,7 @@ function HostInfo({ hostData, eventId, user, reserved, setReserved }) {
   );
 }
 
-function CommentSection({ commentData, handleOnSubmit, userData }) {
+function CommentSection({ commentData, handleOnSubmit, userData, user }) {
   return (
     <Box component="form" onSubmit={handleOnSubmit}>
       <Typography
@@ -293,8 +354,12 @@ function CommentSection({ commentData, handleOnSubmit, userData }) {
       >
         Comments
       </Typography>
-      <Stack sx={{ position: "relative", left: 185 }} direction="row" spacing={3.25}>
-        <Avatar sx={{ height: 58, width: 58 }} />
+      <Stack
+        sx={{ position: "relative", left: 185 }}
+        direction="row"
+        spacing={3.25}
+      >
+        <Avatar sx={{ height: 58, width: 58 }} src={user.image_url} />
         <TextField
           id="sendComment"
           name="sendComment"
@@ -336,14 +401,26 @@ function Comment({ commentObj, hostId }) {
     dateStyle: "medium",
     timeStyle: "short",
   });
+  
+  console.log(commentObj)
 
   return (
     <Box>
-      <Stack spacing={2} direction="row" justifyContent="space-between" alignItems="center" sx={{ position: "relative", left: 185, mt: 4, mr: 54.5 }}>
+      <Stack
+        spacing={2}
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ position: "relative", left: 185, mt: 4, mr: 54.5 }}
+      >
         <Stack spacing={2} direction="row" alignItems="center">
-          <Avatar></Avatar>
-          <Typography sx={{color: hostId == commentObj.user_id ? "red" : "black"}} fontWeight="bold">
-            {comment_firstName_lastName} {hostId == commentObj.user_id ? "(Host)" : null}
+          <Avatar src={commentObj.image_url}></Avatar>
+          <Typography
+            sx={{ color: hostId == commentObj.user_id ? "red" : "black" }}
+            fontWeight="bold"
+          >
+            {comment_firstName_lastName}{" "}
+            {hostId == commentObj.user_id ? "(Host)" : null}
           </Typography>
           <Typography>{comment_date}</Typography>
         </Stack>

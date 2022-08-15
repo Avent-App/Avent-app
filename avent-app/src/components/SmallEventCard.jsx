@@ -22,6 +22,7 @@ export default function SmallEventCard({
   eventName,
   eventHost,
   eventId,
+  listingHostImg,
 }) {
   let navigate = useNavigate();
 
@@ -79,7 +80,13 @@ export default function SmallEventCard({
           </CardContent>
         </CardActionArea>
         <CardActions sx={{ mb: 1, mr: 1, ml: 1, mt: "auto" }}>
-          <Avatar sx={{ height: 27, width: 27 }} alt="profile picture" />
+          <Avatar
+            sx={{ height: 27, width: 27 }}
+            alt="profile picture"
+            src={listingHostImg}
+          >
+            {eventHost.charAt(0)}
+          </Avatar>
           <Typography
             color="secondary"
             sx={{ fontWeight: 600, fontSize: 12, ml: 1 }}

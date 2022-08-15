@@ -21,8 +21,9 @@ export default function EventCard({
   startDate,
   eventName,
   eventDescription,
-  eventHost,
+  eventHostName,
   eventId,
+  eventHostImg,
 }) {
   let navigate = useNavigate();
   return (
@@ -77,12 +78,14 @@ export default function EventCard({
         </CardContent>
       </CardActionArea>
       <CardActions sx={{ mb: 1, mr: 1, ml: 1, mt: "auto" }}>
-        <Avatar alt="profile picture">{eventHost.charAt(0)}</Avatar>
+        <Avatar alt="profile picture" src={eventHostImg}>
+          {eventHostName.charAt(0)}
+        </Avatar>
         <Typography
           color="secondary"
           sx={{ fontWeight: 600, fontSize: 12, ml: 1 }}
         >
-          {eventHost}
+          {eventHostName}
         </Typography>
         <Typography
           style={{ marginLeft: "auto" }}
