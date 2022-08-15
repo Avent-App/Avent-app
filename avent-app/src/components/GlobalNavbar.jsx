@@ -2,7 +2,16 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Avatar, Stack, Box, Container, Link, Menu, MenuItem, IconButton } from "@mui/material";
+import {
+  Avatar,
+  Stack,
+  Box,
+  Container,
+  Link,
+  Menu,
+  MenuItem,
+  IconButton,
+} from "@mui/material";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -51,12 +60,22 @@ export default function GlobalNavbar({ isLoggedIn, setIsLoggedIn, setUser }) {
                 fontSize: 20,
               }}
             >
-              <Link to="/feed" color="secondary" component={RouterLink} underline="none">
+              <Link
+                to="/feed"
+                color="secondary"
+                component={RouterLink}
+                underline="none"
+              >
                 Avent
               </Link>
             </Typography>
             <Box sx={{ flexGrow: 0 }}>
-              <Stack direction="row" spacing={3} justifyContent="center" alignItems="center">
+              <Stack
+                direction="row"
+                spacing={3}
+                justifyContent="center"
+                alignItems="center"
+              >
                 <IconButton component={RouterLink} to="/createEvent">
                   <AddCircleOutlineIcon
                     sx={[
