@@ -18,6 +18,7 @@ async function commonBeforeAll() {
   // insert fresh test data
   const userIds = await createUsers();
   const listingIds = await createListings(userIds);
+  console.log("list", listingIds);
 
   for (let i = 0; i < listingIds.length; i++) {
     testListingIds.push(listingIds[i]);

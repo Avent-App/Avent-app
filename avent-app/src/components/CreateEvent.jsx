@@ -19,21 +19,15 @@ import Alert from "@mui/material/Alert";
 
 export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
   const [errors, setErrors] = useState({});
-  const [startDateValue, setStartDateValue] = useState(
-    new Date("2022-08-19T18:00:00")
-  );
-  const [endDateValue, setEndDateValue] = useState(
-    new Date("2022-08-20T18:00:00")
-  );
-  const [startTimeValue, setStartTimeValue] = useState(
-    new Date("2022-08-22T16:00:00")
-  );
-  const [endTimeValue, setEndTimeValue] = useState(
-    new Date("2022-08-22T18:00:00")
-  );
-  const navigate = useNavigate();
+  const [startDateValue, setStartDateValue] = useState(new Date("2022-08-19T18:00:00"));
+  const [endDateValue, setEndDateValue] = useState(new Date("2022-08-20T18:00:00"));
+  const [startTimeValue, setStartTimeValue] = useState(new Date("2022-08-22T16:00:00"));
+  const [endTimeValue, setEndTimeValue] = useState(new Date("2022-08-22T18:00:00"));
   const [successAlert, setSuccessAlert] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
+  const [dateErrorAlert, setDateErrorAlert] = useState(false);
+  const currentDate = new Date();
+  const navigate = useNavigate();
 
   /** function that checks for new values on date and time pickers textfields
    * @param {*} newValue it's the event target value inputted by userr*/
@@ -58,11 +52,9 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
   const handleOnSubmit = async (event) => {
     event.preventDefault();
     setErrors((e) => ({ ...e, form: null }));
-    setErrorAlert(true);
     const data = new FormData(event.currentTarget);
 
     /**  Printing out the data retreived from the createEvent page */
-
     const eventName = data.get("eventName");
     const eventAddress = data.get("eventAddress");
     const startDate = startDateValue;
@@ -72,6 +64,12 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
     const eventImageUrl = data.get("image_url");
     const eventType = data.get("eventType");
     const eventDescription = data.get("eventDescription");
+
+    if (currentDate > startDate) {
+      setDateErrorAlert(true);
+      return;
+    }
+
     const eventsInfo = {
       title: eventName,
       address: eventAddress,
@@ -85,20 +83,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
     };
 
     function createDateTimestamp(date, time) {
-      const monthNames = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
       const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
       let timezone = String(time).split(" ");
       timezone = timezone.slice(5);
@@ -128,25 +113,12 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
       eventsInfo.description === "" ||
       eventsInfo.event_category === ""
     ) {
-      return (
-        <Zoom
-          in={errorAlert}
-          timeout={{ enter: 500, exit: 500 }}
-          addEndListener={() => {
-            setTimeout(() => {
-              setErrorAlert(false);
-            }, 4000);
-          }}
-          sx={{ my: 1 }}
-        >
-          <Alert severity="error">Please fill out the entire form</Alert>
-        </Zoom>
-      );
+      setErrorAlert(true);
+      return;
     }
 
     try {
       const res = await apiClient.createEvent(eventsInfo, `event/create`);
-      console.log("res->", res);
       if (res?.data) {
         setSuccessAlert(true);
         setTimeout(() => navigate("/feed"), 1700);
@@ -163,11 +135,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
 
   return (
     <Container maxWidth="xl">
-      <GlobalNavbar
-        disableGutters
-        isLoggedIn={isLoggedIn}
-        setIsLoggedIn={setIsLoggedIn}
-      />
+      <GlobalNavbar disableGutters isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
@@ -223,7 +191,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
             >
               Create an Event
             </Typography>
-            {successAlert ? (
+            {successAlert && (
               <Zoom
                 in={successAlert}
                 timeout={{ enter: 500, exit: 500 }}
@@ -234,34 +202,36 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                 }}
                 sx={{ my: 1 }}
               >
-                <Alert severity="success">
-                  You have succesfuly created an event!
-                </Alert>
+                <Alert severity="success">You have successfully created an event!</Alert>
               </Zoom>
-            ) : (
-              errorAlert && (
-                <Zoom
-                  in={errorAlert}
-                  timeout={{ enter: 500, exit: 500 }}
-                  addEndListener={() => {
-                    setTimeout(() => {
-                      setErrorAlert(false);
-                    }, 4000);
-                  }}
-                  sx={{ my: 1 }}
-                >
-                  <Alert severity="error">
-                    Please fill out the entire form
-                  </Alert>
-                </Zoom>
-              )
             )}
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleOnSubmit}
-              sx={{ mt: 1 }}
-            >
+            {errorAlert && (
+              <Zoom
+                in={errorAlert}
+                timeout={{ enter: 500, exit: 500 }}
+                addEndListener={() => {
+                  setTimeout(() => {
+                    setErrorAlert(false);
+                  }, 4000);
+                }}
+                sx={{ my: 1 }}
+              >
+                <Alert severity="error">Please fill out the entire form</Alert>
+              </Zoom>
+            )}
+            {dateErrorAlert && (
+              <Zoom
+                in={dateErrorAlert}
+                timeout={{ enter: 500, exit: 500 }}
+                addEndListener={() => {
+                  setTimeout(() => setDateErrorAlert(false), 4000);
+                }}
+                sx={{ my: 1 }}
+              >
+                <Alert severity="warning">Please enter a valid date</Alert>
+              </Zoom>
+            )}
+            <Box component="form" noValidate onSubmit={handleOnSubmit} sx={{ mt: 1 }}>
               <label
                 style={{
                   fontFamily: "Inter",
@@ -300,7 +270,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                 autoFocus
                 style={{ marginTop: "8px" }}
               />
-              {/* ========================================================================== */}
+
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <label
                   style={{
@@ -323,10 +293,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                 </label>
               </Box>
 
-              <Box
-                className="namesInput"
-                sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}
-              >
+              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DesktopDatePicker
                     inputFormat="MM/dd/yyyy"
@@ -334,9 +301,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                     id="date"
                     name="date"
                     onChange={handleChangeStartDate}
-                    renderInput={(params) => (
-                      <TextField {...params} sx={{ marginBottom: ".5rem" }} />
-                    )}
+                    renderInput={(params) => <TextField {...params} sx={{ marginBottom: ".5rem" }} />}
                   />
                 </LocalizationProvider>
 
@@ -347,14 +312,10 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                     id="date"
                     name="date"
                     onChange={handleChangeEndDate}
-                    renderInput={(params) => (
-                      <TextField {...params} sx={{ marginBottom: ".5rem" }} />
-                    )}
+                    renderInput={(params) => <TextField {...params} sx={{ marginBottom: ".5rem" }} />}
                   />
                 </LocalizationProvider>
               </Box>
-              {/* ========================================================================== */}
-
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <label
                   style={{
@@ -376,11 +337,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                   End Time
                 </label>
               </Box>
-
-              <Box
-                className="namesInput"
-                sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}
-              >
+              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <TimePicker
                     id="time"
@@ -392,17 +349,9 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                 </LocalizationProvider>
 
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <TimePicker
-                    id="time"
-                    name="time"
-                    value={endTimeValue}
-                    onChange={handleChangeEndTime}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
+                  <TimePicker id="time" name="time" value={endTimeValue} onChange={handleChangeEndTime} renderInput={(params) => <TextField {...params} />} />
                 </LocalizationProvider>
               </Box>
-              {/* ======================================================================================= */}
-
               <label
                 style={{
                   fontFamily: "Inter",
@@ -442,7 +391,6 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
                 autoFocus
                 style={{ marginTop: "8px" }}
               />
-
               <label
                 style={{
                   fontFamily: "Inter",

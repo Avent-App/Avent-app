@@ -10,7 +10,7 @@ beforeEach(commonBeforeEach);
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
-const iremListing = {
+const iremEvents = {
   email: "i@sf.com",
   location: "San Francisco",
   title: "Wine Tasting",
@@ -60,6 +60,7 @@ describe("POST /event/create", () => {
       end_date: expect.any(String),
       event_category: newEvent.event_category,
       host_id: newEvent.host_id,
+      event_id: expect.any(Number),
     });
   });
 
@@ -77,53 +78,3 @@ describe("POST /event/create", () => {
     expect(res.statusCode).toEqual(401);
   });
 });
-
-// /************************************** GET /listings/ */
-
-// describe("GET /listings", () => {
-//   test("Authed user can fetch all listings", async () => {
-//     const res = await request(app).get(`/listings/`).set("authorization", `Bearer ${testTokens.jloToken}`);
-//     expect(res.statusCode).toEqual(200);
-
-//     const { listings } = res.body;
-
-//     expect(listings.length).toEqual(12);
-
-//     const frenchListingForLebron = listings.find((l) => l.username === "lebron" && l.location === "France");
-//     const { username, location, title, description, imageUrl, imageUrl2, imageUrl3, price } = frenchListingForLebron;
-//     expect({ username, location, title, description, imageUrl, imageUrl2, imageUrl3, price: Number(price) }).toEqual(lebronFrenchListing);
-//   });
-
-//   test("Anonymous user can fetch all listings", async () => {
-//     const res = await request(app).get(`/listings/`);
-//     expect(res.statusCode).toEqual(200);
-
-//     const { listings } = res.body;
-
-//     expect(listings.length).toEqual(12);
-
-//     const frenchListingForLebron = listings.find((l) => l.username === "lebron" && l.location === "France");
-//     const { username, location, title, description, imageUrl, imageUrl2, imageUrl3, price } = frenchListingForLebron;
-//     expect({ username, location, title, description, imageUrl, imageUrl2, imageUrl3, price: Number(price) }).toEqual(lebronFrenchListing);
-//   });
-// });
-
-// /************************************** GET /listings/:listingId */
-
-// describe("GET /listings/:eventId", () => {
-//   test("Authenticated user can get listing by id", async () => {
-//     const listingId = testListingIds[0];
-//     const res = await request(app).get(`/listings/${listingId}/`).set("authorization", `Bearer ${testTokens.jloToken}`);
-//     expect(res.statusCode).toEqual(200);
-
-//     const { listing } = res.body;
-//     const { username, location, title, description, imageUrl, imageUrl2, imageUrl3, price } = listing;
-//     expect({ username, location, title, description, imageUrl, imageUrl2, imageUrl3, price: Number(price) }).toEqual(lebronFrenchListing);
-//   });
-
-//   test("Throws Unauthorized error when user is unauthenticated", async () => {
-//     const listingId = testListingIds[0];
-//     const res = await request(app).get(`/listings/${listingId}/`);
-//     expect(res.statusCode).toEqual(401);
-//   });
-// });

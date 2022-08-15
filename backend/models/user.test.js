@@ -107,6 +107,11 @@ describe("User", () => {
         password: expect.any(String),
         updated_at: expect.any(Date),
         verified: null,
+        biography: null,
+        image_url: null,
+        // verified: expect.any(Boolean),
+        // biography: expect.any(String),
+        // image_url: expect.any(String),
       });
     });
 
