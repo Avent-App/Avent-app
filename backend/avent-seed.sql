@@ -4,8 +4,8 @@
 INSERT INTO users (password, account_type, first_name, last_name, email, location, company, biography)
 VALUES
 ('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','intern','Irem','Komurcu','i@sf.com','San Francisco', 'Salesforce', 'I love problems and solving puzzles, its how I derive my meaning in life!'),
-('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','business','Sales','Force','marc@sf.com','San Francisco', 'Apple', 'I love empowering others through creative solutions and creating value and social change through my buisness.'),
-('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','intern','Enrique','Rico','e@sf.com','New York', 'Google', 'Hit me up if you are in New York! I love meeting new people and getting to know brilliant minds. Life is beautiful.');
+('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','business','Chris','Martin','chris@coldplay.com','London', 'Coldplay', 'I love empowering others through creative solutions and creating value and social change through my buisness.'),
+('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','intern','Enrique','Rico','e@sf.com','New York', 'Salesforce', 'Hit me up if you are in New York! I love meeting new people and getting to know brilliant minds. Life is beautiful.');
 
 INSERT INTO events (host_id, title, description, start_date, end_date, address, event_category, image_url)
 VALUES

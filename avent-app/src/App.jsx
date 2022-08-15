@@ -12,7 +12,6 @@ import AboutUs from "./components/AboutUs";
 import Listings from "./components/Listings";
 import Reservations from "./components/Reservations";
 import Profile from "./components/Profile";
-import Settings from "./components/Settings";
 import apiClient from "./services/apiClient";
 import ProfileDetail from "./components/ProfileDetail";
 // import { SubHero } from "./components/Landing";

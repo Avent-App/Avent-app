@@ -9,7 +9,9 @@ const reservationRoute = require("./routes/reservation.js");
 const commentRoute = require("./routes/comment.js");
 const { NotFoundError } = require("./utils/errors");
 const security = require("./middleware/security.js");
+const fileUpload = require("express-fileupload");
 
+app.use(fileUpload());
 app.use(cors());
 app.use(morgan("tiny"));
 app.use(express.json());
