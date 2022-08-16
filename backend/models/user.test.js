@@ -24,6 +24,7 @@ describe("User", () => {
         company: "Salesforce",
         created_at: expect.any(Date),
         updated_at: expect.any(Date),
+        image_url: null,
       });
     });
 
@@ -63,6 +64,7 @@ describe("User", () => {
     test("User can successfully register with proper credentials", async () => {
       const user = await User.register({ ...newUser, password: "123" });
       expect(user).toEqual({
+        id: expect.any(Number),
         first_name: newUser.first_name,
         last_name: newUser.last_name,
         email: newUser.email,
@@ -109,6 +111,9 @@ describe("User", () => {
         verified: null,
         biography: null,
         image_url: null,
+        created_at: expect.any(Date),
+        updated_at: expect.any(Date),
+
         // verified: expect.any(Boolean),
         // biography: expect.any(String),
         // image_url: expect.any(String),

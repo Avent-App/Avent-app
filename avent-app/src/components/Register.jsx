@@ -21,6 +21,8 @@ import { OutlinedInput, IconButton, FormHelperText } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import { Stack } from "@mui/system";
 
 /**@param {*} param0 props drilled down from app.js  @returns registration form */
 
@@ -283,6 +285,10 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                   autoFocus
                   style={{ marginTop: "8px" }}
                 />
+                {/* <IconButton color="primary" aria-label="upload picture" component="label">
+                  <input hidden accept="image/*" type="file" />
+                  <PhotoCamera />
+                </IconButton> */}
               </Box>
               <label
                 style={{
@@ -341,6 +347,25 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                 onChange={handleOnInputChange}
               />
               <ControlledOpenSelect account={account} location={location} setLocation={setLocation} setAccount={setAccount} />
+<<<<<<< Updated upstream
+=======
+
+              <label
+                style={{
+                  fontFamily: "Inter",
+                  color: "#828282",
+                  fontWeight: 600,
+                }}
+              >
+                Upload Image
+              </label>
+
+              <IconButton color="primary" aria-label="upload picture" component="label">
+                <input hidden accept="image/*" type="file" />
+                <PhotoCamera />
+              </IconButton>
+
+>>>>>>> Stashed changes
               <Button
                 type="submit"
                 fullWidth

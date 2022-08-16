@@ -29,9 +29,7 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
   const currentDate = new Date();
   const navigate = useNavigate();
 
-  /** function that checks for new values on date and time pickers textfields
-   * @param {*} newValue it's the event target value inputted by userr*/
-
+  /** function that checks for new values on date and time pickers textfields @param {*} newValue it's the event target value inputted by userr*/
   const handleChangeStartDate = (newValue) => {
     setStartDateValue(newValue);
   };
@@ -135,7 +133,12 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
 
   return (
     <Container maxWidth="xl">
+<<<<<<< Updated upstream
       <GlobalNavbar disableGutters isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+=======
+      <GlobalNavbar disableGutters isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+
+>>>>>>> Stashed changes
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
