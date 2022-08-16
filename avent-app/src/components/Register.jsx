@@ -265,10 +265,7 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                   Last Name
                 </label>
               </Box>
-              <Box
-                className="namesInput"
-                sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}
-              >
+              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
                 <TextField
                   margin="normal"
                   fullWidth
@@ -353,7 +350,6 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
 
               <ControlledOpenSelect account={account} location={location} setLocation={setLocation} setAccount={setAccount} />
 
-
               <label
                 style={{
                   fontFamily: "Inter",
@@ -368,7 +364,6 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                 <input hidden accept="image/*" type="file" />
                 <PhotoCamera />
               </IconButton>
-
 
               <Button
                 type="submit"
