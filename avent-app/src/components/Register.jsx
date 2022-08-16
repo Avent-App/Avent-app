@@ -16,17 +16,15 @@ import login from "../assets/login.jpg";
 import { validEmail } from "../Regex";
 import apiClient from "../services/apiClient";
 import styled from "@emotion/styled";
-
 import { OutlinedInput, IconButton, FormHelperText } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import { Stack } from "@mui/system";
 
 /**@param {*} param0 props drilled down from app.js  @returns registration form */
 
-export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
+export default function Register({ setUser, setIsLoggedIn }) {
   const navigate = useNavigate();
   const [account, setAccount] = React.useState("");
   const [location, setLocation] = React.useState("");
@@ -57,7 +55,6 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
   };
 
   /**@param {*} event to target the event value by user @returns an alert if user has not inputted the whole form*/
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrors((e) => ({ ...e, form: null }));
@@ -199,20 +196,6 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
               )}
             </Typography>
 
-            {/* {errorAlert ? (
-              <Zoom
-                in={errorAlert}
-                timeout={{ enter: 500, exit: 500 }}
-                addEndListener={() => {
-                  setTimeout(() => {
-                    setErrorAlert(false);
-                  }, 4000);
-                }}
-                sx={{ my: 1 }}
-              >
-                <Alert severity="error">Please fill out the entire form</Alert>
-              </Zoom>
-            ) : null} */}
             {successAlert ? (
               <Zoom
                 in={successAlert}
@@ -265,10 +248,7 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                   Last Name
                 </label>
               </Box>
-              <Box
-                className="namesInput"
-                sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}
-              >
+              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
                 <TextField
                   margin="normal"
                   fullWidth
@@ -289,10 +269,6 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                   autoFocus
                   style={{ marginTop: "8px" }}
                 />
-                {/* <IconButton color="primary" aria-label="upload picture" component="label">
-                  <input hidden accept="image/*" type="file" />
-                  <PhotoCamera />
-                </IconButton> */}
               </Box>
               <label
                 style={{
@@ -350,10 +326,7 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                 style={{ marginTop: "8px" }}
                 onChange={handleOnInputChange}
               />
-
               <ControlledOpenSelect account={account} location={location} setLocation={setLocation} setAccount={setAccount} />
-
-
               <label
                 style={{
                   fontFamily: "Inter",
@@ -363,13 +336,10 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
               >
                 Upload Image
               </label>
-
               <IconButton color="primary" aria-label="upload picture" component="label">
                 <input hidden accept="image/*" type="file" />
                 <PhotoCamera />
               </IconButton>
-
-
               <Button
                 type="submit"
                 fullWidth
@@ -602,7 +572,6 @@ function PWGenerate({ form, setForm, handleSubmit }) {
             {errorspw.password}
           </FormHelperText>
         )}
-
         {password ? (
           <Box style={{ marginBottom: ".5rem" }}>
             <div>{passwordLength ? <GreenDiv>Contains 8 characters</GreenDiv> : <RedDiv>Contains 8 characters</RedDiv>}</div>
@@ -614,7 +583,6 @@ function PWGenerate({ form, setForm, handleSubmit }) {
             <div>{containsSymbols ? <GreenDiv>Contains Symbols</GreenDiv> : <RedDiv>Contains Symbols</RedDiv>}</div>
           </Box>
         ) : null}
-
         <label
           style={{
             fontFamily: "Inter",
@@ -625,7 +593,6 @@ function PWGenerate({ form, setForm, handleSubmit }) {
         >
           Confirm Password
         </label>
-
         <TextField
           margin="normal"
           fullWidth
