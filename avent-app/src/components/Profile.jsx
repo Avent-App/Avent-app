@@ -6,7 +6,7 @@ import { MyProfile, Sidebar } from "./Settings";
 export default function Profile({ user, setUser }) {
   return (
     <div>
-      <GlobalNavbar />
+      <GlobalNavbar user={user} />
       <Container maxWidth="xl">
         <Stack direction="row" spacing={12}>
           <Sidebar selected={"Profile"} user={user} />

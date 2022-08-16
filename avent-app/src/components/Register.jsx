@@ -196,6 +196,7 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                 </span>
               )}
             </Typography>
+
             {/* {errorAlert ? (
               <Zoom
                 in={errorAlert}
@@ -262,7 +263,10 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                   Last Name
                 </label>
               </Box>
-              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
+              <Box
+                className="namesInput"
+                sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}
+              >
                 <TextField
                   margin="normal"
                   fullWidth
@@ -340,7 +344,12 @@ export default function Register({ setUser, isLoggedIn, setIsLoggedIn }) {
                 style={{ marginTop: "8px" }}
                 onChange={handleOnInputChange}
               />
-              <ControlledOpenSelect account={account} location={location} setLocation={setLocation} setAccount={setAccount} />
+              <ControlledOpenSelect
+                account={account}
+                location={location}
+                setLocation={setLocation}
+                setAccount={setAccount}
+              />
               <Button
                 type="submit"
                 fullWidth

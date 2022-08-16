@@ -169,7 +169,10 @@ function SubHero() {
               eventDescription={
                 "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text..."
               }
-              eventHost={"Person McPerson"}
+              eventHostName={"Carlos Chavez"}
+              eventHostImg={
+                "https://www.codepath.org/hubfs/Headshots/Carlos.jpg"
+              }
             />
           </Grid>
           <Grid item xs={4}>
@@ -183,7 +186,10 @@ function SubHero() {
               eventDescription={
                 "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text..."
               }
-              eventHost={"Person McPerson"}
+              eventHostName={"Benito Antonio Ocasio"}
+              eventHostImg={
+                "https://assets.popbuzz.com/2020/13/how-old-is-bad-bunny-1585671751-view-0.jpg"
+              }
             />
           </Grid>
           <Grid item xs={4}>
@@ -197,7 +203,10 @@ function SubHero() {
               eventDescription={
                 "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text..."
               }
-              eventHost={"Person McPerson"}
+              eventHostName={"Kanye West"}
+              eventHostImg={
+                "https://idsb.tmgrup.com.tr/ly/uploads/images/2021/10/19/153042.jpg"
+              }
             />
           </Grid>
         </Grid>

@@ -7,6 +7,7 @@ import {
   Button,
   Avatar,
   TextField,
+  Card,
   AvatarGroup,
   Tooltip,
   Dialog,
@@ -15,6 +16,7 @@ import {
   DialogTitle,
   Grid,
 } from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
 import SendIcon from "@mui/icons-material/Send";
 import ReplyIcon from "@mui/icons-material/Reply";
 import { useEffect, useState } from "react";
@@ -139,7 +141,11 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
 
   return (
     <div>
-      <GlobalNavbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <GlobalNavbar
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+        user={user}
+      />
       {isLoading ? (
         <Container
           maxWidth={false}
@@ -557,6 +563,8 @@ function HostInfo({ hostData, eventId, user, reserved, setReserved }) {
         <Avatar
           sx={{ position: "absolute", height: 169, width: 169 }}
           style={{ border: "1.68724px solid #26235C" }}
+          src={hostData.image_url}
+
         />
         <img
           style={{ position: "relative", top: "-.6rem", left: "2.3rem" }}
@@ -601,7 +609,7 @@ function HostInfo({ hostData, eventId, user, reserved, setReserved }) {
   );
 }
 
-function CommentSection({ commentData, handleOnSubmit, userData }) {
+function CommentSection({ commentData, handleOnSubmit, userData, user }) {
   return (
     <Box component="form" onSubmit={handleOnSubmit}>
       <Typography
@@ -615,7 +623,7 @@ function CommentSection({ commentData, handleOnSubmit, userData }) {
         direction="row"
         spacing={3.25}
       >
-        <Avatar sx={{ height: 58, width: 58 }} />
+        <Avatar sx={{ height: 58, width: 58 }} src={user.image_url} />
 
         <TextField
           id="sendComment"
@@ -659,6 +667,8 @@ function Comment({ commentObj, hostId }) {
     dateStyle: "medium",
     timeStyle: "short",
   });
+  
+  console.log(commentObj)
 
   return (
     <Box>
@@ -676,7 +686,7 @@ function Comment({ commentObj, hostId }) {
             color="secondary"
             component={RouterLink}
           >
-            <Avatar>{commentObj.first_name.charAt(0)}</Avatar>
+            <Avatar src={commentObj.image_url}></Avatar>
             <Typography
               sx={{
                 color: hostId == commentObj.user_id ? "red" : "black",

@@ -24,6 +24,7 @@ export default function EventFeed({
   setUser,
   user,
 }) {
+
   const [isLoading, setIsLoading] = useState(true);
   //state var to store array of events fetched from database
   const [eventsData, setEventsData] = useState([]);
@@ -51,6 +52,7 @@ export default function EventFeed({
         setUser={setUser}
         isLoggedIn={isLoggedIn}
         setIsLoggedIn={setIsLoggedIn}
+        user={user}
       />
       <Hero
         eventsData={eventsData}
@@ -173,10 +175,12 @@ function Feed({ eventsData, isLoading }) {
                   timeStyle: "short",
                 })}
                 eventDescription={event.description}
-                eventHost={`${event.first_name} ${event.last_name}`}
-                eventImageUrl={event.image_url}
+                eventHostName={`${event.first_name} ${event.last_name}`}
+                eventImageUrl={event.events_img}
                 eventId={event.event_id}
+                eventHostImg={event.user_img}
                 hostId={event.host_id}
+
               />
             </Grid>
           ))}

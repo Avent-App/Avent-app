@@ -1,5 +1,14 @@
 import React from "react";
-import { Typography, Stack, Box, Grid, Divider, Paper, Avatar, Container } from "@mui/material";
+import {
+  Typography,
+  Stack,
+  Box,
+  Grid,
+  Divider,
+  Paper,
+  Avatar,
+  Container,
+} from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -72,12 +81,15 @@ const ProfileDetail = ({ user }) => {
                 <SmallEventCard
                   eventCategory={reservation.event_category}
                   eventHost={`${reservation.first_name} ${reservation.last_name}`}
-                  startDate={new Date(reservation.start_date).toLocaleString("en-US", {
-                    dateStyle: "medium",
-                    timeStyle: "short",
-                  })}
+                  startDate={new Date(reservation.start_date).toLocaleString(
+                    "en-US",
+                    {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    }
+                  )}
                   eventName={reservation.title}
-                  eventImageUrl={reservation.image_url}
+                  eventImageUrl={reservation.user_img}
                   eventId={reservation.event_id}
                   reservationId={reservation.reservation_id}
                   hostId={reservation.host_id}
@@ -143,7 +155,8 @@ function UserInformation({ userData }) {
       sx={{
         height: 700,
         width: 345,
-        background: "linear-gradient(0deg, #FFFFFF, #FFFFFF), linear-gradient(247.52deg, rgba(255, 0, 0, 0.17) 1.52%, rgba(255, 255, 255, 0) 96.99%)",
+        background:
+          "linear-gradient(0deg, #FFFFFF, #FFFFFF), linear-gradient(247.52deg, rgba(255, 0, 0, 0.17) 1.52%, rgba(255, 255, 255, 0) 96.99%)",
         border: "border: 2.63915px solid rgba(155, 153, 153, 0.17)",
         boxShadow: "7.03774px 7.91745px 65px rgba(66, 66, 66, 0.21)",
         borderRadius: "22px",
@@ -171,7 +184,10 @@ function UserInformation({ userData }) {
             >
               {`${userData.first_name} ${userData.last_name}`}
             </Typography>
-            <Typography variant="outlined"> {`${userData.company} ${userData.account_type}`}</Typography>
+            <Typography variant="outlined">
+              {" "}
+              {`${userData.company} ${userData.account_type}`}
+            </Typography>
           </Stack>
           <Paper
             elevation={0}
@@ -194,7 +210,6 @@ function UserInformation({ userData }) {
                 <AccountBoxIcon />
                 <span>About</span>
               </Typography>
-
               <Typography
                 sx={{
                   fontWeight: 400,
@@ -221,6 +236,7 @@ function UserInformation({ userData }) {
                 <MailIcon />
                 <span>Email</span>
               </Typography>
+
               <Typography sx={{ fontWeight: 400, fontSize: 13, marginTop: "10px" }}> {userData.email} </Typography>
             </Stack>
             <Divider />

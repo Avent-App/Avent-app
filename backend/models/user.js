@@ -1,8 +1,12 @@
+/* Creates SQL queries for updating and inserting 
+to the database on the “users” table upon endpoint 
+call from the user.js route. */
+
 const { UnauthorizedError, BadRequestError } = require("../utils/errors");
 const bcrypt = require("bcrypt");
 const { BCRYPT_WORK_FACTOR } = require("../config");
 const db = require("../db");
-const jwt = require("jsonwebtoken");
+const { s3 } = require("../config");
 
 class User {
   static async makePublicUser(user) {
@@ -17,6 +21,7 @@ class User {
       updated_at: user.updated_at,
       location: user.location,
       company: user.company,
+      image_url: user.image_url,
     };
   }
   static async login(credentials) {
@@ -42,7 +47,7 @@ class User {
     throw new UnauthorizedError("Invalid email/password");
   }
 
-  static async register(credentials) {
+  static async register(credentials, image = null) {
     const requiredFields = [
       "first_name",
       "last_name",
@@ -54,7 +59,7 @@ class User {
     ];
 
     requiredFields.forEach((field) => {
-      if (!credentials.hasOwnProperty(field)) {
+      if (!Object.prototype.hasOwnProperty.call(credentials, field)) {
         throw new BadRequestError(`Missing ${field} in request body...`);
       }
     });
@@ -83,7 +88,7 @@ class User {
         company
     )
     VALUES ($1,$2,$3,$4,$5,$6,$7)
-    RETURNING first_name,last_name,email,password,location,account_type, company;
+    RETURNING first_name,last_name,email,password,location,account_type, company, id;
     `,
       [
         credentials.first_name,
@@ -97,8 +102,58 @@ class User {
     );
     //return the user
     const user = result.rows[0];
+    const id = result.rows[0].id;
 
-    return User.makePublicUser(user);
+    let img_result = null;
+
+    const image_value = image ? Object(image) : null;
+
+
+
+    if (image_value) {
+      await this.postPhototoS3(image_value, id);
+      const url = this.getS3Url(id);
+
+      console.log(url);
+
+      const query = `UPDATE users
+        SET image_url = $1
+        WHERE id = ${id}
+        RETURNING id, first_name, last_name, email, password, location, account_type, company, image_url;`;
+
+      img_result = await db.query(query, [url]);
+    }
+    console.log(img_result);
+    let final_result = img_result ? img_result.rows[0] : user;
+
+    return User.makePublicUser(final_result);
+  }
+
+  /*S3 Functions for AWS image upload functionality*/
+
+  static getS3Url(id) {
+    let url = null;
+
+    const params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: `${id}`,
+      Expires: 9999
+    };
+    url = s3.getSignedUrl("getObject", params);
+
+    console.log(url);
+    return url;
+  }
+
+  static async postPhototoS3(photo, id) {
+    const photoToBase64 = Buffer.from(photo.data, "base64");
+    await s3
+      .upload({
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: `${id}`,
+        Body: photoToBase64,
+      })
+      .promise();
   }
 
   static async fetchUserByEmail(email) {

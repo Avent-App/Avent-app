@@ -11,7 +11,6 @@ import AboutUs from "./components/AboutUs";
 import Listings from "./components/Listings";
 import Reservations from "./components/Reservations";
 import Profile from "./components/Profile";
-import Settings from "./components/Settings";
 import apiClient from "./services/apiClient";
 import ProfileDetail from "./components/ProfileDetail";
 import ScrollToTop from "./components/ScrollToTop";
@@ -40,38 +39,29 @@ function App() {
             <Routes>
               <Route path="/register" element={<Register user={user} setUser={setUser} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}></Route>
               <Route path="/login" element={<Login user={user} setUser={setUser} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}></Route>
+              
               {/*Landing page routes*/}
 
               <Route path="/" element={<Landing />} />
 
               {/*Event feed routes*/}
+              
+              <Route
+                path="/feed"
+                element={
+                  <EventFeed setUser={setUser} isLoggedIn={isLoggedIn.user} user={user} />
+                }
+              />
 
-              <Route path="/feed" element={<EventFeed setUser={setUser} isLoggedIn={isLoggedIn.user} user={user} />} />
-              <Route path="/details/:eventId" element={<EventDetails user={user} />} />
-
-              <Route path="/createEvent" element={<CreateEvent user={user} />} />
-
-              <Route path="/aboutUs" element={<AboutUs />} />
               <Route path="/settings/profile" element={<Profile user={user} setUser={setUser} />} />
               <Route path="/settings/reservations" element={<Reservations user={user} />} />
               <Route path="/settings/listings" element={<Listings user={user} />} />
-              <Route path="*" element={<NotFound />} />
-
-              <Route path="/feed" element={<EventFeed isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/details/:eventId" element={<EventDetails isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/createEvent" element={<CreateEvent isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/aboutUs" element={<AboutUs isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="*" element={<NotFound isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/profiles/:userId" element={<ProfileDetail user={user} />} />
+              <Route path="/details/:eventId" element={<EventDetails isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user}/>} />
+              <Route path="/createEvent" element={<CreateEvent isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user}/>} />
               <Route path="/profile/:userId" element={<ProfileDetail user={user} />} />
-
-              <Route path="/feed" element={<EventFeed isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/details/:eventId" element={<EventDetails isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/createEvent" element={<CreateEvent isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/aboutUs" element={<AboutUs isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+              
               <Route path="*" element={<NotFound isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/profiles/:userId" element={<ProfileDetail user={user} />} />
-              <Route path="/profile/:userId" element={<ProfileDetail user={user} />} />
+
             </Routes>
           </main>
         </BrowserRouter>
