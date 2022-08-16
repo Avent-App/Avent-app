@@ -105,9 +105,14 @@ const ProfileDetail = ({ user }) => {
   };
   return (
     <div className="DIVV">
-      <GlobalNavbar />
+      <GlobalNavbar user={user} />
 
-      <img style={{ width: "100%", height: "340px" }} src={"https://www.jvs.org/wp-content/uploads/2020/03/SalesforceFellowship_banner.jpg)"} />
+      <img
+        style={{ width: "100%", height: "340px" }}
+        src={
+          "https://www.jvs.org/wp-content/uploads/2020/03/SalesforceFellowship_banner.jpg)"
+        }
+      />
 
       <Stack>
         {isLoading ? (
@@ -124,13 +129,18 @@ const ProfileDetail = ({ user }) => {
           </Container>
         ) : (
           <>
-            <Stack className="mainCardStack" sx={{ flexDirection: "row", gap: "12rem" }}>
+            <Stack
+              className="mainCardStack"
+              sx={{ flexDirection: "row", gap: "12rem" }}
+            >
               <Stack>
                 <UserInformation user={user} userData={userData} />
               </Stack>
 
               <Stack className="cardStack">
-                <Typography sx={{ fontSize: 35, fontWeight: "bold", my: 2 }}>Events Attending</Typography>
+                <Typography sx={{ fontSize: 35, fontWeight: "bold", my: 2 }}>
+                  Events Attending
+                </Typography>
 
                 {renderReservations()}
               </Stack>
@@ -170,9 +180,20 @@ function UserInformation({ userData }) {
     >
       <Stack direction="row" spacing={5.375} alignItems="right">
         <Box sx={{ width: 291, height: 710, mt: 1 }}>
-          <Avatar sx={{ position: "absolute", height: 169, width: 169, mx: 7, my: 5 }} style={{ border: "1.68724px solid #26235C" }} />
-          <img style={{ position: "relative", top: "1.9rem", left: "5.8rem" }} src={ellipse} />
-          <Stack alignItems="center" justifyContent="center" spacing={2} sx={{ my: 3 }}>
+          <Avatar
+            sx={{ position: "absolute", height: 169, width: 169, mx: 7, my: 5 }}
+            style={{ border: "1.68724px solid #26235C" }}
+          />
+          <img
+            style={{ position: "relative", top: "1.9rem", left: "5.8rem" }}
+            src={ellipse}
+          />
+          <Stack
+            alignItems="center"
+            justifyContent="center"
+            spacing={2}
+            sx={{ my: 3 }}
+          >
             <Typography
               align="center"
               sx={{
@@ -237,7 +258,12 @@ function UserInformation({ userData }) {
                 <span>Email</span>
               </Typography>
 
-              <Typography sx={{ fontWeight: 400, fontSize: 13, marginTop: "10px" }}> {userData.email} </Typography>
+              <Typography
+                sx={{ fontWeight: 400, fontSize: 13, marginTop: "10px" }}
+              >
+                {" "}
+                {userData.email}{" "}
+              </Typography>
             </Stack>
             <Divider />
             <Stack sx={{ ml: 4, my: 3 }}>
