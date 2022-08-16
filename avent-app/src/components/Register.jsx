@@ -87,7 +87,8 @@ export default function Register({ setUser, setIsLoggedIn }) {
       signupInfo.location === "" ||
       signupInfo.company === ""
     ) {
-      return setErrorAlert(true)(
+      setErrorAlert(true);
+      return (
         <Zoom
           in={errorAlert}
           timeout={{ enter: 500, exit: 500 }}

@@ -67,6 +67,10 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
       setDateErrorAlert(true);
       return;
     }
+    if (startDate > endDate) {
+      setDateErrorAlert(true);
+      return;
+    }
 
     const eventsInfo = {
       title: eventName,
@@ -133,12 +137,8 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
 
   return (
     <Container maxWidth="xl">
-      <GlobalNavbar
-        disableGutters
-        isLoggedIn={isLoggedIn}
-        setIsLoggedIn={setIsLoggedIn}
-        user = {user}
-      />
+      <GlobalNavbar disableGutters isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
