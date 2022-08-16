@@ -21,8 +21,9 @@ export default function EventCard({
   startDate,
   eventName,
   eventDescription,
-  eventHost,
+  eventHostName,
   eventId,
+  eventHostImg,
   hostId,
 }) {
   let navigate = useNavigate();
@@ -84,12 +85,14 @@ export default function EventCard({
           color="secondary"
           component={RouterLink}
         >
-          <Avatar alt="profile picture">{eventHost.charAt(0)}</Avatar>
+     <Avatar alt="profile picture" src={eventHostImg}>
+          {eventHostName.charAt(0)}
+        </Avatar>
           <Typography
             color="secondary"
             sx={{ fontWeight: 600, fontSize: 12, ml: 1 }}
           >
-            {eventHost}
+           {eventHostName}
           </Typography>
         </Button>
         <Typography

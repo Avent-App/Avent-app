@@ -6,6 +6,7 @@ import {
   Stack,
   Button,
   Container,
+  Link,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
@@ -21,9 +22,21 @@ export default function Navbar() {
           <Toolbar>
             <Typography
               variant="h6"
-              sx={{ display: { xs: "none", sm: "block" }, flexGrow: 1 }}
+              sx={{
+                display: { xs: "none", sm: "block" },
+                flexGrow: 1,
+                fontWeight: 700,
+                fontSize: 20,
+              }}
             >
-              Avent
+              <Link
+                to="/"
+                color="secondary"
+                component={RouterLink}
+                underline="none"
+              >
+                Avent
+              </Link>
             </Typography>
             <Stack direction="row" spacing={12}>
               <Stack direction="row" spacing={2}>

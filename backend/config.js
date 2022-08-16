@@ -1,5 +1,7 @@
 require("dotenv").config();
 require("colors");
+const AWS = require("aws-sdk");
+
 
 const PORT = process.env.PORT ? Number(process.env.PORT) : 3001;
 const SECRET_KEY = process.env.jwtSecret || "super_dev";
@@ -18,6 +20,11 @@ function getDatabaseUri() {
   return process.env.DATABASE_URL || `postgresql://${dbUser}:${dbPass}@${dbHost}:${dbPort}/${dbName}`;
 }
 
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWSAccessKeyId,
+  secretAccessKey: process.env.AWSSecretKey,
+});
+
 const BCRYPT_WORK_FACTOR = IS_TESTING ? 1 : 13;
 
 console.log("avent config:".red);
@@ -33,4 +40,5 @@ module.exports = {
   getDatabaseUri,
   BCRYPT_WORK_FACTOR,
   SECRET_KEY,
+  s3,
 };

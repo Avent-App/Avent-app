@@ -23,10 +23,14 @@ import Zoom from "@mui/material/Zoom";
 import Alert from "@mui/material/Alert";
 
 // This file houses all of the views for the settings page.
-export default function Settings({ isLoggedIn, setIsLoggedIn }) {
+export default function Settings({ isLoggedIn, setIsLoggedIn, user }) {
   return (
     <div>
-      <GlobalNavbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <GlobalNavbar
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+        user={user}
+      />
       <Container maxWidth="xl">
         <Stack direction="row" spacing={12}>
           <Sidebar />
@@ -305,6 +309,7 @@ export function MyProfile({ user, setUser }) {
             bottom: 60,
             left: 10,
           }}
+          src={user.image_url}
         />
         <Stack
           direction="row"
@@ -583,6 +588,7 @@ export function MyReservations({
                 eventImageUrl={reservation.image_url}
                 eventId={reservation.event_id}
                 reservationId={reservation.reservation_id}
+                listingHostImg={reservation.user_img}
                 getData={getData}
                 pageType={pageType}
                 hostId={reservation.host_id}
@@ -617,6 +623,7 @@ export function MyReservations({
                   eventImageUrl={reservation.image_url}
                   eventId={reservation.event_id}
                   reservationId={reservation.reservation_id}
+                  listingHostImg={reservation.user_img}
                   hostId={reservation.host_id}
                 />
               </Grid>
@@ -677,6 +684,7 @@ export function MyEventListings({
                 reservationId={listing.reservation_id}
                 getData={getData}
                 pageType={pageType}
+                listingHostImg={listing.user_img}
                 hostId={listing.host_id}
               />
             );
@@ -709,6 +717,7 @@ export function MyEventListings({
                   eventImageUrl={listing.image_url}
                   eventId={listing.event_id}
                   reservationId={listing.reservation_id}
+                  listingHostImg={listing.user_img}
                   hostId={listing.host_id}
                 />
               </Grid>

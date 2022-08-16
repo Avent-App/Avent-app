@@ -23,6 +23,7 @@ export default function SmallEventCard({
   eventName,
   eventHost,
   eventId,
+  listingHostImg,
   hostId,
 }) {
   let navigate = useNavigate();
@@ -94,7 +95,13 @@ export default function SmallEventCard({
             color="secondary"
             component={RouterLink}
           >
-            <Avatar sx={{ height: 27, width: 27 }} alt="profile picture" />
+           <Avatar
+            sx={{ height: 27, width: 27 }}
+            alt="profile picture"
+            src={listingHostImg}
+          >
+            {eventHost.charAt(0)}
+          </Avatar>
             <Typography
               color="secondary"
               sx={{ fontWeight: 600, fontSize: 12, ml: 1 }}

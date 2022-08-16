@@ -1,5 +1,14 @@
 import React from "react";
-import { Typography, Stack, Box, Grid, Divider, Paper, Avatar, Container } from "@mui/material";
+import {
+  Typography,
+  Stack,
+  Box,
+  Grid,
+  Divider,
+  Paper,
+  Avatar,
+  Container,
+} from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -72,12 +81,15 @@ const ProfileDetail = ({ user }) => {
                 <SmallEventCard
                   eventCategory={reservation.event_category}
                   eventHost={`${reservation.first_name} ${reservation.last_name}`}
-                  startDate={new Date(reservation.start_date).toLocaleString("en-US", {
-                    dateStyle: "medium",
-                    timeStyle: "short",
-                  })}
+                  startDate={new Date(reservation.start_date).toLocaleString(
+                    "en-US",
+                    {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    }
+                  )}
                   eventName={reservation.title}
-                  eventImageUrl={reservation.image_url}
+                  eventImageUrl={reservation.user_img}
                   eventId={reservation.event_id}
                   reservationId={reservation.reservation_id}
                   hostId={reservation.host_id}
@@ -93,9 +105,14 @@ const ProfileDetail = ({ user }) => {
   };
   return (
     <div className="DIVV">
-      <GlobalNavbar />
+      <GlobalNavbar user={user} />
 
-      <img style={{ width: "100%", height: "340px" }} src={"https://www.jvs.org/wp-content/uploads/2020/03/SalesforceFellowship_banner.jpg)"} />
+      <img
+        style={{ width: "100%", height: "340px" }}
+        src={
+          "https://www.jvs.org/wp-content/uploads/2020/03/SalesforceFellowship_banner.jpg)"
+        }
+      />
 
       <Stack>
         {isLoading ? (
@@ -112,13 +129,18 @@ const ProfileDetail = ({ user }) => {
           </Container>
         ) : (
           <>
-            <Stack className="mainCardStack" sx={{ flexDirection: "row", gap: "12rem" }}>
+            <Stack
+              className="mainCardStack"
+              sx={{ flexDirection: "row", gap: "12rem" }}
+            >
               <Stack>
                 <UserInformation user={user} userData={userData} />
               </Stack>
 
               <Stack className="cardStack">
-                <Typography sx={{ fontSize: 35, fontWeight: "bold", my: 2 }}>Events Attending</Typography>
+                <Typography sx={{ fontSize: 35, fontWeight: "bold", my: 2 }}>
+                  Events Attending
+                </Typography>
 
                 {renderReservations()}
               </Stack>
@@ -143,7 +165,8 @@ function UserInformation({ userData }) {
       sx={{
         height: 700,
         width: 345,
-        background: "linear-gradient(0deg, #FFFFFF, #FFFFFF), linear-gradient(247.52deg, rgba(255, 0, 0, 0.17) 1.52%, rgba(255, 255, 255, 0) 96.99%)",
+        background:
+          "linear-gradient(0deg, #FFFFFF, #FFFFFF), linear-gradient(247.52deg, rgba(255, 0, 0, 0.17) 1.52%, rgba(255, 255, 255, 0) 96.99%)",
         border: "border: 2.63915px solid rgba(155, 153, 153, 0.17)",
         boxShadow: "7.03774px 7.91745px 65px rgba(66, 66, 66, 0.21)",
         borderRadius: "22px",
@@ -157,9 +180,20 @@ function UserInformation({ userData }) {
     >
       <Stack direction="row" spacing={5.375} alignItems="right">
         <Box sx={{ width: 291, height: 710, mt: 1 }}>
-          <Avatar sx={{ position: "absolute", height: 169, width: 169, mx: 7, my: 5 }} style={{ border: "1.68724px solid #26235C" }} />
-          <img style={{ position: "relative", top: "1.9rem", left: "5.8rem" }} src={ellipse} />
-          <Stack alignItems="center" justifyContent="center" spacing={2} sx={{ my: 3 }}>
+          <Avatar
+            sx={{ position: "absolute", height: 169, width: 169, mx: 7, my: 5 }}
+            style={{ border: "1.68724px solid #26235C" }}
+          />
+          <img
+            style={{ position: "relative", top: "1.9rem", left: "5.8rem" }}
+            src={ellipse}
+          />
+          <Stack
+            alignItems="center"
+            justifyContent="center"
+            spacing={2}
+            sx={{ my: 3 }}
+          >
             <Typography
               align="center"
               sx={{
@@ -171,7 +205,10 @@ function UserInformation({ userData }) {
             >
               {`${userData.first_name} ${userData.last_name}`}
             </Typography>
-            <Typography variant="outlined"> {`${userData.company} ${userData.account_type}`}</Typography>
+            <Typography variant="outlined">
+              {" "}
+              {`${userData.company} ${userData.account_type}`}
+            </Typography>
           </Stack>
           <Paper
             elevation={0}
@@ -194,7 +231,6 @@ function UserInformation({ userData }) {
                 <AccountBoxIcon />
                 <span>About</span>
               </Typography>
-
               <Typography
                 sx={{
                   fontWeight: 400,
@@ -221,7 +257,13 @@ function UserInformation({ userData }) {
                 <MailIcon />
                 <span>Email</span>
               </Typography>
-              <Typography sx={{ fontWeight: 400, fontSize: 13, marginTop: "10px" }}> {userData.email} </Typography>
+
+              <Typography
+                sx={{ fontWeight: 400, fontSize: 13, marginTop: "10px" }}
+              >
+                {" "}
+                {userData.email}{" "}
+              </Typography>
             </Stack>
             <Divider />
             <Stack sx={{ ml: 4, my: 3 }}>
