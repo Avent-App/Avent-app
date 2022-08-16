@@ -1,7 +1,7 @@
 # Avent
 
 Avent is an app designed to help interns find events that are relevant to their interests. The app allows users to search for events by keyword and location. Event listings include information about the event, such as the host, location, time, and description. Avent also allows users to RSVP for events and create their own events to share.
-![Imgur](https://imgur.com/q9vuhgr)
+![Imgur](https://i.imgur.com/q9vuhgr.png)
 
 ## Built With
 
