@@ -67,6 +67,10 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
       setDateErrorAlert(true);
       return;
     }
+    if (startDate > endDate) {
+      setDateErrorAlert(true);
+      return;
+    }
 
     const eventsInfo = {
       title: eventName,
