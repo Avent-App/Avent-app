@@ -591,6 +591,7 @@ export function MyReservations({
                 listingHostImg={reservation.user_img}
                 getData={getData}
                 pageType={pageType}
+                hostId={reservation.host_id}
               />
             );
           })}
@@ -623,6 +624,7 @@ export function MyReservations({
                   eventId={reservation.event_id}
                   reservationId={reservation.reservation_id}
                   listingHostImg={reservation.user_img}
+                  hostId={reservation.host_id}
                 />
               </Grid>
             );
@@ -683,6 +685,7 @@ export function MyEventListings({
                 getData={getData}
                 pageType={pageType}
                 listingHostImg={listing.user_img}
+                hostId={listing.host_id}
               />
             );
           })}
@@ -715,6 +718,7 @@ export function MyEventListings({
                   eventId={listing.event_id}
                   reservationId={listing.reservation_id}
                   listingHostImg={listing.user_img}
+                  hostId={listing.host_id}
                 />
               </Grid>
             );

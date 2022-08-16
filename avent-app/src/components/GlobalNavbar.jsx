@@ -78,16 +78,11 @@ export default function GlobalNavbar({ isLoggedIn, setIsLoggedIn, setUser, user 
               >
                 <IconButton component={RouterLink} to="/createEvent">
                   <AddCircleOutlineIcon
-                    style={{ cursor: "pointer" }}
                     sx={[
                       {
                         "&:hover": {
                           color: "red",
-                          backgroundColor: "white",
                         },
-                      },
-                      AddCircleOutlineIcon && {
-                        "&:hover": { backgroundColor: "grey" },
                       },
                     ]}
                   />
@@ -96,7 +91,15 @@ export default function GlobalNavbar({ isLoggedIn, setIsLoggedIn, setUser, user 
                   <NotificationsNoneOutlinedIcon />
                 </IconButton>
                 <IconButton component={RouterLink} to="/settings/profile">
-                  <SettingsOutlinedIcon />
+                  <SettingsOutlinedIcon
+                    sx={[
+                      {
+                        "&:hover": {
+                          color: "red",
+                        },
+                      },
+                    ]}
+                  />
                 </IconButton>
                 <IconButton
                   onClick={handleClick}
@@ -104,7 +107,16 @@ export default function GlobalNavbar({ isLoggedIn, setIsLoggedIn, setUser, user 
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
                 >
-                  <Avatar src={user.image_url}/>
+                  <Avatar
+                  src={user.image_url}
+                    sx={[
+                      {
+                        "&:hover": {
+                          color: "red",
+                        },
+                      },
+                    ]}
+                  />
                 </IconButton>
                 <LogoutIcon
                   style={{ cursor: "pointer" }}
@@ -112,14 +124,7 @@ export default function GlobalNavbar({ isLoggedIn, setIsLoggedIn, setUser, user 
                     {
                       "&:hover": {
                         color: "red",
-                        backgroundColor: "white",
                       },
-                    },
-                    LogoutIcon && {
-                      "&:hover": { backgroundColor: "grey" },
-                    },
-                    AddCircleOutlineIcon && {
-                      "&:hover": { backgroundColor: "grey" },
                     },
                   ]}
                   onClick={handleOnLogout}

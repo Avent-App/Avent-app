@@ -1,13 +1,30 @@
 import * as React from "react";
-import { Container, Typography, Stack, Box, TextField, Button, Grid, Divider, checkboxClasses } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Stack,
+  Box,
+  TextField,
+  Button,
+  Grid,
+  Divider,
+  checkboxClasses,
+} from "@mui/material";
 import GlobalNavbar from "./GlobalNavbar";
 import { Link as RouterLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import EventCard from "./EventCard";
 import CircularProgress from "@mui/material/CircularProgress";
 import apiClient from "../services/apiClient";
+import BridgeBanner from "../assets/BridgePic.png";
 
-export default function EventFeed({ isLoggedIn, setIsLoggedIn, setUser, user }) {
+export default function EventFeed({
+  isLoggedIn,
+  setIsLoggedIn,
+  setUser,
+  user,
+}) {
+
   const [isLoading, setIsLoading] = useState(true);
   //state var to store array of events fetched from database
   const [eventsData, setEventsData] = useState([]);
@@ -22,7 +39,7 @@ export default function EventFeed({ isLoggedIn, setIsLoggedIn, setUser, user }) 
     const res = await apiClient.getEvents();
     console.log(res.data.events);
     setEventsData(res.data.events);
-    setTimeout(() => setIsLoading(false), 500);
+    setTimeout(() => setIsLoading(false), 300);
   };
 
   useEffect(() => {
@@ -31,8 +48,18 @@ export default function EventFeed({ isLoggedIn, setIsLoggedIn, setUser, user }) 
 
   return (
     <div>
-      <GlobalNavbar setUser={setUser} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user = {user} />
-      <Hero eventsData={eventsData} setSearchItem={setSearchItem} searchItem={searchItem} />
+      <GlobalNavbar
+        setUser={setUser}
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+        user={user}
+      />
+      <Hero
+        eventsData={eventsData}
+        setSearchItem={setSearchItem}
+        searchItem={searchItem}
+        user={user}
+      />
 
       <Container maxWidth="xl" sx={{ mb: 5 }}>
         <Feed
@@ -47,17 +74,18 @@ export default function EventFeed({ isLoggedIn, setIsLoggedIn, setUser, user }) 
   );
 }
 
-function Hero({ eventsData, setSearchItem, searchItem }) {
+function Hero({ setSearchItem, searchItem, user }) {
   return (
     <Box
       alignContent="center"
       justifyContent="center"
       sx={{
-        backgroundColor: "#F4F6FB",
+        background: "#F4F6FB",
         height: "372px",
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url(${BridgeBanner})`,
       }}
     >
-      <Stack spacing={4} sx={{ mb: 4 }}>
+      <Stack spacing={3} sx={{ mb: 4, alignItems: "center" }}>
         <Typography
           align="center"
           mt={10}
@@ -65,49 +93,64 @@ function Hero({ eventsData, setSearchItem, searchItem }) {
             fontSize: 44,
             fontWeight: 700,
             lineHeight: "56px",
+            color: "white",
           }}
         >
-          Upcoming Events in San Francisco
+          Upcoming Events in {user.location}
         </Typography>
         {/* Eventually, San Francisco will be replaced with the city that a user has chosen */}
-        <Typography align="center" sx={{ fontWeight: 400, fontSize: 16, lineHeight: "22px" }}>
-          Et has minim elitr intellegat. Mea aeterno eleifend antiopam ad, nam no suscipit quaerendum. <br /> At nam minimum ponderum. Est audiam animal
-          molestiae te.
-        </Typography>
-      </Stack>
-      <Stack justifyContent="center" alignItems="center" direction="row" spacing={3}>
-        <TextField
-          variant="outlined"
-          label="Search for an event"
-          value={searchItem}
-          onChange={(event) => {
-            setSearchItem(event.target.value);
-          }}
-          InputProps={{ sx: { height: 45 } }}
-          InputLabelProps={{ sx: { height: 50, top: -5 } }}
+        <Typography
+          align="center"
           sx={{
-            width: "282px",
-            "&.MuiTextField-root": {
-              backgroundColor: "white",
-              height: 45,
-            },
+            fontWeight: 500,
+            fontSize: 16,
+            lineHeight: "22px",
+            color: "white",
           }}
-        />
-        <Button
-          color="secondary"
-          variant="contained"
-          sx={{
-            height: 45,
-            width: 87.4,
-            borderRadius: "6px",
-            padding: "12.1333px 18.2px",
-            fontWeight: "bold",
-            fontSize: "14.1556px",
-          }}
-          disableElevation
         >
-          Search
-        </Button>
+          San Francisco is a city rich in history, culture and natural beauty.
+          The City by the Bay welcomes <br /> interns from around the world to
+          experience its unique charm and vibrancy.
+        </Typography>
+        <Stack
+          justifyContent="center"
+          alignItems="center"
+          direction="row"
+          spacing={3}
+        >
+          <TextField
+            variant="outlined"
+            label="Search for an event"
+            value={searchItem}
+            onChange={(event) => {
+              setSearchItem(event.target.value);
+            }}
+            InputProps={{ sx: { height: 45 } }}
+            InputLabelProps={{ sx: { height: 50, top: -5 } }}
+            sx={{
+              width: "282px",
+              "&.MuiTextField-root": {
+                backgroundColor: "white",
+                height: 45,
+              },
+            }}
+          />
+          <Button
+            color="secondary"
+            variant="contained"
+            sx={{
+              height: 45,
+              width: 87.4,
+              borderRadius: "6px",
+              padding: "12.1333px 18.2px",
+              fontWeight: "bold",
+              fontSize: "14.1556px",
+            }}
+            disableElevation
+          >
+            Search
+          </Button>
+        </Stack>
       </Stack>
     </Box>
   );
@@ -136,7 +179,8 @@ function Feed({ eventsData, isLoading }) {
                 eventImageUrl={event.events_img}
                 eventId={event.event_id}
                 eventHostImg={event.user_img}
-                
+                hostId={event.host_id}
+
               />
             </Grid>
           ))}
@@ -165,8 +209,14 @@ function Feed({ eventsData, isLoading }) {
   return (
     <div>
       <Box sx={{ mt: 5, mb: 2 }}>
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Typography sx={{ fontWeight: 700, fontSize: 45 }}>Explore</Typography>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <Typography sx={{ fontWeight: 700, fontSize: 45 }}>
+            Explore
+          </Typography>
           <Button
             color="secondary"
             variant="contained"

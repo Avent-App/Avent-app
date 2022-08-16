@@ -21,49 +21,60 @@ import { useEffect, useState } from "react";
 import SmallEventCard from "./SmallEventCard";
 import apiClient from "../services/apiClient";
 import { useNavigate, useParams } from "react-router-dom";
-// import { Link as RouterLink } from "react-router-dom";
+import GlobalNavbar from "./GlobalNavbar";
+import CircularProgress from "@mui/material/CircularProgress";
 
 /************************************************PROFILE DETAIL*/
 /**
  *
- * @param {*} param0 user
+ * @param {*} param0 gets the user's authentication. stateVar drilled down from app.jsx
  * @returns
  */
 const ProfileDetail = ({ user }) => {
   const { userId } = useParams();
-  // fetching reservations by user's id
   const [reservations, setReservations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState({});
   let navigate = useNavigate();
 
-  const getData = async () => {
+  //fetching user by id
+  const getUserData = async () => {
     try {
       setIsLoading(true);
-      //fetching upcomingReservations by user id
-      const res = await apiClient.getUpcomingReservations(userId);
-      console.log("res:", res);
-      setReservations(res.data.reservations);
-
-      //fetching user by id
       const res2 = await apiClient.getUser(userId);
       setUserData(res2.data);
-      console.log("res2----->", res2);
-      // setTimeout(() => setIsLoading(false), 400);
+      console.log("USER:res2----->", res2);
+      setTimeout(() => setIsLoading(false), 400);
     } catch (e) {
       console.log(e);
       navigate("/404");
     }
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
+  const getReservationsData = async () => {
+    setIsLoading(true);
+    //get upcoming reservations
+    const res = await apiClient.getUpcomingReservations(userId);
+    console.log("res:", res.data.upcomingReservations);
+    setReservations(res.data.upcomingReservations);
+    // const res2 = await apiClient.getPastReservations(userId);
+    // setPastReservations(res2.data.getPastReservations);
+    // setTimeout(() => setIsLoading(false), 700);
+  };
 
+  useEffect(() => {
+    getUserData();
+    getReservationsData();
+  }, [user]);
+
+  /**
+   *
+   * @returns this func maps the array of reservations and creates a card for each one, if not returns "Nothing to show"
+   */
   const renderReservations = () => {
     if (reservations.length > 0) {
       return (
-        <Grid container spacing={3} sx={{ mb: 5 }}>
+        <Grid container spacing={5} sx={{ mb: 5, width: "90%" }}>
           {reservations.map((reservation, idx) => {
             return (
               <Grid key={idx} item xs={6}>
@@ -81,6 +92,7 @@ const ProfileDetail = ({ user }) => {
                   eventImageUrl={reservation.user_img}
                   eventId={reservation.event_id}
                   reservationId={reservation.reservation_id}
+                  hostId={reservation.host_id}
                 />
               </Grid>
             );
@@ -92,37 +104,41 @@ const ProfileDetail = ({ user }) => {
     }
   };
   return (
-    <>
-      <img
-        style={{ width: "115%", height: "300px" }}
-        src={
-          "https://www.jvs.org/wp-content/uploads/2020/03/SalesforceFellowship_banner.jpg)"
-        }
-      />
+    <div className="DIVV">
+      <GlobalNavbar />
 
-      <Stack className="Title" sx={{ ml: 90 }}>
-        <Typography sx={{ fontSize: 35, fontWeight: "bold", mt: 3 }}>
-          Events Attending To
-        </Typography>
-      </Stack>
-      <Stack className="MAIN" sx={{ flexDirection: "row", gap: "23rem" }}>
-        <UserInformation user={user} userData={userData} />
+      <img style={{ width: "100%", height: "340px" }} src={"https://www.jvs.org/wp-content/uploads/2020/03/SalesforceFellowship_banner.jpg)"} />
 
-        <Stack
-          className="cardSTack"
-          container
-          sx={{ flexDirection: "row", marginTop: "3.5rem", height: "32rem" }}
-        >
-          <Grid>
-            <Grid className="CardsGrid">
-              <SmallEventCard />
-              <SmallEventCard />
-            </Grid>
-          </Grid>
-        </Stack>
+      <Stack>
+        {isLoading ? (
+          <Container
+            maxWidth={false}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              mt: 30,
+            }}
+          >
+            <CircularProgress color="secondary" size={120} />
+          </Container>
+        ) : (
+          <>
+            <Stack className="mainCardStack" sx={{ flexDirection: "row", gap: "12rem" }}>
+              <Stack>
+                <UserInformation user={user} userData={userData} />
+              </Stack>
+
+              <Stack className="cardStack">
+                <Typography sx={{ fontSize: 35, fontWeight: "bold", my: 2 }}>Events Attending</Typography>
+
+                {renderReservations()}
+              </Stack>
+            </Stack>
+          </>
+        )}
       </Stack>
-      {/* {renderReservations()} */}
-    </>
+    </div>
   );
 };
 
@@ -132,7 +148,7 @@ const ProfileDetail = ({ user }) => {
  * @param {*} param0
  * @returns
  */
-function UserInformation({ userData, user }) {
+function UserInformation({ userData }) {
   return (
     <Box
       className="WhiteInfoBox"
@@ -145,8 +161,8 @@ function UserInformation({ userData, user }) {
         boxShadow: "7.03774px 7.91745px 65px rgba(66, 66, 66, 0.21)",
         borderRadius: "22px",
         position: "relative",
-        bottom: 190,
-        right: -200,
+        bottom: 240,
+        right: -110,
         display: "flex",
         justifyContent: "center",
         alignItems: "start",
@@ -154,20 +170,9 @@ function UserInformation({ userData, user }) {
     >
       <Stack direction="row" spacing={5.375} alignItems="right">
         <Box sx={{ width: 291, height: 710, mt: 1 }}>
-          <Avatar
-            sx={{ position: "absolute", height: 169, width: 169, mx: 7, my: 5 }}
-            style={{ border: "1.68724px solid #26235C" }}
-          />
-          <img
-            style={{ position: "relative", top: "1.9rem", left: "5.8rem" }}
-            src={ellipse}
-          />
-          <Stack
-            alignItems="center"
-            justifyContent="center"
-            spacing={2}
-            sx={{ my: 3 }}
-          >
+          <Avatar sx={{ position: "absolute", height: 169, width: 169, mx: 7, my: 5 }} style={{ border: "1.68724px solid #26235C" }} />
+          <img style={{ position: "relative", top: "1.9rem", left: "5.8rem" }} src={ellipse} />
+          <Stack alignItems="center" justifyContent="center" spacing={2} sx={{ my: 3 }}>
             <Typography
               align="center"
               sx={{
@@ -214,9 +219,7 @@ function UserInformation({ userData, user }) {
                   marginTop: "10px",
                 }}
               >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna.
-                {/* {userData.Bio} */}
+                {userData.biography}
               </Typography>
             </Stack>
             <Divider />
@@ -233,12 +236,8 @@ function UserInformation({ userData, user }) {
                 <MailIcon />
                 <span>Email</span>
               </Typography>
-              <Typography
-                sx={{ fontWeight: 400, fontSize: 13, marginTop: "10px" }}
-              >
-                {" "}
-                {`${userData.email}`}{" "}
-              </Typography>
+
+              <Typography sx={{ fontWeight: 400, fontSize: 13, marginTop: "10px" }}> {userData.email} </Typography>
             </Stack>
             <Divider />
             <Stack sx={{ ml: 4, my: 3 }}>

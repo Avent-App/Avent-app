@@ -9,6 +9,7 @@ import {
   Card,
   CardContent,
   CssBaseline,
+  Link,
 } from "@mui/material";
 import heroBanner from "../assets/Different_people_01.jpg";
 import EventCard from "./EventCard";
@@ -47,9 +48,21 @@ function Navbar() {
       <Toolbar>
         <Typography
           variant="h6"
-          sx={{ display: { xs: "none", sm: "block" }, flexGrow: 1 }}
+          sx={{
+            display: { xs: "none", sm: "block" },
+            flexGrow: 1,
+            fontWeight: 700,
+            fontSize: 20,
+          }}
         >
-          Avent
+          <Link
+            to="/"
+            color="secondary"
+            component={RouterLink}
+            underline="none"
+          >
+            Avent
+          </Link>
         </Typography>
         <Stack direction="row" spacing={12}>
           <Stack direction="row" spacing={2}>

@@ -94,8 +94,6 @@ class Reservation {
   }
 
   static async checkIfReserved(eventId, userId) {
-    console.log("eventid:", eventId);
-    console.log("userid:", userId);
     const result = await db.query(
       `
         SELECT *
@@ -105,6 +103,18 @@ class Reservation {
       [eventId, userId]
     );
     console.log(result.rows);
+    return result.rows;
+  }
+
+  static async getReservationsByEventId(eventId) {
+    const result = await db.query(
+      `
+      SELECT first_name, last_name, users.id, reservation_id
+      FROM reservations, users
+      WHERE reservations.event_id = $1 AND reservations.user_id = users.id;
+      `,
+      [eventId]
+    );
     return result.rows;
   }
 }

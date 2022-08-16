@@ -8,6 +8,13 @@ import {
   Avatar,
   TextField,
   Card,
+  AvatarGroup,
+  Tooltip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import SendIcon from "@mui/icons-material/Send";
@@ -22,6 +29,19 @@ import Zoom from "@mui/material/Zoom";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import ellipse from "../assets/Ellipse.png";
+import { Link as RouterLink } from "react-router-dom";
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  RedditShareButton,
+  RedditIcon,
+  WhatsappShareButton,
+  WhatsappIcon,
+  LinkedinShareButton,
+  LinkedinIcon,
+} from "next-share";
 
 // This page GETS information from the events table using the eventsId param in the URL and displays it to the user.
 
@@ -32,6 +52,7 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
   const [isLoading, setIsLoading] = useState(true);
   const [reserved, setReserved] = useState(false);
   const [commentData, setCommentData] = useState([]);
+  const [reservationData, setReservationData] = useState([]);
 
   let navigate = useNavigate();
 
@@ -70,16 +91,23 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
   const getComments = async () => {
     try {
       const res = await apiClient.getComments(eventId);
-      console.log("res data:", res.data.comments);
       setCommentData(res.data.comments);
     } catch (e) {
       console.log(e);
     }
   };
 
+  const getReservations = async () => {
+    try {
+      const res = await apiClient.getReservationsByEventId(eventId);
+      setReservationData(res.data.reservations);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const getData = async () => {
     try {
-      console.log("HERE IS THE USER DATA: ", user);
       setIsLoading(true);
       const res = await apiClient.getEvent(eventId);
       setEventData(res.data.event[0]);
@@ -87,6 +115,7 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
       getComments();
       setHostData(res2.data);
       checkReserved();
+      getReservations();
       setTimeout(() => setIsLoading(false), 400);
     } catch (e) {
       console.log(e);
@@ -130,11 +159,14 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
           <CircularProgress color="secondary" size={100} />
         </Container>
       ) : (
-        <Container maxWidth="xl">
-          <img
-            style={{ width: "100%", height: "600px" }}
-            src={eventData.image_url ? eventData.image_url : NoPhoto}
-          />
+        <Container disableGutters maxWidth="xl">
+          <Box style={{ width: "100%", overflow: "hidden", height: 600 }}>
+            <img
+              style={{ width: "100%" }}
+              src={eventData.image_url ? eventData.image_url : NoPhoto}
+            />
+          </Box>
+
           <EventInformation
             eventData={eventData}
             hostData={hostData}
@@ -142,15 +174,15 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
             user={user}
             reserved={reserved}
             setReserved={setReserved}
+            reservationData={reservationData}
           />
-          <Stack>
-            <CommentSection
-              commentData={commentData}
-              handleOnSubmit={handleOnSubmit}
-              user={user}
-              userData={hostData}
-            />
-          </Stack>
+
+          <CommentSection
+            commentData={commentData}
+            handleOnSubmit={handleOnSubmit}
+            user={user}
+            userData={hostData}
+          />
         </Container>
       )}
     </div>
@@ -164,14 +196,34 @@ function EventInformation({
   user,
   reserved,
   setReserved,
+  reservationData,
 }) {
   const startDate = new Date(eventData.start_date);
   const endDate = new Date(eventData.end_date);
 
+  const [openRSVP, setOpenRSVP] = useState(false);
+  const [openShare, setOpenShare] = useState(false);
+
+  const handleClickOpenRSVP = () => {
+    setOpenRSVP(true);
+  };
+
+  const handleCloseRSVP = () => {
+    setOpenRSVP(false);
+  };
+
+  const handleClickOpenShare = () => {
+    setOpenShare(true);
+  };
+
+  const handleCloseShare = () => {
+    setOpenShare(false);
+  };
+
   return (
     <Box
       sx={{
-        height: 430,
+        height: 450,
         width: 1069,
         background:
           "linear-gradient(0deg, #FFFFFF, #FFFFFF), linear-gradient(247.52deg, rgba(255, 0, 0, 0.17) 1.52%, rgba(255, 255, 255, 0) 96.99%)",
@@ -187,7 +239,7 @@ function EventInformation({
       }}
     >
       <Stack direction="row" spacing={5.375} alignItems="center">
-        <Stack spacing={0.2} sx={{ ml: 9, display: "flex", width: 543 }}>
+        <Stack spacing={0.5} sx={{ ml: 9, display: "flex", width: 543 }}>
           <Typography sx={{ fontWeight: 700, fontSize: 34 }}>
             {eventData.title}
           </Typography>
@@ -253,11 +305,63 @@ function EventInformation({
             <Button
               color="secondary"
               variant="outlined"
+              onClick={handleClickOpenShare}
               sx={{ height: 38, width: 176 }}
             >
               Share
             </Button>
           </Stack>
+          {reservationData.length > 0 && (
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={1}
+              sx={{ height: 70 }} //Height here changes thespacing between the top button and the avatar group
+            >
+              <AvatarGroup max={3}>
+                {reservationData.map((user, idx) => {
+                  return (
+                    <Tooltip
+                      title={`${user.first_name} ${user.last_name}`}
+                      arrow
+                      enterDelay={10}
+                      key={idx}
+                    >
+                      <Avatar>{user.first_name.charAt(0)}</Avatar>
+                    </Tooltip>
+                  );
+                })}
+              </AvatarGroup>
+              <Button variant="text" sx={{ height: 15 }}>
+                <Typography
+                  onClick={handleClickOpenRSVP}
+                  sx={{
+                    fontWeight: 500,
+                    fontSize: 15,
+                    color: "#828282",
+                    lineHeight: "23.82px",
+                    display: "flex",
+                  }}
+                >
+                  {reservationData.length == 1 &&
+                    `RSVPed by ${reservationData[0].first_name} ${reservationData[0].last_name}`}
+
+                  {reservationData.length == 2 &&
+                    `RSVPed by ${reservationData[0].first_name} ${reservationData[0].last_name} and ${reservationData[1].first_name} ${reservationData[1].last_name}`}
+
+                  {reservationData.length == 3 &&
+                    `RSVPed by ${reservationData[0].first_name} ${reservationData[0].last_name} and 2 others`}
+
+                  {reservationData.length > 3 &&
+                    `RSVPed by ${reservationData[0].first_name} ${
+                      reservationData[0].last_name
+                    }, ${reservationData[1].first_name} ${
+                      reservationData[1].last_name
+                    } and ${reservationData.length - 2} others`}
+                </Typography>
+              </Button>
+            </Stack>
+          )}
         </Stack>
         <HostInfo
           hostData={hostData}
@@ -266,8 +370,167 @@ function EventInformation({
           reserved={reserved}
           setReserved={setReserved}
         />
+        <DialogBoxRSVP
+          open={openRSVP}
+          handleClickOpen={handleClickOpenRSVP}
+          handleClose={handleCloseRSVP}
+          reservationData={reservationData}
+        />
+        <DialogBoxShare
+          open={openShare}
+          handleClickOpen={handleClickOpenShare}
+          handleClose={handleCloseShare}
+          eventId={eventId}
+        />
       </Stack>
     </Box>
+  );
+}
+
+function DialogBoxRSVP({ open, handleClose, reservationData }) {
+  return (
+    <Dialog
+      maxWidth="md"
+      open={open}
+      onClose={handleClose}
+      PaperProps={{
+        style: { borderRadius: "10px", width: 700 },
+      }}
+    >
+      <DialogTitle sx={{ mt: 1 }}>
+        <Typography sx={{ fontWeight: 700, fontSize: 28 }}>
+          People Attending This Event
+        </Typography>
+      </DialogTitle>
+      <DialogContent>
+        <Grid container justifyContent="space-between" spacing={4}>
+          {reservationData.map((user, idx) => {
+            return (
+              <Grid item xs={4} key={idx}>
+                <Stack direction="row" alignItems="center">
+                  <Button
+                    disableRipple
+                    to={`/profile/${user.id}`}
+                    color="secondary"
+                    component={RouterLink}
+                  >
+                    <Avatar sx={{ height: 56, width: 56 }}>
+                      {user.first_name.charAt(0)}
+                    </Avatar>
+
+                    <Typography
+                      color="secondary"
+                      sx={{ fontWeight: 600, fontSize: 15, ml: 1 }}
+                    >
+                      {`${user.first_name} ${user.last_name}`}
+                    </Typography>
+                  </Button>
+                </Stack>
+              </Grid>
+            );
+          })}
+        </Grid>
+      </DialogContent>
+      <DialogActions sx={{ mx: 1 }}>
+        <Button
+          variant="contained"
+          color="secondary"
+          disableElevation
+          onClick={handleClose}
+          sx={{
+            width: 175,
+            height: 43.2,
+            borderRadius: "5.6px",
+            mb: 1,
+          }}
+        >
+          Close
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
+
+function DialogBoxShare({ open, handleClose, eventId }) {
+  return (
+    <Dialog
+      maxWidth="md"
+      open={open}
+      onClose={handleClose}
+      PaperProps={{
+        style: { borderRadius: "10px", width: 700 },
+      }}
+    >
+      <DialogTitle sx={{ mt: 1 }}>
+        <Typography sx={{ fontWeight: 700, fontSize: 28 }}>
+          Share Event
+        </Typography>
+      </DialogTitle>
+      <DialogContent>
+        <Grid container justifyContent="space-evenly" spacing={4}>
+          <Grid item>
+            <FacebookShareButton
+              url={`http://localhost:3001/details/${eventId}`}
+            >
+              <FacebookIcon round />
+              <Typography>Facebook</Typography>
+            </FacebookShareButton>
+          </Grid>
+          <Grid item>
+            <WhatsappShareButton
+              url={`http://localhost:3001/details/${eventId}`}
+              title={"Check out this event!"}
+            >
+              <WhatsappIcon round />
+              <Typography>Whatsapp</Typography>
+            </WhatsappShareButton>
+          </Grid>
+          <Grid item>
+            <TwitterShareButton
+              url={`http://localhost:3001/details/${eventId}`}
+              title={"Check out this event!"}
+            >
+              <TwitterIcon round />
+              <Typography>Twitter</Typography>
+            </TwitterShareButton>
+          </Grid>
+          <Grid item>
+            <RedditShareButton
+              url={`http://localhost:3001/details/${eventId}`}
+              title={"Check out this event!"}
+            >
+              <RedditIcon round />
+              <Typography>Reddit</Typography>
+            </RedditShareButton>
+          </Grid>
+          <Grid item>
+            <LinkedinShareButton
+              url={`http://localhost:3001/details/${eventId}`}
+              title={"Check out this event!"}
+            >
+              <LinkedinIcon round />
+              <Typography>Linkedin</Typography>
+            </LinkedinShareButton>
+          </Grid>
+        </Grid>
+      </DialogContent>
+      <DialogActions sx={{ mx: 1 }}>
+        <Button
+          variant="contained"
+          color="secondary"
+          disableElevation
+          onClick={handleClose}
+          sx={{
+            width: 175,
+            height: 43.2,
+            borderRadius: "5.6px",
+            mb: 1,
+          }}
+        >
+          Close
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }
 
@@ -301,6 +564,7 @@ function HostInfo({ hostData, eventId, user, reserved, setReserved }) {
           sx={{ position: "absolute", height: 169, width: 169 }}
           style={{ border: "1.68724px solid #26235C" }}
           src={hostData.image_url}
+
         />
         <img
           style={{ position: "relative", top: "-.6rem", left: "2.3rem" }}
@@ -360,6 +624,7 @@ function CommentSection({ commentData, handleOnSubmit, userData, user }) {
         spacing={3.25}
       >
         <Avatar sx={{ height: 58, width: 58 }} src={user.image_url} />
+
         <TextField
           id="sendComment"
           name="sendComment"
@@ -368,6 +633,7 @@ function CommentSection({ commentData, handleOnSubmit, userData, user }) {
           label="Add a comment..."
           sx={{ width: "838px" }}
         />
+
         <Button
           color="secondary"
           variant="contained"
@@ -414,14 +680,24 @@ function Comment({ commentObj, hostId }) {
         sx={{ position: "relative", left: 185, mt: 4, mr: 54.5 }}
       >
         <Stack spacing={2} direction="row" alignItems="center">
-          <Avatar src={commentObj.image_url}></Avatar>
-          <Typography
-            sx={{ color: hostId == commentObj.user_id ? "red" : "black" }}
-            fontWeight="bold"
+          <Button
+            disableRipple
+            to={`/profile/${commentObj.user_id}`}
+            color="secondary"
+            component={RouterLink}
           >
-            {comment_firstName_lastName}{" "}
-            {hostId == commentObj.user_id ? "(Host)" : null}
-          </Typography>
+            <Avatar src={commentObj.image_url}></Avatar>
+            <Typography
+              sx={{
+                color: hostId == commentObj.user_id ? "red" : "black",
+                ml: 1,
+              }}
+              fontWeight="bold"
+            >
+              {comment_firstName_lastName}{" "}
+              {hostId == commentObj.user_id ? "(Host)" : null}
+            </Typography>
+          </Button>
           <Typography>{comment_date}</Typography>
         </Stack>
         <Button

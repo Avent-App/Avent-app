@@ -34,9 +34,8 @@ const createListings = async (userIds) => {
     )
   `);
 
-  const results = await db.query(`SELECT host_id FROM events ORDER BY host_id ASC`);
-
-  const ids = results.rows.map((row) => row.id);
+  const results = await db.query(`SELECT event_id FROM events ORDER BY event_id ASC`);
+  const ids = results.rows.map((row) => row.event_id);
   return ids;
 };
 

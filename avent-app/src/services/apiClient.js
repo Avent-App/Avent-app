@@ -103,32 +103,17 @@ class ApiClient {
     });
   }
 
-  async postComment(data) {
-    return await this.request({
-      endpoint: "comment/create",
-      method: `POST`,
-      data: data,
-    });
-  }
-
-  async getComments(commentSectionId) {
-    return await this.request({
-      endpoint: `comment/section/${commentSectionId}`,
-      method: `GET`,
-    });
-  }
-
-  async getUserFromComment(comment_id) {
-    return await this.request({
-      endpoint: `comment/user/${comment_id}`,
-      method: `GET`,
-    });
-  }
-
   async deleteReservation(reservationId) {
     return await this.request({
       endpoint: `reservations/delete/${reservationId}`,
       method: `DELETE`,
+    });
+  }
+
+  async getReservationsByEventId(eventId) {
+    return await this.request({
+      endpoint: `reservations/getReservationsByEventId/${eventId}`,
+      method: `GET`,
     });
   }
 
@@ -169,9 +154,29 @@ class ApiClient {
 
   async createEvent(data, point) {
     return await this.request({
-      endpoint: point + `/`,
+      endpoint: point,
       method: `POST`,
       data: data,
+    });
+  }
+
+  async postComment(data) {
+    return await this.request({
+      endpoint: "comment/create",
+      method: `POST`,
+      data: data,
+    });
+  }
+  async getComments(commentSectionId) {
+    return await this.request({
+      endpoint: `comment/section/${commentSectionId}`,
+      method: `GET`,
+    });
+  }
+  async getUserFromComment(comment_id) {
+    return await this.request({
+      endpoint: `comment/user/${comment_id}`,
+      method: `GET`,
     });
   }
 

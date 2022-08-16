@@ -7,15 +7,16 @@ VALUES
 ('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','business','Chris','Martin','chris@coldplay.com','London', 'Coldplay', 'I love empowering others through creative solutions and creating value and social change through my buisness.', 'https://www.hollywoodreporter.com/wp-content/uploads/2014/03/chris_martin_coldplay_the_voice_p_2014.jpg'),
 ('$2b$13$vZRTXDLeSWqBM4MuBAusjOLOdYnJ66pbW23bQGTVSPLW1XcnvTMiq','intern','Enrique','Rico','e@sf.com','New York', 'Salesforce', 'Hit me up if you are in New York! I love meeting new people and getting to know brilliant minds. Life is beautiful.', 'https://cdns-images.dzcdn.net/images/artist/7c0f867fb50b6c9302f991521e42e764/500x500.jpg');
 
+
 INSERT INTO events (host_id, title, description, start_date, end_date, address, event_category, image_url)
 VALUES
-(1, 'Wine Tasting', 'Join us for a wine tasting event with cheese pairings', '2022-07-28 00:00:01', '2022-07-28 16:00:01', '415 Mission St, San Francisco, CA 94105', 'Intern', 'https://cdn.pixabay.com/photo/2017/01/04/13/57/wine-1952051_960_720.jpg'),
-(2, 'Cocktail Making Class', 'Learn how to make 3 different cocktails', '2022-07-29 00:00:01', '2022-07-29 16:00:01', '1 Market St, San Francisco, CA 94105', 'Class', 'https://cdn.pixabay.com/photo/2019/06/13/11/28/cocktail-4271392_960_720.jpg'),
-(3, 'Wine and Painting Class', 'Paint and drink wine with us', '2022-07-30 00:00:01', '2022-07-30 16:00:01', '333 Post St, San Francisco, CA 94108', 'Class', 'https://cdn.pixabay.com/photo/2017/07/03/20/17/colorful-2468874_960_720.jpg'),
-(1, 'Chocolate Tasting', 'Taste different kinds of chocolate from around the world', '2022-12-31 00:00:01', '2022-07-31 16:00:01', 'Brooklyn Bridge, New York, NY 10038','Party', 'https://cdn.pixabay.com/photo/2016/03/24/15/53/chocolate-1277002_960_720.jpg'),
+(1, 'Wine Tasting', 'Join us for a wine tasting event with cheese pairings', '2022-08-28 00:00:01', '2022-08-29 16:00:01', '415 Mission St, San Francisco, CA 94105', 'Intern', 'https://cdn.pixabay.com/photo/2017/01/04/13/57/wine-1952051_960_720.jpg'),
+(2, 'Cocktail Making Class', 'Learn how to make 3 different cocktails', '2022-08-29 00:00:01', '2022-08-29 16:00:01', '1 Market St, San Francisco, CA 94105', 'Class', 'https://cdn.pixabay.com/photo/2019/06/13/11/28/cocktail-4271392_960_720.jpg'),
+(3, 'Wine and Painting Class', 'Paint and drink wine with us', '2022-08-30 00:00:01', '2022-09-01 16:00:01', '333 Post St, San Francisco, CA 94108', 'Class', 'https://cdn.pixabay.com/photo/2017/07/03/20/17/colorful-2468874_960_720.jpg'),
+(1, 'Chocolate Tasting', 'Taste different kinds of chocolate from around the world', '2022-09-12 00:00:01', '2022-09-12 16:00:01', 'Brooklyn Bridge, New York, NY 10038','Party', 'https://cdn.pixabay.com/photo/2016/03/24/15/53/chocolate-1277002_960_720.jpg'),
 (2, 'Cooking Class', 'Learn how to cook a 3-course meal', '2022-08-01 00:00:01', '2022-08-01 16:00:01', '180 Montgomery St, San Francisco, CA 94104', 'Class', 'https://cdn.pixabay.com/photo/2018/01/16/20/07/roulades-3086743_960_720.jpg'),
 (3, 'Gardening Class', 'Learn how to grow your own herbs and vegetables', '2022-08-02 00:00:01', '2022-08-02 16:00:01', ' 730 5th Ave, New York, NY 10019', 'Class', 'https://cdn.pixabay.com/photo/2017/05/09/13/31/spring-2298279_960_720.jpg'),
-(3, 'Ice Cream Social', 'Make your own ice cream sundaes', '2022-07-30 00:00:01', '2022-07-30 16:00:01', '789 Broad St, New York, NY 10002', 'Intern', 'https://cdn.pixabay.com/photo/2016/03/23/15/00/ice-cream-1274894_960_720.jpg');
+(3, 'Ice Cream Social', 'Make your own ice cream sundaes', '2022-08-30 00:00:01', '2022-08-30 16:00:01', '789 Broad St, New York, NY 10002', 'Intern', 'https://cdn.pixabay.com/photo/2016/03/23/15/00/ice-cream-1274894_960_720.jpg');
 
 
 INSERT INTO reservations(user_id, event_id)
@@ -27,7 +28,6 @@ VALUES
 (2,3),
 (3,1),
 (1,4),
-(1,5),
 (2,6),
 (3,1),
 (3,5),
