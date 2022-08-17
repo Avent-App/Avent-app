@@ -164,13 +164,13 @@ function SubHero() {
           <Grid item xs={4}>
             <EventCard
               eventImageUrl={
-                "https://thumbs.dreamstime.com/b/tropical-beach-party-24320856.jpg"
+                "https://shusharya.com/wp-content/uploads/2015/06/AdobeStock_322044038.jpg"
               }
-              eventCategory={"COMMUNITY"}
+              eventCategory={"INTERN EVENT"}
               datePosted={"7/22/21"}
-              eventName={"Beach Party"}
+              eventName={"Speed Networking"}
               eventDescription={
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text..."
+                "Speed Network with FANG level interns and meet the valleys youngest and brightest!"
               }
               eventHostName={"Carlos Chavez"}
               eventHostImg={
@@ -181,17 +181,17 @@ function SubHero() {
           <Grid item xs={4}>
             <EventCard
               eventImageUrl={
-                "https://www.anarapublishing.com/wp-content/uploads/elementor/thumbs/photo-1506157786151-b8491531f063-o67khcr8g8y3egfjh6eh010ougiroekqaq5cd8ly88.jpeg"
+                "https://images.squarespace-cdn.com/content/v1/56b2d8fd2fe1319a9451a807/1503020991449-CTTTY5SRQGHSQ6ECLQ9B/DSC_1546.jpg"
               }
-              eventCategory={"FESTIVAL"}
+              eventCategory={"INTERN EVENT"}
               datePosted={"7/22/21"}
-              eventName={"Summerfest 2022"}
+              eventName={"Spark Social Meetup"}
               eventDescription={
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text..."
+                "Join us for a fun time with food trucks, giant chess, giant jenga... giant stuff!"
               }
-              eventHostName={"Benito Antonio Ocasio"}
+              eventHostName={"Salesforce"}
               eventHostImg={
-                "https://assets.popbuzz.com/2020/13/how-old-is-bad-bunny-1585671751-view-0.jpg"
+                "https://www.vectorlogo.zone/logos/salesforce/salesforce-ar21.png"
               }
             />
           </Grid>
@@ -204,11 +204,11 @@ function SubHero() {
               datePosted={"7/22/21"}
               eventName={"Beach Cleanup Day"}
               eventDescription={
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text..."
+                "Join us for a morning of fun in the sun as we work together to clean up our local beach! We'll provide all the supplies you need, so just bring yourself, your family, and your friends."
               }
-              eventHostName={"Kanye West"}
+              eventHostName={"Tim Cook"}
               eventHostImg={
-                "https://idsb.tmgrup.com.tr/ly/uploads/images/2021/10/19/153042.jpg"
+                "https://www.apple.com/leadership/images/bio/tim-cook_image.png.og.png?1660591816576"
               }
             />
           </Grid>
