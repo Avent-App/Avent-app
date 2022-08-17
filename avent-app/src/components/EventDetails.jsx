@@ -576,7 +576,9 @@ function HostInfo({ hostData, eventId, user, reserved, setReserved }) {
         {`${hostData.first_name} ${hostData.last_name}`}
       </Typography>
       <Typography align="center" sx={{ fontWeight: 400, fontSize: 19 }}>
-        {`${hostData.company} ${hostData.account_type}`}
+        {`${hostData.company} ${
+          hostData.account_type == "business" ? "Representative" : "Intern"
+        }`}
       </Typography>
 
       <Button
