@@ -83,14 +83,12 @@ export default function Login({ user, setUser, isLoggedIn, setIsLoggedIn }) {
 
     try {
       const res = await apiClient.loginUser(signinInfo);
-      console.log(res.data);
       if (res?.data?.user) {
         setUser(res.data.user);
         apiClient.setToken(res.data.token);
         setIsLoggedIn(true);
         navigate("/feed");
       } else {
-        console.log("--->", res.data);
         setErrors((e) => ({
           ...e,
           form: "Invalid username/password combination",

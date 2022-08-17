@@ -177,7 +177,6 @@ function DialogBoxes({
       setOpen(false);
       getData();
     } catch (err) {
-      console.log(err);
     }
   };
 
@@ -187,7 +186,6 @@ function DialogBoxes({
       setOpen(false);
       getData();
     } catch (err) {
-      console.log(err);
     }
   };
   if (pageType == "reservations") {

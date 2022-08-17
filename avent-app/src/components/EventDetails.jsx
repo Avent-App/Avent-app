@@ -60,8 +60,6 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
     comment.preventDefault();
     const data = new FormData(comment.currentTarget);
 
-    console.log(data.get("sendComment"));
-
     /**
      * Printing out the data retreived from the createEvent page
      */
@@ -74,16 +72,13 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
       comment_text: sendComment,
     };
 
-    console.log(commentInfo);
-
     try {
       const res = await apiClient.postComment(commentInfo);
       getComments();
       if (res?.data) {
-        console.log("Successfully posted into the database!");
       }
     } catch (err) {
-      console.log(err);
+      console.log(err); 
       const message = err?.response?.data?.error?.message;
     }
   };
@@ -126,7 +121,6 @@ export default function EventDetails({ isLoggedIn, setIsLoggedIn, user }) {
   const checkReserved = async () => {
     try {
       const res = await apiClient.checkReserved(eventId, user.id);
-      console.log(res.data.getReservation);
       if (res.data.getReservation.length > 0) {
         setReserved(true);
       }
@@ -669,7 +663,6 @@ function Comment({ commentObj, hostId }) {
     timeStyle: "short",
   });
 
-  console.log(commentObj);
 
   return (
     <Box>

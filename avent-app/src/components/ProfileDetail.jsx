@@ -43,7 +43,6 @@ const ProfileDetail = ({ user }) => {
       setIsLoading(true);
       const res2 = await apiClient.getUser(userId);
       setUserData(res2.data);
-      console.log("USER:res2----->", res2);
       setTimeout(() => setIsLoading(false), 400);
     } catch (e) {
       console.log(e);
@@ -55,7 +54,6 @@ const ProfileDetail = ({ user }) => {
     setIsLoading(true);
     //get upcoming reservations
     const res = await apiClient.getUpcomingReservations(userId);
-    console.log("res:", res.data.upcomingReservations);
     setReservations(res.data.upcomingReservations);
     // const res2 = await apiClient.getPastReservations(userId);
     // setPastReservations(res2.data.getPastReservations);
@@ -157,7 +155,6 @@ const ProfileDetail = ({ user }) => {
  * @returns
  */
 function UserInformation({ userData }) {
-  console.log("data", userData);
   return (
     <Box
       className="WhiteInfoBox"

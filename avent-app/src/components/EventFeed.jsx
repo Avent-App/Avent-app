@@ -36,7 +36,6 @@ export default function EventFeed({
   const getData = async () => {
     setIsLoading(true);
     const res = await apiClient.getEvents();
-    console.log(res.data.events);
     setEventsData(res.data.events);
     setTimeout(() => setIsLoading(false), 300);
   };

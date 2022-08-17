@@ -237,9 +237,6 @@ export function MyProfile({ user, setUser }) {
     const biography = data.get("biography");
     const image = fileInput
 
-    console.log("This is data -> ", firstName);
-    console.log("This is image -> ", fileInput);
-
     if (location == "") {
       setLocation(user.location);
     }

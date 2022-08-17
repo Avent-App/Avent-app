@@ -126,7 +126,6 @@ export default function CreateEvent({ isLoggedIn, setIsLoggedIn, user }) {
         setTimeout(() => navigate("/feed"), 1700);
       }
     } catch (err) {
-      console.log(err);
       const message = err?.response?.data?.error?.message;
       setErrors((e) => ({
         ...e,

@@ -32,15 +32,10 @@ class ApiClient {
     const url = `${this.remoteHostUrl}/${endpoint}`;
     var formData = new FormData();
 
-    if (endpoint == "auth/me") {
-      console.log("First Pass is reached");
-    }
-
     for (var key in data) {
       formData.append(key, data[key]);
     }
 
-    console.log("This is the data -> ", data);
 
     if (image) {
       formData.append("image", image);
@@ -50,40 +45,22 @@ class ApiClient {
       "Content-Type": "multipart/form-data",
     };
 
-    console.log(" FORM DATA IMAGE ", formData.get("image"));
-
-    console.log(url);
-
     if (!this.token) {
       this.token = localStorage.getItem(this.tokenName);
     }
 
     if (this.token) {
-      console.log("HERE IS THE TOKEN -> ", this.token);
       headers["Authorization"] = `Bearer ${this.token}`;
-      console.log("HERE IS THE TOKEN WITHIN THE HEADER -> ", headers["Authorization"])
     }
-
-    console.log(
-      "Here is the form data ->",
-      formData.get("email"),
-      formData.get("password")
-    );
 
     if (!image || data == {}) {
       formData = data;
-      console.log(formData);
 
       headers["Content-Type"] = "application/json"
     }
 
-    if (endpoint == "auth/me") {
-      console.log("Second Pass is reached, here is the token: ", headers["Authorization"]);
-    }
-
     try {
       const res = await axios({ url, method, data: formData, headers });
-      console.log(res);
       return { data: res.data, error: null };
     } catch (error) {
       console.error({ errorResponse: error.response });
@@ -220,7 +197,6 @@ class ApiClient {
   }
 
   async loginUser(credentials) {
-    console.log(credentials);
     return await this.request({
       endpoint: `auth/login`,
       method: `POST`,
