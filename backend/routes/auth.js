@@ -1,7 +1,6 @@
 const express = require("express");
 const User = require("../models/user");
 const router = express.Router();
-const jwt = require("jsonwebtoken");
 const { createUserJwt } = require("../utils/tokens.js");
 const security = require("../middleware/security");
 
@@ -17,8 +16,17 @@ router.get("/", (req, res) => {
 
 router.post("/register", async (req, res, next) => {
   try {
-    //take the user, email, and password and create a new user in the database.
-    const user = await User.register(req.body);
+    // take the user, email, and password and create a new user in the database.
+    // can optionally take an image uploaded and display as a profile picture.
+    const user_info = req.body;
+    console.log("Here is the body", req.body);
+    console.log("Here COULD be the uploaded image", req.files);
+    let image = null;
+    if (req.files) {
+      image = req.files.image ? req.files.image : null;
+    }
+    console.log(image);
+    const user = await User.register(user_info, image);
     const token = createUserJwt(user);
 
     // console.log(req.body);

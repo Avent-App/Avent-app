@@ -1,8 +1,12 @@
+/* Creates SQL queries for updating and inserting 
+to the database on the “users” table upon endpoint 
+call from the user.js route. */
+
 const { UnauthorizedError, BadRequestError } = require("../utils/errors");
 const bcrypt = require("bcrypt");
 const { BCRYPT_WORK_FACTOR } = require("../config");
 const db = require("../db");
-const jwt = require("jsonwebtoken");
+const { s3 } = require("../config");
 
 class User {
   static async makePublicUser(user) {
@@ -17,6 +21,7 @@ class User {
       updated_at: user.updated_at,
       location: user.location,
       company: user.company,
+      image_url: user.image_url,
     };
   }
   static async login(credentials) {
@@ -42,7 +47,7 @@ class User {
     throw new UnauthorizedError("Invalid email/password");
   }
 
-  static async register(credentials) {
+  static async register(credentials, image = null) {
     const requiredFields = [
       "first_name",
       "last_name",
@@ -54,7 +59,7 @@ class User {
     ];
 
     requiredFields.forEach((field) => {
-      if (!credentials.hasOwnProperty(field)) {
+      if (!Object.prototype.hasOwnProperty.call(credentials, field)) {
         throw new BadRequestError(`Missing ${field} in request body...`);
       }
     });
@@ -83,7 +88,7 @@ class User {
         company
     )
     VALUES ($1,$2,$3,$4,$5,$6,$7)
-    RETURNING first_name,last_name,email,password,location,account_type, company;
+    RETURNING first_name,last_name,email,password,location,account_type, company, id;
     `,
       [
         credentials.first_name,
@@ -97,8 +102,58 @@ class User {
     );
     //return the user
     const user = result.rows[0];
+    const id = result.rows[0].id;
 
-    return User.makePublicUser(user);
+    let img_result = null;
+
+    const image_value = image ? Object(image) : null;
+
+
+
+    if (image_value) {
+      await this.postPhototoS3(image_value, id);
+      const url = this.getS3Url(id);
+
+      console.log(url);
+
+      const query = `UPDATE users
+        SET image_url = $1
+        WHERE id = ${id}
+        RETURNING id, first_name, last_name, email, password, location, account_type, company, image_url;`;
+
+      img_result = await db.query(query, [url]);
+    }
+    console.log(img_result);
+    let final_result = img_result ? img_result.rows[0] : user;
+
+    return User.makePublicUser(final_result);
+  }
+
+  /*S3 Functions for AWS image upload functionality*/
+
+  static getS3Url(id) {
+    let url = null;
+
+    const params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: `${id}`,
+      Expires: 9999
+    };
+    url = s3.getSignedUrl("getObject", params);
+
+    console.log(url);
+    return url;
+  }
+
+  static async postPhototoS3(photo, id) {
+    const photoToBase64 = Buffer.from(photo.data, "base64");
+    await s3
+      .upload({
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: `${id}`,
+        Body: photoToBase64,
+      })
+      .promise();
   }
 
   static async fetchUserByEmail(email) {
@@ -123,7 +178,7 @@ class User {
     return user;
   }
 
-  static async updateUserFields(id, fields) {
+  static async updateUserFields(id, fields, image = null) {
     if (!id) {
       throw new BadRequestError("No user id is provided");
     }
@@ -140,6 +195,17 @@ class User {
       );
     }
 
+    let img_result = null;
+
+    const image_value = image ? Object(image) : null;
+    let url = ''
+    if (image_value) {
+      await this.postPhototoS3(image_value, id);
+      url = this.getS3Url(id);
+    }
+    console.log(img_result);
+    fields.image_url = url ? url : '';
+
     //Fields will only update if they are filled...
     //Coalesce takes in the first non-null paramater. NULLIF returns null if the two fields inside are equal.
     const result = await db.query(
@@ -151,7 +217,8 @@ class User {
           location = COALESCE(NULLIF($5,''), location),
           password = COALESCE(NULLIF($6,''), password),
           company = COALESCE(NULLIF($7,''), company),
-          biography = COALESCE(NULLIF($8,''), biography)
+          biography = COALESCE(NULLIF($8,''), biography),
+          image_url = COALESCE(NULLIF($9,''), image_url)
       WHERE id = $1
       RETURNING *;
       `,
@@ -164,6 +231,7 @@ class User {
         newHashedPassword,
         fields.company,
         fields.biography,
+        fields.image_url
       ]
     );
 

@@ -28,7 +28,7 @@ export default function Listings({ user }) {
 
   return (
     <div>
-      <GlobalNavbar />
+      <GlobalNavbar user={user} />
       <Container maxWidth="xl">
         <Stack direction="row" spacing={12}>
           <Sidebar selected={"Listings"} user={user} />

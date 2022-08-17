@@ -19,6 +19,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import apiClient from "../services/apiClient";
+import { Link as RouterLink } from "react-router-dom";
 
 export default function EventCardHorizontal({
   eventImageUrl,
@@ -31,6 +32,8 @@ export default function EventCardHorizontal({
   reservationId,
   getData,
   pageType,
+  listingHostImg,
+  hostId,
 }) {
   let navigate = useNavigate();
 
@@ -113,13 +116,22 @@ export default function EventCardHorizontal({
           </CardContent>
         </CardActionArea>
         <CardActions sx={{ mb: 1, mr: 1, ml: 1, mt: "auto" }}>
-          <Avatar alt="profile picture" />
-          <Typography
+          <Button
+            disableRipple
+            to={`/profile/${hostId}`}
             color="secondary"
-            sx={{ fontWeight: 600, fontSize: 12, ml: 1 }}
+            component={RouterLink}
           >
-            {eventHost}
-          </Typography>
+             <Avatar alt="profile picture" src={listingHostImg}>
+            {eventHost.charAt(0)}
+          </Avatar>
+            <Typography
+              color="secondary"
+              sx={{ fontWeight: 600, fontSize: 12, ml: 1 }}
+            >
+              {eventHost}
+            </Typography>
+          </Button>
           <Typography
             style={{ marginLeft: "auto" }}
             color="secondary"

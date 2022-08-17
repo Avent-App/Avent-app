@@ -21,8 +21,10 @@ export default function EventCard({
   startDate,
   eventName,
   eventDescription,
-  eventHost,
+  eventHostName,
   eventId,
+  eventHostImg,
+  hostId,
 }) {
   let navigate = useNavigate();
   return (
@@ -77,13 +79,22 @@ export default function EventCard({
         </CardContent>
       </CardActionArea>
       <CardActions sx={{ mb: 1, mr: 1, ml: 1, mt: "auto" }}>
-        <Avatar alt="profile picture">{eventHost.charAt(0)}</Avatar>
-        <Typography
+        <Button
+          disableRipple
+          to={`/profile/${hostId}`}
           color="secondary"
-          sx={{ fontWeight: 600, fontSize: 12, ml: 1 }}
+          component={RouterLink}
         >
-          {eventHost}
-        </Typography>
+     <Avatar alt="profile picture" src={eventHostImg}>
+          {eventHostName.charAt(0)}
+        </Avatar>
+          <Typography
+            color="secondary"
+            sx={{ fontWeight: 600, fontSize: 12, ml: 1 }}
+          >
+           {eventHostName}
+          </Typography>
+        </Button>
         <Typography
           style={{ marginLeft: "auto" }}
           color="secondary"

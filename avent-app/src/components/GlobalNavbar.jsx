@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 import apiClient from "../services/apiClient";
 import { useEffect } from "react";
 
-export default function GlobalNavbar({ isLoggedIn, setIsLoggedIn, setUser }) {
+export default function GlobalNavbar({ isLoggedIn, setIsLoggedIn, setUser, user }) {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -78,16 +78,11 @@ export default function GlobalNavbar({ isLoggedIn, setIsLoggedIn, setUser }) {
               >
                 <IconButton component={RouterLink} to="/createEvent">
                   <AddCircleOutlineIcon
-                    style={{ cursor: "pointer" }}
                     sx={[
                       {
                         "&:hover": {
                           color: "red",
-                          backgroundColor: "white",
                         },
-                      },
-                      AddCircleOutlineIcon && {
-                        "&:hover": { backgroundColor: "grey" },
                       },
                     ]}
                   />
@@ -96,7 +91,15 @@ export default function GlobalNavbar({ isLoggedIn, setIsLoggedIn, setUser }) {
                   <NotificationsNoneOutlinedIcon />
                 </IconButton>
                 <IconButton component={RouterLink} to="/settings/profile">
-                  <SettingsOutlinedIcon />
+                  <SettingsOutlinedIcon
+                    sx={[
+                      {
+                        "&:hover": {
+                          color: "red",
+                        },
+                      },
+                    ]}
+                  />
                 </IconButton>
                 <IconButton
                   onClick={handleClick}
@@ -104,7 +107,16 @@ export default function GlobalNavbar({ isLoggedIn, setIsLoggedIn, setUser }) {
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
                 >
-                  <Avatar />
+                  <Avatar
+                  src={user.image_url}
+                    sx={[
+                      {
+                        "&:hover": {
+                          color: "red",
+                        },
+                      },
+                    ]}
+                  />
                 </IconButton>
                 <LogoutIcon
                   style={{ cursor: "pointer" }}
@@ -112,14 +124,7 @@ export default function GlobalNavbar({ isLoggedIn, setIsLoggedIn, setUser }) {
                     {
                       "&:hover": {
                         color: "red",
-                        backgroundColor: "white",
                       },
-                    },
-                    LogoutIcon && {
-                      "&:hover": { backgroundColor: "grey" },
-                    },
-                    AddCircleOutlineIcon && {
-                      "&:hover": { backgroundColor: "grey" },
                     },
                   ]}
                   onClick={handleOnLogout}

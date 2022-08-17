@@ -71,7 +71,7 @@ class Reservation {
     //This function gets upcoming reservations based on a user's id.
     const result = await db.query(
       `
-      SELECT events.event_id, host_id, title, description, image_url, address, start_date, event_category, first_name, last_name, reservation_id
+      SELECT events.event_id, host_id, title, description, events.image_url, users.image_url AS user_img, address, start_date, event_category, first_name, last_name, reservation_id
       FROM events, reservations, users
       WHERE reservations.user_id = $1 AND reservations.event_id = events.event_id AND events.host_id = users.id AND events.start_date > NOW();
       `,
@@ -84,7 +84,7 @@ class Reservation {
     //This function gets upcoming reservations based on a user's id.
     const result = await db.query(
       `
-      SELECT events.event_id, host_id, title, description, image_url, address, start_date, event_category, first_name, last_name
+      SELECT events.event_id, host_id, title, description, events.image_url, users.image_url AS user_img, address, start_date, event_category, first_name, last_name
       FROM events, reservations, users
       WHERE reservations.user_id = $1 AND reservations.event_id = events.event_id AND events.host_id = users.id AND events.end_date < NOW();
       `,
@@ -94,8 +94,6 @@ class Reservation {
   }
 
   static async checkIfReserved(eventId, userId) {
-    console.log("eventid:", eventId);
-    console.log("userid:", userId);
     const result = await db.query(
       `
         SELECT *
@@ -105,6 +103,18 @@ class Reservation {
       [eventId, userId]
     );
     console.log(result.rows);
+    return result.rows;
+  }
+
+  static async getReservationsByEventId(eventId) {
+    const result = await db.query(
+      `
+      SELECT first_name, last_name, users.id, reservation_id, users.image_url AS user_img
+      FROM reservations, users
+      WHERE reservations.event_id = $1 AND reservations.user_id = users.id;
+      `,
+      [eventId]
+    );
     return result.rows;
   }
 }

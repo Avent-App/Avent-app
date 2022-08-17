@@ -1,13 +1,29 @@
 import * as React from "react";
-import { Container, Typography, Stack, Box, TextField, Button, Grid, Divider, checkboxClasses } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Stack,
+  Box,
+  TextField,
+  Button,
+  Grid,
+  Divider,
+  checkboxClasses,
+} from "@mui/material";
 import GlobalNavbar from "./GlobalNavbar";
 import { Link as RouterLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import EventCard from "./EventCard";
 import CircularProgress from "@mui/material/CircularProgress";
 import apiClient from "../services/apiClient";
+import BridgeBanner from "../assets/BridgePic.png";
 
-export default function EventFeed({ isLoggedIn, setIsLoggedIn, setUser }) {
+export default function EventFeed({
+  isLoggedIn,
+  setIsLoggedIn,
+  setUser,
+  user,
+}) {
   const [isLoading, setIsLoading] = useState(true);
   //state var to store array of events fetched from database
   const [eventsData, setEventsData] = useState([]);
@@ -22,7 +38,7 @@ export default function EventFeed({ isLoggedIn, setIsLoggedIn, setUser }) {
     const res = await apiClient.getEvents();
     console.log(res.data.events);
     setEventsData(res.data.events);
-    setTimeout(() => setIsLoading(false), 500);
+    setTimeout(() => setIsLoading(false), 300);
   };
 
   useEffect(() => {
@@ -31,14 +47,24 @@ export default function EventFeed({ isLoggedIn, setIsLoggedIn, setUser }) {
 
   return (
     <div>
-      <GlobalNavbar setUser={setUser} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-      <Hero eventsData={eventsData} setSearchItem={setSearchItem} searchItem={searchItem} />
+      <GlobalNavbar
+        setUser={setUser}
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+        user={user}
+      />
+      <Hero
+        eventsData={eventsData}
+        setSearchItem={setSearchItem}
+        searchItem={searchItem}
+        user={user}
+      />
 
       <Container maxWidth="xl" sx={{ mb: 5 }}>
         <Feed
           //filters eventData array and includes the value iputted by user
           eventsData={eventsData.filter((event) => {
-            return event.title.toLowerCase().includes(searchItem);
+            return event.title.toLowerCase().includes(searchItem.toLowerCase());
           })}
           isLoading={isLoading}
         />
@@ -47,17 +73,18 @@ export default function EventFeed({ isLoggedIn, setIsLoggedIn, setUser }) {
   );
 }
 
-function Hero({ eventsData, setSearchItem, searchItem }) {
+function Hero({ setSearchItem, searchItem, user }) {
   return (
     <Box
       alignContent="center"
       justifyContent="center"
       sx={{
-        backgroundColor: "#F4F6FB",
+        background: "#F4F6FB",
         height: "372px",
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url(${BridgeBanner})`,
       }}
     >
-      <Stack spacing={4} sx={{ mb: 4 }}>
+      <Stack spacing={3} sx={{ mb: 4, alignItems: "center" }}>
         <Typography
           align="center"
           mt={10}
@@ -65,17 +92,33 @@ function Hero({ eventsData, setSearchItem, searchItem }) {
             fontSize: 44,
             fontWeight: 700,
             lineHeight: "56px",
+            color: "white",
           }}
         >
-          Upcoming Events in San Francisco
+          Upcoming Events in {user.location}
         </Typography>
         {/* Eventually, San Francisco will be replaced with the city that a user has chosen */}
-        <Typography align="center" sx={{ fontWeight: 400, fontSize: 16, lineHeight: "22px" }}>
-          Et has minim elitr intellegat. Mea aeterno eleifend antiopam ad, nam no suscipit quaerendum. <br /> At nam minimum ponderum. Est audiam animal
-          molestiae te.
+        <Typography
+          align="center"
+          sx={{
+            fontWeight: 600,
+            fontSize: 16,
+            lineHeight: "22px",
+            color: "white",
+          }}
+        >
+          San Francisco is a city rich in history, culture and natural beauty.
+          The City by the Bay welcomes <br /> interns from around the world to
+          experience its unique charm and vibrancy.
         </Typography>
       </Stack>
-      <Stack justifyContent="center" alignItems="center" direction="row" spacing={3}>
+
+      <Stack
+        justifyContent="center"
+        alignItems="center"
+        direction="row"
+        spacing={3}
+      >
         <TextField
           variant="outlined"
           label="Search for an event"
@@ -132,9 +175,11 @@ function Feed({ eventsData, isLoading }) {
                   timeStyle: "short",
                 })}
                 eventDescription={event.description}
-                eventHost={`${event.first_name} ${event.last_name}`}
-                eventImageUrl={event.image_url}
+                eventHostName={`${event.first_name} ${event.last_name}`}
+                eventImageUrl={event.events_img}
                 eventId={event.event_id}
+                eventHostImg={event.user_img}
+                hostId={event.host_id}
               />
             </Grid>
           ))}
@@ -142,20 +187,19 @@ function Feed({ eventsData, isLoading }) {
       );
     } else {
       return (
-        <Typography
-          variant="h5"
-          sx={{
-            color: "black",
-            top: 100,
-            fontWeight: "bold",
-            mb: 5,
-            mt: 5,
-            display: "flex",
-            alignContent: "center",
-          }}
-        >
-          Nothing to show!
-        </Typography>
+        <Stack sx={{ display: "flex", alignItems: "center" }}>
+          <Typography
+            variant="h5"
+            sx={{
+              color: "#D90429",
+              top: 100,
+              fontWeight: "bold",
+              mt: 15,
+            }}
+          >
+            Event does not exist!
+          </Typography>
+        </Stack>
       );
     }
   };
@@ -163,8 +207,14 @@ function Feed({ eventsData, isLoading }) {
   return (
     <div>
       <Box sx={{ mt: 5, mb: 2 }}>
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Typography sx={{ fontWeight: 700, fontSize: 45 }}>Explore</Typography>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <Typography sx={{ fontWeight: 700, fontSize: 45 }}>
+            Explore
+          </Typography>
           <Button
             color="secondary"
             variant="contained"

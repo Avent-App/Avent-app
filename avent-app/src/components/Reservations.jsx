@@ -18,6 +18,7 @@ export default function Reservations({ user }) {
     const res = await apiClient.getUpcomingReservations(user.id);
     console.log("res:", res);
     setUpcomingReservations(res.data.upcomingReservations);
+
     const res2 = await apiClient.getPastReservations(user.id);
     setPastReservations(res2.data.getPastReservations);
     setTimeout(() => setIsLoading(false), 700);
@@ -29,7 +30,7 @@ export default function Reservations({ user }) {
 
   return (
     <div>
-      <GlobalNavbar />
+      <GlobalNavbar user={user} />
       <Container maxWidth="xl">
         <Stack direction="row" spacing={12}>
           <Sidebar selected={"Reservations"} user={user} />

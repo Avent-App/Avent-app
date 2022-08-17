@@ -69,7 +69,8 @@ class Event {
   static async getEvents() {
     const result = await db.query(
       `
-      SELECT event_id, host_id, title, description, image_url, address, start_date, event_category, first_name, last_name
+
+      SELECT event_id, host_id, title, description, events.image_url AS events_img, users.image_url AS user_img, address, start_date, event_category, first_name, last_name
       FROM events, users
       WHERE events.host_id = users.id;
       `
@@ -93,7 +94,8 @@ class Event {
   static async getUpcomingUserEventListings(userId) {
     const result = await db.query(
       `
-      SELECT event_id, host_id, title, description, image_url, address, start_date, first_name, last_name
+
+      SELECT event_id, host_id, title, description, events.image_url, users.image_url AS user_img, address, start_date, first_name, last_name
       FROM events, users
       WHERE events.host_id = $1 AND events.host_id = users.id AND events.start_date > NOW();
       `,
@@ -105,7 +107,7 @@ class Event {
   static async getPastUserEventListings(userId) {
     const result = await db.query(
       `
-      SELECT event_id, host_id, title, description, image_url, address, start_date, first_name, last_name
+      SELECT event_id, host_id, title, description, events.image_url, users.image_url AS user_img, address, start_date, first_name, last_name
       FROM events, users
       WHERE events.host_id = $1 AND events.host_id = users.id AND events.end_date < NOW();
       `,
