@@ -109,7 +109,7 @@ class Reservation {
   static async getReservationsByEventId(eventId) {
     const result = await db.query(
       `
-      SELECT first_name, last_name, users.id, reservation_id
+      SELECT first_name, last_name, users.id, reservation_id, users.image_url AS user_img
       FROM reservations, users
       WHERE reservations.event_id = $1 AND reservations.user_id = users.id;
       `,
