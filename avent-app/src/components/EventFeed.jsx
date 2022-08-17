@@ -1,5 +1,15 @@
 import * as React from "react";
-import { Container, Typography, Stack, Box, TextField, Button, Grid, Divider, checkboxClasses } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Stack,
+  Box,
+  TextField,
+  Button,
+  Grid,
+  Divider,
+  checkboxClasses,
+} from "@mui/material";
 import GlobalNavbar from "./GlobalNavbar";
 import { Link as RouterLink } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -8,7 +18,12 @@ import CircularProgress from "@mui/material/CircularProgress";
 import apiClient from "../services/apiClient";
 import BridgeBanner from "../assets/BridgePic.png";
 
-export default function EventFeed({ isLoggedIn, setIsLoggedIn, setUser, user }) {
+export default function EventFeed({
+  isLoggedIn,
+  setIsLoggedIn,
+  setUser,
+  user,
+}) {
   const [isLoading, setIsLoading] = useState(true);
   //state var to store array of events fetched from database
   const [eventsData, setEventsData] = useState([]);
@@ -32,14 +47,24 @@ export default function EventFeed({ isLoggedIn, setIsLoggedIn, setUser, user }) 
 
   return (
     <div>
-      <GlobalNavbar setUser={setUser} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
-      <Hero eventsData={eventsData} setSearchItem={setSearchItem} searchItem={searchItem} user={user} />
+      <GlobalNavbar
+        setUser={setUser}
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+        user={user}
+      />
+      <Hero
+        eventsData={eventsData}
+        setSearchItem={setSearchItem}
+        searchItem={searchItem}
+        user={user}
+      />
 
       <Container maxWidth="xl" sx={{ mb: 5 }}>
         <Feed
           //filters eventData array and includes the value iputted by user
           eventsData={eventsData.filter((event) => {
-            return event.title.toLowerCase().includes(searchItem);
+            return event.title.toLowerCase().includes(searchItem.toLowerCase());
           })}
           isLoading={isLoading}
         />
@@ -73,13 +98,27 @@ function Hero({ setSearchItem, searchItem, user }) {
           Upcoming Events in {user.location}
         </Typography>
         {/* Eventually, San Francisco will be replaced with the city that a user has chosen */}
-        <Typography align="center" sx={{ fontWeight: 400, fontSize: 16, lineHeight: "22px" }}>
-          San Francisco is a city rich in history, culture and natural beauty. The City by the Bay welcomes <br /> interns from around the world to experience
-          its unique charm and vibrancy.
+        <Typography
+          align="center"
+          sx={{
+            fontWeight: 600,
+            fontSize: 16,
+            lineHeight: "22px",
+            color: "white",
+          }}
+        >
+          San Francisco is a city rich in history, culture and natural beauty.
+          The City by the Bay welcomes <br /> interns from around the world to
+          experience its unique charm and vibrancy.
         </Typography>
       </Stack>
 
-      <Stack justifyContent="center" alignItems="center" direction="row" spacing={3}>
+      <Stack
+        justifyContent="center"
+        alignItems="center"
+        direction="row"
+        spacing={3}
+      >
         <TextField
           variant="outlined"
           label="Search for an event"
@@ -168,8 +207,14 @@ function Feed({ eventsData, isLoading }) {
   return (
     <div>
       <Box sx={{ mt: 5, mb: 2 }}>
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Typography sx={{ fontWeight: 700, fontSize: 45 }}>Explore</Typography>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <Typography sx={{ fontWeight: 700, fontSize: 45 }}>
+            Explore
+          </Typography>
           <Button
             color="secondary"
             variant="contained"

@@ -10,6 +10,8 @@ import {
   CardContent,
   CssBaseline,
   Link,
+  ImageList,
+  ImageListItem,
 } from "@mui/material";
 import heroBanner from "../assets/Different_people_01.jpg";
 import EventCard from "./EventCard";
@@ -37,6 +39,7 @@ export default function Landing() {
       <SubHero />
       <Body />
       <AboutUs />
+      <Sponsors />
       <Footer />
     </Container>
   );
@@ -420,5 +423,71 @@ function Footer() {
         @2022 All right reserved
       </Typography>
     </>
+  );
+}
+
+function Sponsors() {
+  return (
+    <div>
+      <Typography align="center" sx={{ fontWeight: 700, fontSize: 45, mb: 8 }}>
+        Used by interns at
+      </Typography>
+      <ImageList cols={3} gap={120} sx={{ mx: 24, mb: 20 }}>
+        <Card elevation={0}>
+          <ImageListItem>
+            <img
+              src={
+                "https://1000logos.net/wp-content/uploads/2021/10/Meta-Logo.png"
+              }
+            />
+          </ImageListItem>
+        </Card>
+        <Card elevation={0}>
+          <ImageListItem>
+            <img
+              src={
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Salesforce.com_logo.svg/2560px-Salesforce.com_logo.svg.png"
+              }
+            />
+          </ImageListItem>
+        </Card>
+        <Card elevation={0}>
+          <ImageListItem>
+            <img
+              src={
+                "https://1000logos.net/wp-content/uploads/2021/05/Google-logo.png"
+              }
+            />
+          </ImageListItem>
+        </Card>
+        <Card elevation={0}>
+          <ImageListItem>
+            <img
+              src={
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Microsoft_logo_%282012%29.svg/2560px-Microsoft_logo_%282012%29.svg.png"
+              }
+            />
+          </ImageListItem>
+        </Card>
+        <Card elevation={0}>
+          <ImageListItem>
+            <img
+              src={
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/1200px-Amazon_logo.svg.png"
+              }
+            />
+          </ImageListItem>
+        </Card>
+        <Card elevation={0}>
+          <ImageListItem>
+            <img
+              src={
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Slack_Technologies_Logo.svg/2560px-Slack_Technologies_Logo.svg.png"
+              }
+            />
+          </ImageListItem>
+        </Card>
+      </ImageList>
+    </div>
   );
 }

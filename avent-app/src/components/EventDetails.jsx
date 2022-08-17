@@ -327,7 +327,9 @@ function EventInformation({
                       enterDelay={10}
                       key={idx}
                     >
-                      <Avatar>{user.first_name.charAt(0)}</Avatar>
+                      <Avatar src={user.user_img}>
+                        {user.first_name.charAt(0)}
+                      </Avatar>
                     </Tooltip>
                   );
                 })}
@@ -414,7 +416,7 @@ function DialogBoxRSVP({ open, handleClose, reservationData }) {
                     color="secondary"
                     component={RouterLink}
                   >
-                    <Avatar sx={{ height: 56, width: 56 }}>
+                    <Avatar src={user.user_img} sx={{ height: 56, width: 56 }}>
                       {user.first_name.charAt(0)}
                     </Avatar>
 
@@ -564,7 +566,6 @@ function HostInfo({ hostData, eventId, user, reserved, setReserved }) {
           sx={{ position: "absolute", height: 169, width: 169 }}
           style={{ border: "1.68724px solid #26235C" }}
           src={hostData.image_url}
-
         />
         <img
           style={{ position: "relative", top: "-.6rem", left: "2.3rem" }}
@@ -667,8 +668,8 @@ function Comment({ commentObj, hostId }) {
     dateStyle: "medium",
     timeStyle: "short",
   });
-  
-  console.log(commentObj)
+
+  console.log(commentObj);
 
   return (
     <Box>

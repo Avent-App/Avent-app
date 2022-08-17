@@ -74,7 +74,7 @@ const ProfileDetail = ({ user }) => {
   const renderReservations = () => {
     if (reservations.length > 0) {
       return (
-        <Grid container spacing={5} sx={{ mb: 5, width: "90%" }}>
+        <Grid container spacing={5}>
           {reservations.map((reservation, idx) => {
             return (
               <Grid key={idx} item xs={6}>
@@ -89,10 +89,11 @@ const ProfileDetail = ({ user }) => {
                     }
                   )}
                   eventName={reservation.title}
-                  eventImageUrl={reservation.user_img}
+                  eventImageUrl={reservation.image_url}
                   eventId={reservation.event_id}
                   reservationId={reservation.reservation_id}
                   hostId={reservation.host_id}
+                  listingHostImg={reservation.user_img}
                 />
               </Grid>
             );
@@ -128,24 +129,21 @@ const ProfileDetail = ({ user }) => {
             <CircularProgress color="secondary" size={120} />
           </Container>
         ) : (
-          <>
-            <Stack
-              className="mainCardStack"
-              sx={{ flexDirection: "row", gap: "12rem" }}
-            >
-              <Stack>
-                <UserInformation user={user} userData={userData} />
-              </Stack>
-
-              <Stack className="cardStack">
-                <Typography sx={{ fontSize: 35, fontWeight: "bold", my: 2 }}>
+          <Container maxWidth={"xl"}>
+            <Stack className="mainCardStack" spacing={12} direction="row">
+              <UserInformation user={user} userData={userData} />
+              <Stack
+                className="cardStack"
+                direction="column"
+                sx={{ width: "100%" }}
+              >
+                <Typography sx={{ fontSize: 35, fontWeight: "bold", mb: 1.5 }}>
                   Events Attending
                 </Typography>
-
                 {renderReservations()}
               </Stack>
             </Stack>
-          </>
+          </Container>
         )}
       </Stack>
     </div>
@@ -159,6 +157,7 @@ const ProfileDetail = ({ user }) => {
  * @returns
  */
 function UserInformation({ userData }) {
+  console.log("data", userData);
   return (
     <Box
       className="WhiteInfoBox"
@@ -172,7 +171,6 @@ function UserInformation({ userData }) {
         borderRadius: "22px",
         position: "relative",
         bottom: 240,
-        right: -110,
         display: "flex",
         justifyContent: "center",
         alignItems: "start",
@@ -183,6 +181,7 @@ function UserInformation({ userData }) {
           <Avatar
             sx={{ position: "absolute", height: 169, width: 169, mx: 7, my: 5 }}
             style={{ border: "1.68724px solid #26235C" }}
+            src={userData.image_url}
           />
           <img
             style={{ position: "relative", top: "1.9rem", left: "5.8rem" }}
