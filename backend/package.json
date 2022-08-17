@@ -15,7 +15,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@material-ui/core": "^4.12.4",
     "aws-sdk": "^2.1193.0",
     "bcrypt": "^5.0.1",
     "colors": "^1.4.0",
