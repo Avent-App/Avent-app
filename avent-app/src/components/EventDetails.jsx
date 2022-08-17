@@ -472,7 +472,7 @@ function DialogBoxShare({ open, handleClose, eventId }) {
         <Grid container justifyContent="space-evenly" spacing={4}>
           <Grid item>
             <FacebookShareButton
-              url={`http://localhost:3001/details/${eventId}`}
+              url={`http://localhost:3000/details/${eventId}`}
             >
               <FacebookIcon round />
               <Typography>Facebook</Typography>
@@ -480,7 +480,7 @@ function DialogBoxShare({ open, handleClose, eventId }) {
           </Grid>
           <Grid item>
             <WhatsappShareButton
-              url={`http://localhost:3001/details/${eventId}`}
+              url={`http://localhost:3000/details/${eventId}`}
               title={"Check out this event!"}
             >
               <WhatsappIcon round />
@@ -489,7 +489,7 @@ function DialogBoxShare({ open, handleClose, eventId }) {
           </Grid>
           <Grid item>
             <TwitterShareButton
-              url={`http://localhost:3001/details/${eventId}`}
+              url={`http://localhost:3000/details/${eventId}`}
               title={"Check out this event!"}
             >
               <TwitterIcon round />
@@ -498,7 +498,7 @@ function DialogBoxShare({ open, handleClose, eventId }) {
           </Grid>
           <Grid item>
             <RedditShareButton
-              url={`http://localhost:3001/details/${eventId}`}
+              url={`http://localhost:3000/details/${eventId}`}
               title={"Check out this event!"}
             >
               <RedditIcon round />
@@ -507,7 +507,7 @@ function DialogBoxShare({ open, handleClose, eventId }) {
           </Grid>
           <Grid item>
             <LinkedinShareButton
-              url={`http://localhost:3001/details/${eventId}`}
+              url={`http://localhost:3000/details/${eventId}`}
               title={"Check out this event!"}
             >
               <LinkedinIcon round />

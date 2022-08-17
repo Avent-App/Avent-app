@@ -57,5 +57,3 @@ export default function Listings({ user }) {
     </div>
   );
 }
-
-//Route is http://localhost:3001/event/getListings/:userid
