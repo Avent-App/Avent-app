@@ -178,7 +178,7 @@ class User {
     return user;
   }
 
-  static async updateUserFields(id, fields) {
+  static async updateUserFields(id, fields, image = null) {
     if (!id) {
       throw new BadRequestError("No user id is provided");
     }
@@ -195,6 +195,17 @@ class User {
       );
     }
 
+    let img_result = null;
+
+    const image_value = image ? Object(image) : null;
+    let url = ''
+    if (image_value) {
+      await this.postPhototoS3(image_value, id);
+      url = this.getS3Url(id);
+    }
+    console.log(img_result);
+    fields.image_url = url ? url : '';
+
     //Fields will only update if they are filled...
     //Coalesce takes in the first non-null paramater. NULLIF returns null if the two fields inside are equal.
     const result = await db.query(
@@ -206,7 +217,8 @@ class User {
           location = COALESCE(NULLIF($5,''), location),
           password = COALESCE(NULLIF($6,''), password),
           company = COALESCE(NULLIF($7,''), company),
-          biography = COALESCE(NULLIF($8,''), biography)
+          biography = COALESCE(NULLIF($8,''), biography),
+          image_url = COALESCE(NULLIF($9,''), image_url)
       WHERE id = $1
       RETURNING *;
       `,
@@ -219,6 +231,7 @@ class User {
         newHashedPassword,
         fields.company,
         fields.biography,
+        fields.image_url
       ]
     );
 

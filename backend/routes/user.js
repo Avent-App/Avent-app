@@ -25,7 +25,8 @@ router.post(
   async (req, res, next) => {
     try {
       const userId = req.params.userId;
-      const user = await User.updateUserFields(userId, req.body);
+      let image = req.files.image ? req.files.image: null; 
+      const user = await User.updateUserFields(userId, req.body, image);
       const token = await createUserJwt(user);
       //Returns the updated user and the new user token.
       res.status(201).json({ user, token });
@@ -35,12 +36,5 @@ router.post(
   }
 );
 
-// router.get("/:email", async (req, res) => {
-//   email = req.params.email;
-
-//   getUser = await User.fetchUserByEmail(email);
-
-//   res.send(getUser);
-// });
 
 module.exports = router;

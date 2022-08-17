@@ -28,11 +28,29 @@ class ApiClient {
     }
   }
 
-  async request({ endpoint, method = `GET`, data = {} }) {
+  async request({ endpoint, method = `GET`, data = {}, image = null }) {
     const url = `${this.remoteHostUrl}/${endpoint}`;
-    const headers = {
-      "Content-Type": "application/json",
+    var formData = new FormData();
+
+    if (endpoint == "auth/me") {
+      console.log("First Pass is reached");
+    }
+
+    for (var key in data) {
+      formData.append(key, data[key]);
+    }
+
+    console.log("This is the data -> ", data);
+
+    if (image) {
+      formData.append("image", image);
+    }
+
+    let headers = {
+      "Content-Type": "multipart/form-data",
     };
+
+    console.log(" FORM DATA IMAGE ", formData.get("image"));
 
     console.log(url);
 
@@ -41,12 +59,31 @@ class ApiClient {
     }
 
     if (this.token) {
-      console.log(this.token);
+      console.log("HERE IS THE TOKEN -> ", this.token);
       headers["Authorization"] = `Bearer ${this.token}`;
+      console.log("HERE IS THE TOKEN WITHIN THE HEADER -> ", headers["Authorization"])
+    }
+
+    console.log(
+      "Here is the form data ->",
+      formData.get("email"),
+      formData.get("password")
+    );
+
+    if (!image || data == {}) {
+      formData = data;
+      console.log(formData);
+
+      headers["Content-Type"] = "application/json"
+    }
+
+    if (endpoint == "auth/me") {
+      console.log("Second Pass is reached, here is the token: ", headers["Authorization"]);
     }
 
     try {
-      const res = await axios({ url, method, data, headers });
+      const res = await axios({ url, method, data: formData, headers });
+      console.log(res);
       return { data: res.data, error: null };
     } catch (error) {
       console.error({ errorResponse: error.response });
@@ -56,6 +93,7 @@ class ApiClient {
   }
 
   async fetchUserFromToken() {
+    console.log("fetchUserFromToken is reached");
     return await this.request({ endpoint: `auth/me`, method: `GET` });
   }
 
@@ -66,11 +104,12 @@ class ApiClient {
     });
   }
 
-  async updateUserInfo(userId, data) {
+  async updateUserInfo(userId, data, image) {
     return await this.request({
       endpoint: `user/updateInfo/${userId}`,
       method: `POST`,
       data: data,
+      image: image,
     });
   }
 
@@ -189,11 +228,12 @@ class ApiClient {
     });
   }
 
-  async signupUser(credentials) {
+  async signupUser(credentials, image) {
     return await this.request({
       endpoint: `auth/register`,
       method: `POST`,
       data: credentials,
+      image: image
     });
   }
 }

@@ -26,6 +26,7 @@ import PhotoCamera from "@mui/icons-material/PhotoCamera";
 
 export default function Register({ setUser, setIsLoggedIn }) {
   const navigate = useNavigate();
+  const [fileInput, setFileInput] = React.useState(null);
   const [account, setAccount] = React.useState("");
   const [location, setLocation] = React.useState("");
   const [errors, setErrors] = React.useState({});
@@ -66,6 +67,7 @@ export default function Register({ setUser, setIsLoggedIn }) {
     const firstName = data.get("firstName");
     const lastName = data.get("lastName");
     const company = data.get("company");
+    const image = fileInput;
     const signupInfo = {
       email: email,
       account_type: account,
@@ -104,7 +106,7 @@ export default function Register({ setUser, setIsLoggedIn }) {
       );
     }
     try {
-      const res = await apiClient.signupUser(signupInfo);
+      const res = await apiClient.signupUser(signupInfo, image);
       if (res?.data?.user) {
         setSuccessAlert(true);
         setUser(res.data.user);
@@ -208,7 +210,9 @@ export default function Register({ setUser, setIsLoggedIn }) {
                 }}
                 sx={{ my: 1 }}
               >
-                <Alert severity="success">You have successfully created an account!</Alert>
+                <Alert severity="success">
+                  You have successfully created an account!
+                </Alert>
               </Zoom>
             ) : (
               errorAlert && (
@@ -222,12 +226,19 @@ export default function Register({ setUser, setIsLoggedIn }) {
                   }}
                   sx={{ my: 1 }}
                 >
-                  <Alert severity="error">Please fill out the entire form</Alert>
+                  <Alert severity="error">
+                    Please fill out the entire form
+                  </Alert>
                 </Zoom>
               )
             )}
 
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 1 }}
+            >
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <label
                   style={{
@@ -249,7 +260,10 @@ export default function Register({ setUser, setIsLoggedIn }) {
                   Last Name
                 </label>
               </Box>
-              <Box className="namesInput" sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
+              <Box
+                className="namesInput"
+                sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}
+              >
                 <TextField
                   margin="normal"
                   fullWidth
@@ -305,7 +319,13 @@ export default function Register({ setUser, setIsLoggedIn }) {
               </label>
 
               {/* component for passwords*/}
-              <PWGenerate form={form} setForm={setForm} setErrors={setErrors} errors={errors} handleSubmit={handleSubmit} />
+              <PWGenerate
+                form={form}
+                setForm={setForm}
+                setErrors={setErrors}
+                errors={errors}
+                handleSubmit={handleSubmit}
+              />
 
               <label
                 style={{
@@ -327,7 +347,12 @@ export default function Register({ setUser, setIsLoggedIn }) {
                 style={{ marginTop: "8px" }}
                 onChange={handleOnInputChange}
               />
-              <ControlledOpenSelect account={account} location={location} setLocation={setLocation} setAccount={setAccount} />
+              <ControlledOpenSelect
+                account={account}
+                location={location}
+                setLocation={setLocation}
+                setAccount={setAccount}
+              />
               <label
                 style={{
                   fontFamily: "Inter",
@@ -337,8 +362,17 @@ export default function Register({ setUser, setIsLoggedIn }) {
               >
                 Upload Image
               </label>
-              <IconButton color="primary" aria-label="upload picture" component="label">
-                <input hidden accept="image/*" type="file" />
+              <IconButton
+                color="primary"
+                aria-label="upload picture"
+                component="label"
+              >
+                <input
+                  hidden
+                  accept="image/*"
+                  type="file"
+                  onChange={(e) => setFileInput(e.target.files[0])}
+                />
                 <PhotoCamera />
               </IconButton>
               <Button
@@ -362,7 +396,11 @@ export default function Register({ setUser, setIsLoggedIn }) {
               </Button>
               <Grid container>
                 <Grid item sx={{ marginTop: "1rem", marginLeft: "7.5rem" }}>
-                  <Link href="/login" variant="body2" sx={{ textDecoration: "none" }}>
+                  <Link
+                    href="/login"
+                    variant="body2"
+                    sx={{ textDecoration: "none" }}
+                  >
                     <span
                       style={{
                         color: "#828282",
@@ -528,14 +566,20 @@ function PWGenerate({ form, setForm, handleSubmit }) {
     });
     if (e.target.name === "password") {
       if (form.confirmPassword && form.confirmPassword !== e.target.value) {
-        setErrorspw((e) => ({ ...e, confirmPassword: "Passwords do not match" }));
+        setErrorspw((e) => ({
+          ...e,
+          confirmPassword: "Passwords do not match",
+        }));
       } else {
         setErrorspw((e) => ({ ...e, confirmPassword: null }));
       }
     }
     if (e.target.name === "confirmPassword") {
       if (form.password && form.password !== e.target.value) {
-        setErrorspw((e) => ({ ...e, confirmPassword: "Passwords do not match" }));
+        setErrorspw((e) => ({
+          ...e,
+          confirmPassword: "Passwords do not match",
+        }));
       } else {
         setErrorspw((e) => ({ ...e, confirmPassword: null }));
       }
@@ -543,7 +587,15 @@ function PWGenerate({ form, setForm, handleSubmit }) {
     setForm((f) => ({ ...f, [event.target.name]: event.target.value }));
   };
 
-  let { password, passwordLength, containsNumbers, isUpperCase, containsSymbols, showPassword, confirmPassword } = state;
+  let {
+    password,
+    passwordLength,
+    containsNumbers,
+    isUpperCase,
+    containsSymbols,
+    showPassword,
+    confirmPassword,
+  } = state;
 
   return (
     <div className="content">
@@ -561,7 +613,12 @@ function PWGenerate({ form, setForm, handleSubmit }) {
           onChange={handleChange("password")}
           endAdornment={
             <InputAdornment position="end">
-              <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword} edge="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
                 {form.showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
             </InputAdornment>
@@ -575,13 +632,37 @@ function PWGenerate({ form, setForm, handleSubmit }) {
         )}
         {password ? (
           <Box style={{ marginBottom: ".5rem" }}>
-            <div>{passwordLength ? <GreenDiv>Contains 8 characters</GreenDiv> : <RedDiv>Contains 8 characters</RedDiv>}</div>
+            <div>
+              {passwordLength ? (
+                <GreenDiv>Contains 8 characters</GreenDiv>
+              ) : (
+                <RedDiv>Contains 8 characters</RedDiv>
+              )}
+            </div>
 
-            <div>{containsNumbers ? <GreenDiv>Contains numbers</GreenDiv> : <RedDiv>Contains numbers</RedDiv>}</div>
+            <div>
+              {containsNumbers ? (
+                <GreenDiv>Contains numbers</GreenDiv>
+              ) : (
+                <RedDiv>Contains numbers</RedDiv>
+              )}
+            </div>
 
-            <div>{isUpperCase ? <GreenDiv>Contains UpperCase</GreenDiv> : <RedDiv>Contains UpperCase</RedDiv>}</div>
+            <div>
+              {isUpperCase ? (
+                <GreenDiv>Contains UpperCase</GreenDiv>
+              ) : (
+                <RedDiv>Contains UpperCase</RedDiv>
+              )}
+            </div>
 
-            <div>{containsSymbols ? <GreenDiv>Contains Symbols</GreenDiv> : <RedDiv>Contains Symbols</RedDiv>}</div>
+            <div>
+              {containsSymbols ? (
+                <GreenDiv>Contains Symbols</GreenDiv>
+              ) : (
+                <RedDiv>Contains Symbols</RedDiv>
+              )}
+            </div>
           </Box>
         ) : null}
         <label

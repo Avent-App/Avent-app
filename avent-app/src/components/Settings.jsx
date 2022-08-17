@@ -21,6 +21,9 @@ import { useState } from "react";
 import apiClient from "../services/apiClient";
 import Zoom from "@mui/material/Zoom";
 import Alert from "@mui/material/Alert";
+import Badge from "@mui/material/Badge";
+import IconButton from "@mui/material/IconButton";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
 
 // This file houses all of the views for the settings page.
 export default function Settings({ isLoggedIn, setIsLoggedIn, user }) {
@@ -208,6 +211,7 @@ export function Sidebar({ selected, user }) {
 }
 
 export function MyProfile({ user, setUser }) {
+  const [fileInput, setFileInput] = useState(null);
   const [errors, setErrors] = useState({});
   const [location, setLocation] = useState("");
   const [locationOpen, setLocationOpen] = React.useState(false);
@@ -231,6 +235,10 @@ export function MyProfile({ user, setUser }) {
     const password = data.get("password");
     const company = data.get("company");
     const biography = data.get("biography");
+    const image = fileInput
+
+    console.log("This is data -> ", firstName);
+    console.log("This is image -> ", fileInput);
 
     if (location == "") {
       setLocation(user.location);
@@ -248,7 +256,7 @@ export function MyProfile({ user, setUser }) {
 
     try {
       //Attempt to update the user info with the given object.
-      const res = await apiClient.updateUserInfo(user.id, updatedInfo);
+      const res = await apiClient.updateUserInfo(user.id, updatedInfo, image);
       if (res?.data?.user) {
         //If the update goes through, create a new token using the new updated parameters.
         //Set that token in local storage.
@@ -299,7 +307,12 @@ export function MyProfile({ user, setUser }) {
           borderRadius: "39.4333px 0px 0px 0px",
         }}
       />
-      <Stack direction="row" alignItems="center" justifyContent="space-between">
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        onSubmit={handleOnSubmit}
+      >
         <Avatar
           sx={{
             width: 180,
@@ -311,6 +324,7 @@ export function MyProfile({ user, setUser }) {
           }}
           src={user.image_url}
         />
+
         <Stack
           direction="row"
           spacing={2}
@@ -362,6 +376,37 @@ export function MyProfile({ user, setUser }) {
                 You have successfully updated your profile!
               </Alert>
             </Zoom>
+          </Stack>
+          <Stack direction="row" alignItems="center" spacing={3}>
+            <Typography
+              sx={{
+                fontFamily: "Inter",
+                color: "#828282",
+                fontWeight: 600,
+                textTransform: "none",
+                fontSize: "16px",
+                width: 100,
+              }}
+              align="left"
+            >
+              Change Avatar:
+            </Typography>
+            <Button
+              variant="contained"
+              color="secondary"
+              disableElevation
+              component="label"
+            >
+              Upload File
+              <input
+                hidden
+                accept="image/*"
+                type="file"
+                name="image"
+                id="image"
+                onChange={(e) => setFileInput(e.target.files[0])}
+              />
+            </Button>
           </Stack>
 
           <Stack direction="row" alignItems="center" spacing={3}>
